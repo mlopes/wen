@@ -1,8 +1,9 @@
 package com.mlopes.wen.types
 
+import com.mlopes.wen.types.NumericTypes.{NumericHour, NumericMinute, NumericSecond, NumericYear}
 import eu.timepit.refined._
 import eu.timepit.refined.api.Refined
-import eu.timepit.refined.numeric.Positive
+import eu.timepit.refined.numeric.{Interval, Positive}
 
 sealed trait Month
 final case object January extends Month
@@ -63,7 +64,7 @@ sealed trait Epoch
 final case object AC extends Epoch
 final case object BC extends Epoch
 
-final class Year private(val year: Int Refined Positive, val epoch: Epoch)
+final class Year private(val year: NumericYear, val epoch: Epoch)
 
 object Year {
   def apply(year: Int, epoch: Epoch): Option[Year] = {
@@ -72,9 +73,54 @@ object Year {
        The reason for this, is to make the refinement transparent for
        users of the library.
     */
-    if (year > 0) Some(new Year(refineV[Positive].unsafeFrom(year), epoch))
-    else None
+    if (year > 0)
+      Some(new Year(refineV[Positive].unsafeFrom(year), epoch))
+    else
+      None
   }
 
-  def unapply(y: Year): Option[(Int Refined Positive, Epoch)] = Some((y.year, y.epoch))
+  def unapply(y: Year): Option[(NumericYear, Epoch)] = Some((y.year, y.epoch))
+}
+
+final class Hour private(val hour: NumericHour)
+
+object Hour {
+  def apply(hour: Int): Option[Hour] =
+    if (hour >= 0 && hour <= 23)
+      Some(new Hour(refineV[Interval.Closed[W.`0`.T, W.`23`.T]].unsafeFrom(hour)))
+    else
+      None
+
+  def unapply(h: Hour): Option[NumericHour] = Some(h.hour)
+}
+
+final class Minute private(val minute: NumericMinute)
+
+object Minute {
+  def apply(minute: Int): Option[Minute] =
+    if (minute >= 0 && minute <= 59)
+      Some(new Minute(refineV[Interval.Closed[W.`0`.T, W.`59`.T]].unsafeFrom(minute)))
+    else
+      None
+
+  def unapply(m: Minute): Option[NumericMinute] = Some(m.minute)
+}
+
+final class Second private(val second: NumericSecond)
+
+object Second {
+  def apply(second: Int): Option[Second] =
+    if (second >= 0 && second <= 59)
+      Some(new Second(refineV[Interval.Closed[W.`0`.T, W.`59`.T]].unsafeFrom(second)))
+    else
+      None
+
+  def unapply(s: Second): Option[NumericSecond] = Some(s.second)
+}
+
+object NumericTypes {
+  type NumericYear = Int Refined Positive
+  type NumericHour = Int Refined Interval.Closed[W.`0`.T, W.`23`.T]
+  type NumericMinute = Int Refined Interval.Closed[W.`0`.T, W.`59`.T]
+  type NumericSecond = Int Refined Interval.Closed[W.`0`.T, W.`59`.T]
 }
