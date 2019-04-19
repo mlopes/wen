@@ -1,5 +1,9 @@
 package com.mlopes.wen.types
 
+import eu.timepit.refined._
+import eu.timepit.refined.api.Refined
+import eu.timepit.refined.numeric.Positive
+
 sealed trait Month
 final case object January extends Month
 final case object February extends Month
@@ -59,14 +63,18 @@ sealed trait Epoch
 final case object AC extends Epoch
 final case object BC extends Epoch
 
-final class Year private(val year: Int, val epoch: Epoch) {
-}
+final class Year private(val year: Int Refined Positive, val epoch: Epoch)
 
 object Year {
   def apply(year: Int, epoch: Epoch): Option[Year] = {
-    if(year > 0) Some(new Year(year, epoch))
+    /* We're running unsafe here because we're using the if as a
+       safe-guard to guarantee that we can always refine the value
+       The reason for this, is to make the refinement transparent for
+       users of the library.
+    */
+    if (year > 0) Some(new Year(refineV[Positive].unsafeFrom(year), epoch))
     else None
   }
 
-  def unapply(y: Year): Option[(Int, Epoch)] = Some((y.year, y.epoch))
+  def unapply(y: Year): Option[(Int Refined Positive, Epoch)] = Some((y.year, y.epoch))
 }
