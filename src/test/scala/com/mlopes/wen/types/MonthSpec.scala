@@ -5,7 +5,7 @@ import org.scalatest.{Matchers, WordSpec}
 
 class MonthSpec extends WordSpec with Matchers with TypeCheckedTripleEquals {
 
-  "MonthSpec" should {
+  "Month" should {
 
     "create a value for January from a number" in {
       Month(1) should ===(Some(January))
