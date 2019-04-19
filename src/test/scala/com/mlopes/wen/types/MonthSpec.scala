@@ -48,5 +48,42 @@ class MonthSpec extends WordSpec with Matchers with TypeCheckedTripleEquals {
     "fail to create a value from a number that doesn't correspond to a month" in {
       Month(13) should ===(None)
     }
+
+    "return a 1 for January" in {
+      Month.toInt(January) should ===(1)
+    }
+    "return a 2 for February" in {
+      Month.toInt(February) should ===(2)
+    }
+    "return a 3 for March" in {
+      Month.toInt(March) should ===(3)
+    }
+    "return a 4 for April" in {
+      Month.toInt(April) should ===(4)
+    }
+    "return a 5 for May" in {
+      Month.toInt(May) should ===(5)
+    }
+    "return a 6 for June" in {
+      Month.toInt(June) should ===(6)
+    }
+    "return a 7 for July" in {
+      Month.toInt(July) should ===(7)
+    }
+    "return a 8 for August" in {
+      Month.toInt(August) should ===(8)
+    }
+    "return a 9 for September" in {
+      Month.toInt(September) should ===(9)
+    }
+    "return a 10 for October" in {
+      Month.toInt(October) should ===(10)
+    }
+    "return a 11 for November" in {
+      Month.toInt(November) should ===(11)
+    }
+    "return a 12 for December" in {
+      Month.toInt(December) should ===(12)
+    }
   }
 }
