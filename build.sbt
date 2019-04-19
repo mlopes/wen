@@ -9,7 +9,7 @@ lazy val root = (project in file("."))
   .settings(
     name := "wen",
     scalacOptions := appScalacOptions,
-    libraryDependencies += scalaTest % Test,
+    libraryDependencies ++= scalaTest,
     libraryDependencies ++= wenDependencies
   )
 
