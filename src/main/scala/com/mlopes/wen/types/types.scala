@@ -1,6 +1,6 @@
 package com.mlopes.wen.types
 
-import com.mlopes.wen.types.NumericTypes.{NumericHour, NumericMinute, NumericSecond, NumericYear}
+import com.mlopes.wen.types.NumericTypes.{NumericHour, NumericMillisecond, NumericMinute, NumericSecond, NumericYear}
 import eu.timepit.refined._
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric.{Interval, Positive}
@@ -67,7 +67,7 @@ final case object BC extends Epoch
 final class Year private(val year: NumericYear, val epoch: Epoch)
 
 object Year {
-  def apply(year: Int, epoch: Epoch): Option[Year] = {
+  def apply(year: Int, epoch: Epoch): Option[Year] =
     /* We're running unsafe here because we're using the if as a
        safe-guard to guarantee that we can always refine the value
        The reason for this, is to make the refinement transparent for
@@ -77,7 +77,6 @@ object Year {
       Some(new Year(refineV[Positive].unsafeFrom(year), epoch))
     else
       None
-  }
 
   def unapply(y: Year): Option[(NumericYear, Epoch)] = Some((y.year, y.epoch))
 }
@@ -86,6 +85,7 @@ final class Hour private(val hour: NumericHour)
 
 object Hour {
   def apply(hour: Int): Option[Hour] =
+    // See comment on Year for the reasoning behind running unsafeFrom
     if (hour >= 0 && hour <= 23)
       Some(new Hour(refineV[Interval.Closed[W.`0`.T, W.`23`.T]].unsafeFrom(hour)))
     else
@@ -98,6 +98,7 @@ final class Minute private(val minute: NumericMinute)
 
 object Minute {
   def apply(minute: Int): Option[Minute] =
+    // See comment on Year for the reasoning behind running unsafeFrom
     if (minute >= 0 && minute <= 59)
       Some(new Minute(refineV[Interval.Closed[W.`0`.T, W.`59`.T]].unsafeFrom(minute)))
     else
@@ -110,6 +111,7 @@ final class Second private(val second: NumericSecond)
 
 object Second {
   def apply(second: Int): Option[Second] =
+    // See comment on Year for the reasoning behind running unsafeFrom
     if (second >= 0 && second <= 59)
       Some(new Second(refineV[Interval.Closed[W.`0`.T, W.`59`.T]].unsafeFrom(second)))
     else
@@ -118,9 +120,21 @@ object Second {
   def unapply(s: Second): Option[NumericSecond] = Some(s.second)
 }
 
+final class Millisecond private(val millisecond: NumericMillisecond)
+
+object Millisecond {
+  def apply(millisecond: Int): Option[Millisecond] =
+    // See comment on Year for the reasoning behind running unsafeFrom
+    if(millisecond >= 0 && millisecond <= 999)
+      Some(new Millisecond(refineV[Interval.Closed[W.`0`.T, W.`999`.T]].unsafeFrom(millisecond)))
+    else
+      None
+}
+
 object NumericTypes {
   type NumericYear = Int Refined Positive
   type NumericHour = Int Refined Interval.Closed[W.`0`.T, W.`23`.T]
   type NumericMinute = Int Refined Interval.Closed[W.`0`.T, W.`59`.T]
   type NumericSecond = Int Refined Interval.Closed[W.`0`.T, W.`59`.T]
+  type NumericMillisecond = Int Refined Interval.Closed[W.`0`.T, W.`999`.T]
 }
