@@ -41,8 +41,8 @@ class MinuteSpec extends WordSpec with Matchers with TypeCheckedTripleEquals wit
       val prop = forAll(minute) { m =>
 
         val matchResult = m.get match {
-          case Minute(h1) =>
-            m.get.minute ===(h1)
+          case Minute(m1) =>
+            m.get.minute ===(m1)
           case _ => false
         }
         matchResult ===(true)
