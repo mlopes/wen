@@ -1,6 +1,6 @@
 package com.mlopes.wen.types
 
-import org.scalacheck.Arbitrary
+import org.scalacheck.{Arbitrary, Gen}
 import org.scalacheck.Prop.forAll
 import org.scalactic.TypeCheckedTripleEquals
 import org.scalatest.prop.Checkers
@@ -13,7 +13,7 @@ class HourSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with 
     "be created with a value between 0 and 23" in {
 
       val hour = for {
-        h <- Arbitrary.arbitrary[Int] suchThat (x => x >= 0 && x <= 23)
+        h <- Gen.choose(0, 23)
       } yield Hour(h)
 
       val prop = forAll(hour) { h =>
@@ -35,7 +35,7 @@ class HourSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with 
 
     "be pattern matched" in {
       val hour = for {
-        h <- Arbitrary.arbitrary[Int] suchThat (x => x >= 0 && x <= 23)
+        h <- Gen.choose(0, 23)
       } yield Hour(h)
 
       val prop = forAll(hour) { h =>
