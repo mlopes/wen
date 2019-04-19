@@ -8,4 +8,4 @@ Date and time types and instances
 
 ## Status
 
-Wen is in early development. It currently supports only a few types to represent months, weekdays and years. Some more types and cats type class instances should be coming soon.
+Wen is in early development. There is no release yet. It currently supports only a few types to safely represent months, weekdays, years, hours, minutes and seconds. Some more types and cats type class instances should be coming soon.
