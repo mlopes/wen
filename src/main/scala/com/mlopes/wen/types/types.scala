@@ -129,6 +129,8 @@ object Millisecond {
       Some(new Millisecond(refineV[Interval.Closed[W.`0`.T, W.`999`.T]].unsafeFrom(millisecond)))
     else
       None
+
+  def unapply(m: Millisecond): Option[NumericMillisecond] = Some(m.millisecond)
 }
 
 object NumericTypes {
