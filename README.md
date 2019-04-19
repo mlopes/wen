@@ -5,3 +5,7 @@
 > ― Terry Pratchett, Thief of Time
 
 Date and time types and instances
+
+## Status
+
+Wen is in early development. It currently supports only a few types to represent months, weekdays and years. Some more types and cats type class instances should be coming soon.
