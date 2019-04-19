@@ -55,10 +55,10 @@ class YearSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with 
 
         val matchResult = y.get match {
           case Year(y1, e) =>
-            y.get.year ==(y1) && y.get.epoch ===(e)
+            y.get.year ===(y1) && y.get.epoch ===(e)
           case _ => false
         }
-        matchResult == true
+        matchResult ===(true)
       }
       check(prop)
     }
