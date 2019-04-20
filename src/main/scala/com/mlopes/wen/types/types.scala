@@ -1,7 +1,8 @@
 package com.mlopes.wen.types
 
-import com.mlopes.wen.types.NumericTypes.{NumericHour, NumericMillisecond, NumericMinute, NumericSecond, NumericYear}
+import com.mlopes.wen.types.NumericTypes._
 import eu.timepit.refined._
+import eu.timepit.refined.auto._
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric.{Interval, Positive}
 
@@ -49,8 +50,10 @@ object Month {
     case November => 11
     case December => 12
   }
-}
 
+  def fromNumericMonth(numericMonth: NumericMonth): Month =
+    Month(numericMonth.value).get
+}
 sealed trait WeekDay
 final case object Sunday extends WeekDay
 final case object Monday extends WeekDay
@@ -79,6 +82,9 @@ object Year {
       None
 
   def unapply(y: Year): Option[(NumericYear, Epoch)] = Some((y.year, y.epoch))
+
+  def fromNumericYear(numericYear: NumericYear, epoch: Epoch): Year =
+    Year(numericYear.value, epoch).get
 }
 
 final class Hour private(val hour: NumericHour)
@@ -92,6 +98,9 @@ object Hour {
       None
 
   def unapply(h: Hour): Option[NumericHour] = Some(h.hour)
+
+  def fromNumericHour(numericHour: NumericHour): Hour =
+    Hour(numericHour.value).get
 }
 
 final class Minute private(val minute: NumericMinute)
@@ -105,6 +114,9 @@ object Minute {
       None
 
   def unapply(m: Minute): Option[NumericMinute] = Some(m.minute)
+
+  def fromNumericMinute(numericMinute: NumericMinute): Minute =
+    Minute(numericMinute.value).get
 }
 
 final class Second private(val second: NumericSecond)
@@ -118,6 +130,9 @@ object Second {
       None
 
   def unapply(s: Second): Option[NumericSecond] = Some(s.second)
+
+  def fromNumericSecond(numericSecond: NumericSecond): Second =
+    Second(numericSecond.value).get
 }
 
 final class Millisecond private(val millisecond: NumericMillisecond)
@@ -131,12 +146,21 @@ object Millisecond {
       None
 
   def unapply(m: Millisecond): Option[NumericMillisecond] = Some(m.millisecond)
+
+  def fromNumericMillisecond(numericMillisecond: NumericMillisecond): Millisecond =
+    Millisecond(numericMillisecond.value).get
 }
 
 object NumericTypes {
   type NumericYear = Int Refined Positive
+  type NumericMonth = Int Refined Interval.Closed[W.`1`.T, W.`12`.T]
   type NumericHour = Int Refined Interval.Closed[W.`0`.T, W.`23`.T]
   type NumericMinute = Int Refined Interval.Closed[W.`0`.T, W.`59`.T]
   type NumericSecond = Int Refined Interval.Closed[W.`0`.T, W.`59`.T]
   type NumericMillisecond = Int Refined Interval.Closed[W.`0`.T, W.`999`.T]
+}
+
+case class OffsetUTC(hour: Hour, minute: Minute)
+object OffsetUTC {
+  val UTC: OffsetUTC = OffsetUTC(Hour.fromNumericHour(0), Minute.fromNumericMinute(0))
 }
