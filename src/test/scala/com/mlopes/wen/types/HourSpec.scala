@@ -3,7 +3,7 @@ package com.mlopes.wen.types
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalacheck.Prop.forAll
 import org.scalactic.TypeCheckedTripleEquals
-import org.scalatest.prop.Checkers
+import org.scalatestplus.scalacheck.Checkers
 import org.scalatest.{Matchers, WordSpec}
 
 class HourSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with Checkers {

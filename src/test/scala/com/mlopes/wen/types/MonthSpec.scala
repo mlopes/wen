@@ -6,7 +6,7 @@ import eu.timepit.refined.numeric.Interval
 import org.scalacheck.Gen
 import org.scalacheck.Prop.forAll
 import org.scalactic.TypeCheckedTripleEquals
-import org.scalatest.prop.Checkers
+import org.scalatestplus.scalacheck.Checkers
 import org.scalatest.{Matchers, WordSpec}
 
 class MonthSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with Checkers {
