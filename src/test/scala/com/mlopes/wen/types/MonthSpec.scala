@@ -1,9 +1,15 @@
 package com.mlopes.wen.types
 
+import cats.implicits._
+import eu.timepit.refined._
+import eu.timepit.refined.numeric.Interval
+import org.scalacheck.Gen
+import org.scalacheck.Prop.forAll
 import org.scalactic.TypeCheckedTripleEquals
+import org.scalatest.prop.Checkers
 import org.scalatest.{Matchers, WordSpec}
 
-class MonthSpec extends WordSpec with Matchers with TypeCheckedTripleEquals {
+class MonthSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with Checkers {
 
   "Month" should {
 
@@ -84,6 +90,17 @@ class MonthSpec extends WordSpec with Matchers with TypeCheckedTripleEquals {
     }
     "return a 12 for December" in {
       Month.toInt(December) should ===(12)
+    }
+
+    "creates a month from a numeric month" in {
+      val numericMonth = Gen.choose(1, 12)
+
+      val prop = forAll[Int, Boolean](numericMonth) { m: Int =>
+        refineV[Interval.Closed[W.`1`.T, W.`12`.T]](m)
+          .fold(_ => false, Month.fromNumericMonth(_) ===(Month(m).get))
+      }
+
+      check(prop)
     }
   }
 }
