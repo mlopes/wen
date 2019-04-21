@@ -10,4 +10,17 @@ Date and time types and instances
 
 ## Status
 
-Wen is in early development. There is no release yet. It currently supports only a few types to safely represent months, weekdays, years, epoch, hours, minutes, seconds and milliseconds. There are instances of Show, Eq and Order for Month, some more types and cats type class instances should be coming soon.
+Wen is in early development. There is no release yet.
+
+## What is Wen?
+
+Wen provides types to safely represent months, weekdays, years, epoch, hours, minutes,
+seconds and milliseconds, as well as instances of the `Order`, `Eq` and `Show` cats type classes.
+
+Should cats ever support the `Enum` and `Bounded` type classes, and we should implement those as
+well, for the relevant types.
+
+### What Wen isn't?
+
+Wen does not aim for date/time related functionality like the one provided by the
+`java.time`. It's purpose is to provide stateless representations for date/time data types.
