@@ -1,5 +1,7 @@
 package com.mlopes.wen.types
 
+import eu.timepit.refined._
+import eu.timepit.refined.numeric.Interval
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalacheck.Prop.forAll
 import org.scalactic.TypeCheckedTripleEquals
@@ -47,6 +49,20 @@ class SecondSpec extends WordSpec with Matchers with TypeCheckedTripleEquals wit
         }
         matchResult ===(true)
       }
+      check(prop)
+    }
+
+    "creates a second from a numeric second" in {
+      val numericSecond = Gen.choose(0, 59)
+
+      val prop = forAll[Int, Boolean](numericSecond) { s: Int =>
+        refineV[Interval.Closed[W.`0`.T, W.`59`.T]](s)
+          .fold(_ => false, {x =>
+            val numericSecond = Second.fromNumericSecond(x)
+            val optionSecond = Second(s).get
+            numericSecond.second.value ===(optionSecond.second.value)})
+      }
+
       check(prop)
     }
   }

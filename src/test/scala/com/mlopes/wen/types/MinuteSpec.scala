@@ -1,5 +1,7 @@
 package com.mlopes.wen.types
 
+import eu.timepit.refined.{W, refineV}
+import eu.timepit.refined.numeric.Interval
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalacheck.Prop.forAll
 import org.scalactic.TypeCheckedTripleEquals
@@ -47,6 +49,20 @@ class MinuteSpec extends WordSpec with Matchers with TypeCheckedTripleEquals wit
         }
         matchResult ===(true)
       }
+      check(prop)
+    }
+
+    "creates a minute from a numeric minute" in {
+      val numericMinute = Gen.choose(0, 59)
+
+      val prop = forAll[Int, Boolean](numericMinute) { m: Int =>
+        refineV[Interval.Closed[W.`0`.T, W.`59`.T]](m)
+          .fold(_ => false, { x =>
+            val numericMinute = Minute.fromNumericMinute(x)
+            val optionMinute = Minute(m).get
+            numericMinute.minute.value ===(optionMinute.minute.value)})
+      }
+
       check(prop)
     }
   }

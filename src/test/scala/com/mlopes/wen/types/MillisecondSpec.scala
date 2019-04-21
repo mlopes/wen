@@ -1,5 +1,7 @@
 package com.mlopes.wen.types
 
+import eu.timepit.refined.{W, refineV}
+import eu.timepit.refined.numeric.Interval
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalacheck.Prop.forAll
 import org.scalactic.TypeCheckedTripleEquals
@@ -47,6 +49,20 @@ class MillisecondSpec extends WordSpec with Matchers with TypeCheckedTripleEqual
         }
         matchResult ===(true)
       }
+      check(prop)
+    }
+
+    "creates a millisecond from a numeric millisecond" in {
+      val numericMillisecond = Gen.choose(0, 999)
+
+      val prop = forAll[Int, Boolean](numericMillisecond) { m: Int =>
+        refineV[Interval.Closed[W.`0`.T, W.`999`.T]](m)
+          .fold(_ => false, {x =>
+            val numericMillisecond = Millisecond.fromNumericMillisecond(x)
+            val optionMillisecond = Millisecond(m).get
+            numericMillisecond.millisecond.value ===(optionMillisecond.millisecond.value)})
+      }
+
       check(prop)
     }
   }

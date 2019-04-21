@@ -11,7 +11,9 @@ lazy val root = (project in file("."))
     scalacOptions := appScalacOptions,
     compile in Compile := (compile in Compile).dependsOn(dependencyUpdates).value,
     libraryDependencies ++= scalaTest,
-    libraryDependencies ++= wenDependencies
+    libraryDependencies ++= wenDependencies,
+    coverageMinimum := 100,
+    coverageFailOnMinimum := true
   )
 
 lazy val appScalacOptions = Seq(

@@ -1,6 +1,5 @@
 package com.mlopes.wen.types
 
-import cats.implicits._
 import eu.timepit.refined._
 import eu.timepit.refined.numeric.Interval
 import org.scalacheck.Gen

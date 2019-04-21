@@ -1,5 +1,7 @@
 package com.mlopes.wen.types
 
+import eu.timepit.refined.{W, refineV}
+import eu.timepit.refined.numeric.Interval
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalacheck.Prop.forAll
 import org.scalactic.TypeCheckedTripleEquals
@@ -47,6 +49,20 @@ class HourSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with 
         }
         matchResult ===(true)
       }
+      check(prop)
+    }
+
+    "creates a hour from a numeric hour" in {
+      val numericHour = Gen.choose(0, 23)
+
+      val prop = forAll[Int, Boolean](numericHour) { h: Int =>
+        refineV[Interval.Closed[W.`0`.T, W.`23`.T]](h)
+          .fold(_ => false, {x =>
+            val numericHour = Hour.fromNumericHour(x)
+            val optionHour = Hour(h).get
+            numericHour.hour.value ===(optionHour.hour.value)})
+      }
+
       check(prop)
     }
   }
