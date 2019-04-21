@@ -1,8 +1,8 @@
 package com.mlopes.wen.instances
 
 import cats._
-import com.mlopes.wen.types._
 import cats.implicits._
+import com.mlopes.wen.types._
 
 object MonthInstances {
   implicit val monthOrderInstance: Order[Month] = new Order[Month] {

@@ -65,7 +65,7 @@ final case object Friday extends WeekDay
 final case object Saturday extends WeekDay
 
 sealed trait Epoch
-final case object AC extends Epoch
+final case object AD extends Epoch
 final case object BC extends Epoch
 
 final class Year private(val year: NumericYear, val epoch: Epoch)
