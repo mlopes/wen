@@ -30,5 +30,10 @@ class YearInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqu
       Eq[Year].eqv(year2, year1) should ===(false)
       Eq[Year].eqv(year3, year1) should ===(false)
     }
+
+    "provide show" in {
+      Show[Year].show(Year(2019, AD).get) should ===("AD 2019")
+      Show[Year].show(Year(2019, BC).get) should ===("2019 BC")
+    }
   }
 }
