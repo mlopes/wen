@@ -1,6 +1,6 @@
 package com.mlopes.wen.instances
 
-import cats.Order
+import cats._
 import com.mlopes.wen.types.{AD, BC, Epoch}
 
 object EpochInstances {
@@ -12,5 +12,12 @@ object EpochInstances {
         case (AD, _) => 1
         case (BC, _) => -1
       }
+  }
+
+  implicit val epochShowInstance: Show[Epoch] = new Show[Epoch] {
+    override def show(t: Epoch): String = t match {
+      case AD => "AD"
+      case BC => "BC"
+    }
   }
 }
