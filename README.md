@@ -23,4 +23,4 @@ well, for the relevant types.
 ### What Wen isn't?
 
 Wen does not aim for date/time related functionality like the one provided by the
-`java.time`. It's purpose is to provide stateless representations for date/time data types.
+`java.time`. Its purpose is to provide stateless representations for date/time data types.
