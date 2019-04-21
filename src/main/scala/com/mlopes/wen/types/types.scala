@@ -1,6 +1,7 @@
 package com.mlopes.wen.types
 
 import com.mlopes.wen.types.NumericTypes._
+import com.mlopes.wen.types.Offset.OffsetType
 import eu.timepit.refined._
 import eu.timepit.refined.auto._
 import eu.timepit.refined.api.Refined
@@ -160,7 +161,11 @@ object NumericTypes {
   type NumericMillisecond = Int Refined Interval.Closed[W.`0`.T, W.`999`.T]
 }
 
-case class OffsetUTC(hour: Hour, minute: Minute)
-object OffsetUTC {
-  val UTC: OffsetUTC = OffsetUTC(Hour.fromNumericHour(0), Minute.fromNumericMinute(0))
+case class Offset(offsetType: OffsetType, hour: Hour, minute: Minute)
+object Offset {
+  sealed trait OffsetType
+  final case object UTCMinus extends OffsetType
+  final case object UTCPlus extends OffsetType
+
+  val UTC: Offset = Offset(UTCPlus, Hour.fromNumericHour(0), Minute.fromNumericMinute(0))
 }
