@@ -1,6 +1,7 @@
 package com.mlopes.wen.instances
 
 import cats._
+import cats.implicits._
 import com.mlopes.wen.instances.WeekDayInstances._
 import com.mlopes.wen.types._
 import org.scalactic.TypeCheckedTripleEquals
@@ -11,9 +12,9 @@ class WeekDayInstancesSpec extends WordSpec with Matchers with TypeCheckedTriple
   "WeekDay Instances" should {
 
     "provide order" in {
-      (Order[WeekDay].compare(Sunday, Monday) < 0) should  ===(true)
-      (Order[WeekDay].compare(Wednesday, Monday) > 0) should  ===(true)
-      (Order[WeekDay].compare(Tuesday, Tuesday) ===(0)) should  ===(true)
+      ((Sunday: WeekDay) compare Monday) < 0 should  ===(true)
+      ((Wednesday: WeekDay) compare Monday) > 0 should  ===(true)
+      ((Tuesday: WeekDay) compare Tuesday) should  ===(0)
     }
 
     "provide eq" in {
@@ -22,13 +23,13 @@ class WeekDayInstancesSpec extends WordSpec with Matchers with TypeCheckedTriple
     }
 
     "provide show" in {
-      Show[WeekDay].show(Sunday) should ===("Sunday")
-      Show[WeekDay].show(Monday) should ===("Monday")
-      Show[WeekDay].show(Tuesday) should ===("Tuesday")
-      Show[WeekDay].show(Wednesday) should ===("Wednesday")
-      Show[WeekDay].show(Thursday) should ===("Thursday")
-      Show[WeekDay].show(Friday) should ===("Friday")
-      Show[WeekDay].show(Saturday) should ===("Saturday")
+      (Sunday: WeekDay).show should ===("Sunday")
+      (Monday: WeekDay).show should ===("Monday")
+      (Tuesday: WeekDay).show should ===("Tuesday")
+      (Wednesday: WeekDay).show should ===("Wednesday")
+      (Thursday: WeekDay).show should ===("Thursday")
+      (Friday: WeekDay).show should ===("Friday")
+      (Saturday: WeekDay).show should ===("Saturday")
     }
 
   }

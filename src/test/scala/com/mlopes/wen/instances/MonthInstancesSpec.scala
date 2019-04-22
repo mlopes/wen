@@ -1,6 +1,7 @@
 package com.mlopes.wen.instances
 
 import cats._
+import cats.implicits._
 import org.scalatest.{Matchers, WordSpec}
 import com.mlopes.wen.types._
 import com.mlopes.wen.instances.MonthInstances._
@@ -9,9 +10,9 @@ import org.scalactic.TypeCheckedTripleEquals
 class MonthInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEquals {
   "Month Instances" should {
     "provide order" in {
-      (Order[Month].compare(January, February) < 0) should ===(true)
-      (Order[Month].compare(August, May) > 0) should ===(true)
-      Order[Month].compare(July, July) should ===(0)
+      ((January: Month) compare February) < 0 should ===(true)
+      ((August: Month) compare May) > 0 should ===(true)
+      ((July: Month) compare July) should ===(0)
     }
 
     "provide eq" in {
@@ -20,18 +21,18 @@ class MonthInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEq
     }
 
     "provide show" in {
-      Show[Month].show(January) should ===("January")
-      Show[Month].show(February) should ===("February")
-      Show[Month].show(March) should ===("March")
-      Show[Month].show(April) should ===("April")
-      Show[Month].show(May) should ===("May")
-      Show[Month].show(June) should ===("June")
-      Show[Month].show(July) should ===("July")
-      Show[Month].show(August) should ===("August")
-      Show[Month].show(September) should ===("September")
-      Show[Month].show(October) should ===("October")
-      Show[Month].show(November) should ===("November")
-      Show[Month].show(December) should ===("December")
+      (January: Month).show should ===("January")
+      (February: Month).show should ===("February")
+      (March: Month).show should ===("March")
+      (April: Month).show should ===("April")
+      (May: Month).show should ===("May")
+      (June: Month).show should ===("June")
+      (July: Month).show should ===("July")
+      (August: Month).show should ===("August")
+      (September: Month).show should ===("September")
+      (October: Month).show should ===("October")
+      (November: Month).show should ===("November")
+      (December: Month).show should ===("December")
     }
   }
 }
