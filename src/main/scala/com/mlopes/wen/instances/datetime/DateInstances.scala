@@ -23,6 +23,6 @@ object DateInstances {
 
   implicit val dateShowInstance: Show[Date] = new Show[Date] {
     override def show(t: Date): String =
-      s"${Show[Month].show(t.month)} ${Show[Day].show(t.day)}, ${t.year.year} ${Show[Epoch].show(t.year.epoch)}"
+      s"${Show[Day].show(t.day)} ${Show[Month].show(t.month)} ${t.year.year} ${Show[Epoch].show(t.year.epoch)}"
   }
 }
