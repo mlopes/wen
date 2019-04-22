@@ -1,11 +1,10 @@
 package com.mlopes.wen.types
 
 import com.mlopes.wen.types.NumericTypes._
-import com.mlopes.wen.types.Offset.OffsetType
 import eu.timepit.refined._
-import eu.timepit.refined.auto._
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric.{Interval, Positive}
+import eu.timepit.refined.types.{time => refinedTimeTypes}
 
 sealed trait Month
 final case object January extends Month
@@ -84,6 +83,17 @@ object Year {
       None
 }
 
+final case class Day(day: NumericDay)
+
+object Day {
+  def apply(day: Int): Option[Day] =
+  // See comment on Year for the reasoning behind running unsafeFrom
+    if (day >= 1 && day <= 31)
+      Some(new Day(refineV[Interval.Closed[W.`1`.T, W.`31`.T]].unsafeFrom(day)))
+    else
+      None
+}
+
 final case class Hour(hour: NumericHour)
 
 object Hour {
@@ -130,18 +140,11 @@ object Millisecond {
 
 object NumericTypes {
   type NumericYear = Int Refined Positive
-  type NumericMonth = Int Refined Interval.Closed[W.`1`.T, W.`12`.T]
-  type NumericHour = Int Refined Interval.Closed[W.`0`.T, W.`23`.T]
-  type NumericMinute = Int Refined Interval.Closed[W.`0`.T, W.`59`.T]
-  type NumericSecond = Int Refined Interval.Closed[W.`0`.T, W.`59`.T]
-  type NumericMillisecond = Int Refined Interval.Closed[W.`0`.T, W.`999`.T]
+  type NumericMonth = refinedTimeTypes.Month
+  type NumericDay = refinedTimeTypes.Day
+  type NumericHour = refinedTimeTypes.Hour
+  type NumericMinute = refinedTimeTypes.Minute
+  type NumericSecond = refinedTimeTypes.Second
+  type NumericMillisecond = refinedTimeTypes.Millis
 }
 
-case class Offset(offsetType: OffsetType, hour: Hour, minute: Minute)
-object Offset {
-  sealed trait OffsetType
-  final case object UTCMinus extends OffsetType
-  final case object UTCPlus extends OffsetType
-
-  val UTC: Offset = Offset(UTCPlus, Hour(0), Minute(0))
-}
