@@ -3,7 +3,7 @@ package com.mlopes.wen.instances
 import com.mlopes.wen.instances.EpochInstances._
 import cats._
 import cats.implicits._
-import com.mlopes.wen.types.{AD, BC, Epoch, Year}
+import com.mlopes.wen.types.{AD, BC, Year}
 
 object YearInstances {
 
@@ -12,7 +12,7 @@ object YearInstances {
       if(x.epoch == y.epoch) {
         Order[Int].compare(x.year.value, y.year.value)
       } else {
-        Order[Epoch].compare(x.epoch, y.epoch)
+        x.epoch compare y.epoch
       }
   }
 

@@ -1,6 +1,7 @@
 package com.mlopes.wen.instances
 
-import cats._
+import cats.Eq
+import cats.implicits._
 import com.mlopes.wen.instances.SecondInstances._
 import com.mlopes.wen.types.Second
 import org.scalactic.TypeCheckedTripleEquals
@@ -13,9 +14,9 @@ class SecondInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleE
       val second1 = Second(27).get
       val second2 = Second(3).get
       val second3 = Second(48).get
-      (Order[Second].compare(second1, second1) == 0) should ===(true)
-      (Order[Second].compare(second1, second2) > 0) should ===(true)
-      (Order[Second].compare(second2, second3) < 0) should ===(true)
+      (second1 compare second1) should ===(0)
+      (second1 compare second2) > 0 should ===(true)
+      (second2 compare second3) < 0 should ===(true)
     }
 
     "provide eq" in {
@@ -33,9 +34,9 @@ class SecondInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleE
       val second2 = Second(40).get
       val second3 = Second(1).get
 
-      Show[Second].show(second1) should ===("03")
-      Show[Second].show(second2) should ===("40")
-      Show[Second].show(second3) should !==("1")
+      second1.show should ===("03")
+      second2.show should ===("40")
+      second3.show should !==("1")
     }
   }
 

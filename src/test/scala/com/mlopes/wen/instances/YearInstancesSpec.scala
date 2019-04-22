@@ -1,10 +1,12 @@
 package com.mlopes.wen.instances
 
-import cats._
+import cats.Eq
+import cats.implicits._
 import eu.timepit.refined.auto._
 import org.scalatest.{Matchers, WordSpec}
 import com.mlopes.wen.types._
 import com.mlopes.wen.instances.YearInstances._
+import com.mlopes.wen.types.NumericTypes.NumericYear
 import org.scalactic.TypeCheckedTripleEquals
 
 class YearInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEquals {
@@ -15,10 +17,10 @@ class YearInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqu
       val year3: Year = Year(2019, AD)
       val year4: Year = Year(3019, BC)
 
-      (Order[Year].compare(year1, year1) ===(0)) should ===(true)
-      (Order[Year].compare(year1, year2) < 0) should ===(true)
-      (Order[Year].compare(year3, year1) > 0) should ===(true)
-      (Order[Year].compare(year3, year4) > 0) should ===(true)
+      (year1 compare year1) should ===(0)
+      (year1 compare year2) < 0 should ===(true)
+      (year3 compare year1) > 0 should ===(true)
+      (year3 compare year4) > 0 should ===(true)
     }
 
     "provide eq" in {
@@ -32,8 +34,9 @@ class YearInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqu
     }
 
     "provide show" in {
-      Show[Year].show(Year(2019, AD).get) should ===("AD 2019")
-      Show[Year].show(Year(2019, BC).get) should ===("2019 BC")
+      val numericYear: NumericYear = 2019
+      Year(numericYear, AD).show should ===("AD 2019")
+      Year(numericYear, BC).show should ===("2019 BC")
     }
   }
 }

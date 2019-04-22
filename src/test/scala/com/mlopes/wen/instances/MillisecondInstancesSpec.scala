@@ -1,6 +1,7 @@
 package com.mlopes.wen.instances
 
-import cats._
+import cats.Eq
+import cats.implicits._
 import com.mlopes.wen.instances.MillisecondInstances._
 import com.mlopes.wen.types.Millisecond
 import org.scalactic.TypeCheckedTripleEquals
@@ -13,9 +14,9 @@ class MillisecondInstancesSpec extends WordSpec with Matchers with TypeCheckedTr
       val millisecond1 = Millisecond(257).get
       val millisecond2 = Millisecond(36).get
       val millisecond3 = Millisecond(481).get
-      (Order[Millisecond].compare(millisecond1, millisecond1) == 0) should ===(true)
-      (Order[Millisecond].compare(millisecond1, millisecond2) > 0) should ===(true)
-      (Order[Millisecond].compare(millisecond2, millisecond3) < 0) should ===(true)
+      (millisecond1 compare millisecond1) should ===(0)
+      (millisecond1 compare millisecond2) > 0 should ===(true)
+      (millisecond2 compare millisecond3) < 0 should ===(true)
     }
 
     "provide eq" in {
@@ -32,9 +33,8 @@ class MillisecondInstancesSpec extends WordSpec with Matchers with TypeCheckedTr
       val millisecond1 = Millisecond(2).get
       val millisecond2 = Millisecond(999).get
 
-      Show[Millisecond].show(millisecond1) should ===("2")
-      Show[Millisecond].show(millisecond2) should ===("999")
+      millisecond1.show should ===("2")
+      millisecond2.show should ===("999")
     }
   }
-
 }

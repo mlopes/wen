@@ -1,6 +1,7 @@
 package com.mlopes.wen.instances
 
-import cats._
+import cats.Eq
+import cats.implicits._
 import com.mlopes.wen.types.{AD, BC, Epoch}
 import com.mlopes.wen.instances.EpochInstances._
 import org.scalatest.{Matchers, WordSpec}
@@ -10,10 +11,12 @@ class EpochInstancesSpec extends WordSpec with Matchers {
   "Epoch Instances" should {
 
     "provide order" in {
-      (Order[Epoch].compare(AD, BC) > 0) should ===(true)
-      (Order[Epoch].compare(BC, AD) < 0) should ===(true)
-      (Order[Epoch].compare(AD, AD) ===(0)) should ===(true)
-      (Order[Epoch].compare(BC, BC) ===(0)) should ===(true)
+      val ad: Epoch = AD
+      val bc: Epoch = BC
+      (ad compare bc) > 0 should ===(true)
+      (bc compare ad) < 0 should ===(true)
+      (ad compare ad) should ===(0)
+      (bc compare bc) should ===(0)
     }
 
     "provide eq" in {
@@ -23,8 +26,11 @@ class EpochInstancesSpec extends WordSpec with Matchers {
     }
 
     "provide show" in {
-      Show[Epoch].show(AD) should ===("AD")
-      Show[Epoch].show(BC) should ===("BC")
+      val ad: Epoch = AD
+      val bc: Epoch = BC
+
+      ad.show should ===("AD")
+      bc.show should ===("BC")
     }
   }
 }

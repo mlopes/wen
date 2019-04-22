@@ -12,10 +12,10 @@ object DateInstances {
 
   implicit val dateOrderInstance: Order[Date] = new Order[Date] {
     override def compare(x: Date, y: Date): Int =
-      if (x.year != y.year)
+      if (x.year =!= y.year)
         x.year compare y.year
-      else if (x.month != x.month)
-        x.month  compare y.month
+      else if (x.month =!= y.month)
+        x.month compare y.month
       else
         x.day compare y.day
 

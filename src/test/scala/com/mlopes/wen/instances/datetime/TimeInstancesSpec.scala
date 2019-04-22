@@ -1,6 +1,6 @@
 package com.mlopes.wen.instances.datetime
 
-import cats._
+import cats.Eq
 import cats.implicits._
 import com.mlopes.wen.instances.datetime.TimeInstances._
 import com.mlopes.wen.datetime.Time
@@ -34,5 +34,4 @@ class TimeInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqu
       time.show should ===("08:53:23.900")
     }
   }
-
 }

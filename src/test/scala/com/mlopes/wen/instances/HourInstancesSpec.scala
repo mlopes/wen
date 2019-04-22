@@ -1,6 +1,7 @@
 package com.mlopes.wen.instances
 
-import cats._
+import cats.Eq
+import cats.implicits._
 import com.mlopes.wen.instances.HourInstances._
 import com.mlopes.wen.types.Hour
 import org.scalactic.TypeCheckedTripleEquals
@@ -13,9 +14,9 @@ class HourInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqu
       val hour1 = Hour(12).get
       val hour2 = Hour(8).get
       val hour3 = Hour(23).get
-      (Order[Hour].compare(hour1, hour1) == 0) should ===(true)
-      (Order[Hour].compare(hour1, hour2) > 0) should ===(true)
-      (Order[Hour].compare(hour2, hour3) < 0) should ===(true)
+      (hour1 compare hour1) should ===(0)
+      (hour1 compare hour2) > 0 should ===(true)
+      (hour2 compare hour3) < 0 should ===(true)
     }
 
     "provide eq" in {
@@ -33,10 +34,9 @@ class HourInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqu
       val hour2 = Hour(19).get
       val hour3 = Hour(4).get
 
-      Show[Hour].show(hour1) should ===("05")
-      Show[Hour].show(hour2) should ===("19")
-      Show[Hour].show(hour3) should !==("4")
+      hour1.show should ===("05")
+      hour2.show should ===("19")
+      hour3.show should !==("4")
     }
   }
-
 }

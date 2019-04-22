@@ -1,6 +1,7 @@
 package com.mlopes.wen.instances
 
-import cats._
+import cats.Eq
+import cats.implicits._
 import com.mlopes.wen.instances.DayInstances._
 import com.mlopes.wen.types.Day
 import org.scalactic.TypeCheckedTripleEquals
@@ -13,9 +14,9 @@ class DayInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqua
       val day1 = Day(24).get
       val day2 = Day(8).get
       val day3 = Day(31).get
-      (Order[Day].compare(day1, day1) == 0) should ===(true)
-      (Order[Day].compare(day1, day2) > 0) should ===(true)
-      (Order[Day].compare(day2, day3) < 0) should ===(true)
+      (day1 compare day1) should ===(0)
+      (day1 compare day2) > 0 should ===(true)
+      (day2 compare day3) < 0 should ===(true)
     }
 
     "provide eq" in {
@@ -32,9 +33,8 @@ class DayInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqua
       val day1 = Day(8).get
       val day2 = Day(18).get
 
-      Show[Day].show(day1) should ===("8")
-      Show[Day].show(day2) should ===("18")
+      day1.show should ===("8")
+      day2.show should ===("18")
     }
   }
-
 }

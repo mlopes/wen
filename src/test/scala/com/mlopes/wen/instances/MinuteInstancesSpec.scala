@@ -1,6 +1,7 @@
 package com.mlopes.wen.instances
 
-import cats._
+import cats.Eq
+import cats.implicits._
 import com.mlopes.wen.instances.MinuteInstances._
 import com.mlopes.wen.types.Minute
 import org.scalactic.TypeCheckedTripleEquals
@@ -13,9 +14,9 @@ class MinuteInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleE
       val minute1 = Minute(24).get
       val minute2 = Minute(8).get
       val minute3 = Minute(59).get
-      (Order[Minute].compare(minute1, minute1) == 0) should ===(true)
-      (Order[Minute].compare(minute1, minute2) > 0) should ===(true)
-      (Order[Minute].compare(minute2, minute3) < 0) should ===(true)
+      (minute1 compare minute1) should ===(0)
+      (minute1 compare minute2) > 0 should ===(true)
+      (minute2 compare minute3) < 0 should ===(true)
     }
 
     "provide eq" in {
@@ -33,10 +34,9 @@ class MinuteInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleE
       val minute2 = Minute(39).get
       val minute3 = Minute(4).get
 
-      Show[Minute].show(minute1) should ===("08")
-      Show[Minute].show(minute2) should ===("39")
-      Show[Minute].show(minute3) should !==("4")
+      minute1.show should ===("08")
+      minute2.show should ===("39")
+      minute3.show should !==("4")
     }
   }
-
 }

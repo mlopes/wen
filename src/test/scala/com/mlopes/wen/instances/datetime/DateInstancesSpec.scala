@@ -1,6 +1,7 @@
 package com.mlopes.wen.instances.datetime
 
-import cats._
+import cats.Eq
+import cats.implicits._
 import com.mlopes.wen.instances.datetime.DateInstances._
 import com.mlopes.wen.datetime.Date
 import com.mlopes.wen.types._
@@ -18,12 +19,12 @@ class DateInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqu
       val date4 = Date.unsafe(Day(25), July, Year(2019, AD))
       val date5 = Date.unsafe(Day(25), December, Year(2019, AD))
 
-      (Order[Date].compare(date1, date2) < 0) ===(true)
-      (Order[Date].compare(date2, date1) > 0) ===(true)
-      (Order[Date].compare(date2, date3) < 0) ===(true)
-      (Order[Date].compare(date3, date4) < 0) ===(true)
-      (Order[Date].compare(date4, date5) < 0) ===(true)
-      (Order[Date].compare(date2, date2) ===(0)) ===(true)
+      (date1 compare date2) < 0 should ===(true)
+      (date2 compare date1) > 0 should ===(true)
+      (date2 compare date3) < 0 should ===(true)
+      (date3 compare date4) < 0 should ===(true)
+      (date4 compare date5) < 0 should ===(true)
+      (date2 compare date2) == 0 should ===(true)
     }
 
     "provide eq" in {
@@ -38,8 +39,8 @@ class DateInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqu
       val date1 = Date.unsafe(Day(25), July, Year(1975, AD))
       val date2 = Date.unsafe(Day(1), January, Year(2131, BC))
 
-      Show[Date].show(date1) should ===("25 July 1975 AD")
-      Show[Date].show(date2) should ===("1 January 2131 BC")
+      date1.show should ===("25 July 1975 AD")
+      date2.show should ===("1 January 2131 BC")
     }
   }
 }
