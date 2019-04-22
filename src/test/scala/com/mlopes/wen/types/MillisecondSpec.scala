@@ -58,9 +58,9 @@ class MillisecondSpec extends WordSpec with Matchers with TypeCheckedTripleEqual
       val prop = forAll[Int, Boolean](numericMillisecond) { m: Int =>
         refineV[Interval.Closed[W.`0`.T, W.`999`.T]](m)
           .fold(_ => false, {x =>
-            val numericMillisecond = Millisecond.fromNumericMillisecond(x)
+            val numericMillisecond = Millisecond(x)
             val optionMillisecond = Millisecond(m).get
-            numericMillisecond.millisecond.value ===(optionMillisecond.millisecond.value)})
+            numericMillisecond ===(optionMillisecond)})
       }
 
       check(prop)

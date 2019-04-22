@@ -96,7 +96,7 @@ class MonthSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with
 
       val prop = forAll[Int, Boolean](numericMonth) { m: Int =>
         refineV[Interval.Closed[W.`1`.T, W.`12`.T]](m)
-          .fold(_ => false, Month.fromNumericMonth(_) ===(Month(m).get))
+          .fold(_ => false, Month(_) ===(Month(m).get))
       }
 
       check(prop)

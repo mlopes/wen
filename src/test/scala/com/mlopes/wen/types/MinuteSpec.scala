@@ -58,9 +58,9 @@ class MinuteSpec extends WordSpec with Matchers with TypeCheckedTripleEquals wit
       val prop = forAll[Int, Boolean](numericMinute) { m: Int =>
         refineV[Interval.Closed[W.`0`.T, W.`59`.T]](m)
           .fold(_ => false, { x =>
-            val numericMinute = Minute.fromNumericMinute(x)
+            val numericMinute = Minute(x)
             val optionMinute = Minute(m).get
-            numericMinute.minute.value ===(optionMinute.minute.value)})
+            numericMinute ===(optionMinute)})
       }
 
       check(prop)

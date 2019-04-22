@@ -37,6 +37,9 @@ object Month {
       else if (month == 12) Some(December)
       else None
 
+  def apply(numericMonth: NumericMonth): Month =
+    Month(numericMonth.value).get
+
   def toInt: Month => Int = {
     case January => 1
     case February => 2
@@ -51,10 +54,8 @@ object Month {
     case November => 11
     case December => 12
   }
-
-  def fromNumericMonth(numericMonth: NumericMonth): Month =
-    Month(numericMonth.value).get
 }
+
 sealed trait WeekDay
 final case object Sunday extends WeekDay
 final case object Monday extends WeekDay
@@ -68,7 +69,7 @@ sealed trait Epoch
 final case object AD extends Epoch
 final case object BC extends Epoch
 
-final class Year private(val year: NumericYear, val epoch: Epoch)
+final case class Year(year: NumericYear, val epoch: Epoch)
 
 object Year {
   def apply(year: Int, epoch: Epoch): Option[Year] =
@@ -81,14 +82,9 @@ object Year {
       Some(new Year(refineV[Positive].unsafeFrom(year), epoch))
     else
       None
-
-  def unapply(y: Year): Option[(NumericYear, Epoch)] = Some((y.year, y.epoch))
-
-  def fromNumericYear(numericYear: NumericYear, epoch: Epoch): Year =
-    Year(numericYear.value, epoch).get
 }
 
-final class Hour private(val hour: NumericHour)
+final case class Hour(hour: NumericHour)
 
 object Hour {
   def apply(hour: Int): Option[Hour] =
@@ -97,14 +93,9 @@ object Hour {
       Some(new Hour(refineV[Interval.Closed[W.`0`.T, W.`23`.T]].unsafeFrom(hour)))
     else
       None
-
-  def unapply(h: Hour): Option[NumericHour] = Some(h.hour)
-
-  def fromNumericHour(numericHour: NumericHour): Hour =
-    Hour(numericHour.value).get
 }
 
-final class Minute private(val minute: NumericMinute)
+final case class Minute(minute: NumericMinute)
 
 object Minute {
   def apply(minute: Int): Option[Minute] =
@@ -113,14 +104,9 @@ object Minute {
       Some(new Minute(refineV[Interval.Closed[W.`0`.T, W.`59`.T]].unsafeFrom(minute)))
     else
       None
-
-  def unapply(m: Minute): Option[NumericMinute] = Some(m.minute)
-
-  def fromNumericMinute(numericMinute: NumericMinute): Minute =
-    Minute(numericMinute.value).get
 }
 
-final class Second private(val second: NumericSecond)
+final case class Second(second: NumericSecond)
 
 object Second {
   def apply(second: Int): Option[Second] =
@@ -129,14 +115,9 @@ object Second {
       Some(new Second(refineV[Interval.Closed[W.`0`.T, W.`59`.T]].unsafeFrom(second)))
     else
       None
-
-  def unapply(s: Second): Option[NumericSecond] = Some(s.second)
-
-  def fromNumericSecond(numericSecond: NumericSecond): Second =
-    Second(numericSecond.value).get
 }
 
-final class Millisecond private(val millisecond: NumericMillisecond)
+final case class Millisecond(millisecond: NumericMillisecond)
 
 object Millisecond {
   def apply(millisecond: Int): Option[Millisecond] =
@@ -145,11 +126,6 @@ object Millisecond {
       Some(new Millisecond(refineV[Interval.Closed[W.`0`.T, W.`999`.T]].unsafeFrom(millisecond)))
     else
       None
-
-  def unapply(m: Millisecond): Option[NumericMillisecond] = Some(m.millisecond)
-
-  def fromNumericMillisecond(numericMillisecond: NumericMillisecond): Millisecond =
-    Millisecond(numericMillisecond.value).get
 }
 
 object NumericTypes {
@@ -167,5 +143,5 @@ object Offset {
   final case object UTCMinus extends OffsetType
   final case object UTCPlus extends OffsetType
 
-  val UTC: Offset = Offset(UTCPlus, Hour.fromNumericHour(0), Minute.fromNumericMinute(0))
+  val UTC: Offset = Offset(UTCPlus, Hour(0), Minute(0))
 }

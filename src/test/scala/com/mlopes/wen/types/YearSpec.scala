@@ -1,7 +1,5 @@
 package com.mlopes.wen.types
 
-import com.mlopes.wen.instances.YearInstances._
-import cats._
 import eu.timepit.refined.numeric.Positive
 import eu.timepit.refined.refineV
 import org.scalacheck.Gen
@@ -78,9 +76,9 @@ class YearSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with 
       val prop = forAll[TestYear, Boolean](testValues) { y: TestYear =>
         refineV[Positive](y.y)
           .fold(_ => false, { x =>
-            val yearFromNumberic = Year.fromNumericYear(x, y.e)
+            val yearFromNumberic = Year(x, y.e)
             val yearFromOption = Year(y.y, y.e).get
-          Eq[Year].eqv(yearFromNumberic, yearFromOption)})
+          yearFromNumberic ===(yearFromOption)})
       }
 
       check(prop)

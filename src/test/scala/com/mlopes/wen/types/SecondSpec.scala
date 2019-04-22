@@ -58,9 +58,9 @@ class SecondSpec extends WordSpec with Matchers with TypeCheckedTripleEquals wit
       val prop = forAll[Int, Boolean](numericSecond) { s: Int =>
         refineV[Interval.Closed[W.`0`.T, W.`59`.T]](s)
           .fold(_ => false, {x =>
-            val numericSecond = Second.fromNumericSecond(x)
+            val numericSecond = Second(x)
             val optionSecond = Second(s).get
-            numericSecond.second.value ===(optionSecond.second.value)})
+            numericSecond ===(optionSecond)})
       }
 
       check(prop)

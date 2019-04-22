@@ -58,9 +58,9 @@ class HourSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with 
       val prop = forAll[Int, Boolean](numericHour) { h: Int =>
         refineV[Interval.Closed[W.`0`.T, W.`23`.T]](h)
           .fold(_ => false, {x =>
-            val numericHour = Hour.fromNumericHour(x)
+            val numericHour = Hour(x)
             val optionHour = Hour(h).get
-            numericHour.hour.value ===(optionHour.hour.value)})
+            numericHour ===(optionHour)})
       }
 
       check(prop)

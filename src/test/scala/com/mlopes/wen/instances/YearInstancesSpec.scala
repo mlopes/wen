@@ -10,10 +10,10 @@ import org.scalactic.TypeCheckedTripleEquals
 class YearInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEquals {
   "Year Instances" should {
     "provide order" in {
-      val year1 = Year.fromNumericYear(1999, BC)
-      val year2 = Year.fromNumericYear(1999, AD)
-      val year3 = Year.fromNumericYear(2019, AD)
-      val year4 = Year.fromNumericYear(3019, BC)
+      val year1: Year = Year(1999, BC)
+      val year2: Year = Year(1999, AD)
+      val year3: Year = Year(2019, AD)
+      val year4: Year = Year(3019, BC)
 
       (Order[Year].compare(year1, year1) ===(0)) should ===(true)
       (Order[Year].compare(year1, year2) < 0) should ===(true)
@@ -22,9 +22,9 @@ class YearInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqu
     }
 
     "provide eq" in {
-      val year1 = Year.fromNumericYear(1999, BC)
-      val year2 = Year.fromNumericYear(1999, AD)
-      val year3 = Year.fromNumericYear(2019, BC)
+      val year1: Year = Year(1999, BC)
+      val year2: Year = Year(1999, AD)
+      val year3: Year = Year(2019, BC)
 
       Eq[Year].eqv(year1, year1) should ===(true)
       Eq[Year].eqv(year2, year1) should ===(false)
