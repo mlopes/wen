@@ -24,8 +24,8 @@ class DayInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqua
       val day3 = Day(30).get
 
       Eq[Day].eqv(day1, day1) should ===(true)
-      Eq[Day].eqv(day1, day2) should ===(false)
-      Eq[Day].eqv(day2, day3) should ===(false)
+      Eq[Day].neqv(day1, day2) should ===(true)
+      Eq[Day].neqv(day2, day3) should ===(true)
     }
 
     "provide show" in {

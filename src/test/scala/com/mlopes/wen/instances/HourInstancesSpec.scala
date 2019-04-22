@@ -24,8 +24,8 @@ class HourInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqu
       val hour3 = Hour(21).get
 
       Eq[Hour].eqv(hour1, hour1) should ===(true)
-      Eq[Hour].eqv(hour1, hour2) should ===(false)
-      Eq[Hour].eqv(hour2, hour3) should ===(false)
+      Eq[Hour].neqv(hour1, hour2) should ===(true)
+      Eq[Hour].neqv(hour2, hour3) should ===(true)
     }
 
     "provide show" in {

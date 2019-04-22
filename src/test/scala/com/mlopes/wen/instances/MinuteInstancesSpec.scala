@@ -24,8 +24,8 @@ class MinuteInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleE
       val minute3 = Minute(41).get
 
       Eq[Minute].eqv(minute1, minute1) should ===(true)
-      Eq[Minute].eqv(minute1, minute2) should ===(false)
-      Eq[Minute].eqv(minute2, minute3) should ===(false)
+      Eq[Minute].neqv(minute1, minute2) should ===(true)
+      Eq[Minute].neqv(minute2, minute3) should ===(true)
     }
 
     "provide show" in {

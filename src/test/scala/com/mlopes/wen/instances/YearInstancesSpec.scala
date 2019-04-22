@@ -27,8 +27,8 @@ class YearInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqu
       val year3: Year = Year(2019, BC)
 
       Eq[Year].eqv(year1, year1) should ===(true)
-      Eq[Year].eqv(year2, year1) should ===(false)
-      Eq[Year].eqv(year3, year1) should ===(false)
+      Eq[Year].neqv(year2, year1) should ===(true)
+      Eq[Year].neqv(year3, year1) should ===(true)
     }
 
     "provide show" in {

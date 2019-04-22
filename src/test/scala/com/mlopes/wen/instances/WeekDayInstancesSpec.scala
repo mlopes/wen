@@ -18,7 +18,7 @@ class WeekDayInstancesSpec extends WordSpec with Matchers with TypeCheckedTriple
 
     "provide eq" in {
       Eq[WeekDay].eqv(Friday, Friday) should ===(true)
-      Eq[WeekDay].eqv(Saturday, Friday) should ===(false)
+      Eq[WeekDay].neqv(Saturday, Friday) should ===(true)
     }
 
     "provide show" in {

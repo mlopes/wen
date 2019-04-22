@@ -17,9 +17,9 @@ class EpochInstancesSpec extends WordSpec with Matchers {
     }
 
     "provide eq" in {
-      Eq[Epoch].eqv(AD, BC) should ===(false)
       Eq[Epoch].eqv(AD, AD) should ===(true)
       Eq[Epoch].eqv(BC, BC) should ===(true)
+      Eq[Epoch].neqv(AD, BC) should ===(true)
     }
 
     "provide show" in {

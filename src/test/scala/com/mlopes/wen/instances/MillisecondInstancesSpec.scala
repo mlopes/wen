@@ -24,8 +24,8 @@ class MillisecondInstancesSpec extends WordSpec with Matchers with TypeCheckedTr
       val millisecond3 = Millisecond(540).get
 
       Eq[Millisecond].eqv(millisecond1, millisecond1) should ===(true)
-      Eq[Millisecond].eqv(millisecond1, millisecond2) should ===(false)
-      Eq[Millisecond].eqv(millisecond2, millisecond3) should ===(false)
+      Eq[Millisecond].neqv(millisecond1, millisecond2) should ===(true)
+      Eq[Millisecond].neqv(millisecond2, millisecond3) should ===(true)
     }
 
     "provide show" in {

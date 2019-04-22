@@ -16,7 +16,7 @@ class MonthInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEq
 
     "provide eq" in {
       Eq[Month].eqv(December, December) should ===(true)
-      Eq[Month].eqv(September, March) should ===(false)
+      Eq[Month].neqv(September, March) should ===(true)
     }
 
     "provide show" in {

@@ -24,8 +24,8 @@ class SecondInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleE
       val second3 = Second(54).get
 
       Eq[Second].eqv(second1, second1) should ===(true)
-      Eq[Second].eqv(second1, second2) should ===(false)
-      Eq[Second].eqv(second2, second3) should ===(false)
+      Eq[Second].neqv(second1, second2) should ===(true)
+      Eq[Second].neqv(second2, second3) should ===(true)
     }
 
     "provide show" in {
