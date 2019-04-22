@@ -47,24 +47,6 @@ class YearSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with 
       check(prop)
     }
 
-    "be pattern matched" in {
-      val year = for {
-        y <- Gen.posNum[Int]
-        e <- Gen.oneOf(BC, AD)
-      } yield Year(y, e)
-
-      val prop = forAll(year) { y =>
-
-        val matchResult = y.get match {
-          case Year(y1, e) =>
-            y.get.year ===(y1) && y.get.epoch ===(e)
-          case _ => false
-        }
-        matchResult ===(true)
-      }
-      check(prop)
-    }
-
     "creates a year from a numeric year" in {
       case class TestYear(y: Int, e: Epoch)
 

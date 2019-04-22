@@ -35,23 +35,6 @@ class MillisecondSpec extends WordSpec with Matchers with TypeCheckedTripleEqual
       check(prop)
     }
 
-    "be pattern matched" in {
-      val millisecond = for {
-        m <- Gen.choose(0, 999)
-      } yield Millisecond(m)
-
-      val prop = forAll(millisecond) { m =>
-
-        val matchResult = m.get match {
-          case Millisecond(m1) =>
-            m.get.millisecond ===(m1)
-          case _ => false
-        }
-        matchResult ===(true)
-      }
-      check(prop)
-    }
-
     "creates a millisecond from a numeric millisecond" in {
       val numericMillisecond = Gen.choose(0, 999)
 

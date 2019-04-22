@@ -35,23 +35,6 @@ class SecondSpec extends WordSpec with Matchers with TypeCheckedTripleEquals wit
       check(prop)
     }
 
-    "be pattern matched" in {
-      val second = for {
-        s <- Gen.choose(0, 59)
-      } yield Second(s)
-
-      val prop = forAll(second) { s =>
-
-        val matchResult = s.get match {
-          case Second(s1) =>
-            s.get.second ===(s1)
-          case _ => false
-        }
-        matchResult ===(true)
-      }
-      check(prop)
-    }
-
     "creates a second from a numeric second" in {
       val numericSecond = Gen.choose(0, 59)
 

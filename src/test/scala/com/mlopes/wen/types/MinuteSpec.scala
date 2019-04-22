@@ -35,23 +35,6 @@ class MinuteSpec extends WordSpec with Matchers with TypeCheckedTripleEquals wit
       check(prop)
     }
 
-    "be pattern matched" in {
-      val minute = for {
-        m <- Gen.choose(0, 59)
-      } yield Minute(m)
-
-      val prop = forAll(minute) { m =>
-
-        val matchResult = m.get match {
-          case Minute(m1) =>
-            m.get.minute ===(m1)
-          case _ => false
-        }
-        matchResult ===(true)
-      }
-      check(prop)
-    }
-
     "creates a minute from a numeric minute" in {
       val numericMinute = Gen.choose(0, 59)
 

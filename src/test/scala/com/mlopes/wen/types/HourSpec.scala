@@ -35,23 +35,6 @@ class HourSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with 
       check(prop)
     }
 
-    "be pattern matched" in {
-      val hour = for {
-        h <- Gen.choose(0, 23)
-      } yield Hour(h)
-
-      val prop = forAll(hour) { h =>
-
-        val matchResult = h.get match {
-          case Hour(h1) =>
-            h.get.hour ===(h1)
-          case _ => false
-        }
-        matchResult ===(true)
-      }
-      check(prop)
-    }
-
     "creates a hour from a numeric hour" in {
       val numericHour = Gen.choose(0, 23)
 
