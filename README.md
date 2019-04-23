@@ -70,7 +70,11 @@ Wen provides types to represent date/time components, as well as types for full 
 | Eq[Month] |
 | Show[Month] |
 
-`Month.toInt: Month => Int`
+**Members**
+
+```scala
+Month.toInt: Month => Int
+```
 
 Returns the ordinal number of a Month, starting at 1 for January and ending in 12 for December.
 
@@ -173,6 +177,70 @@ The provided `Order` instance starts on `Sunday` and ends on `Saturday`.
 | Show[Millisecond] |
 
 ### Full Representations
+
+#### Time
+
+| Constructors |
+| ------------ |
+| Time(hour: [Hour](#Hour), minute: [Minute](#Minute), second: [Second](#Second), millisecond: [Millisecond](#Millisecond)): Time |
+| Time(hour: [Hour](#Hour), minute: [Minute](#Minute), second: [Second](#Second)): Time |
+| Time(hour: [Hour](#Hour), minute: [Minute](#Minute)): Time |
+| Time(hour: [Hour](#Hour)): Time |
+
+| Instances |
+| --------- |
+| Order[Time] |
+| Eq[Time] |
+| Show[Time] |
+
+Values for the properties that are not specified, will default to 0.
+
+#### ZoneTime
+
+| Constructors |
+| ------------ |
+| ZoneTime(time: [Time](#Time), offset: [Offset](#Offset)): ZoneTime |
+
+| Instances |
+| --------- |
+| Order[ZoneTime] |
+| Eq[ZoneTime] |
+| Show[ZoneTime] |
+
+##### Offset
+
+| Constructors |
+| ------------ |
+| Offset(offsetType: [OffsetType](#OffsetType), hour: [Hour](#Hour), minute: [Minute](#Minute)): Offset |
+
+**Members**
+
+```scala
+UTC: Offset = Offset([UTCPlus](#OffsetType), Hour(0), Minute(0))
+```
+
+##### OffsetType
+ 
+| Constructors |
+| ------------ |
+| UTCMinus |
+| UTCPlus |
+
+
+#### Date
+
+| Constructors |
+| ------------ |
+| Date(day: [Day](#Day), month: [Month](#Month), year: [Year](#Year)): Option[Date] |
+| Date.unsafe(day: [Day](#Day), month: [Month](#Month), year: [Year](#Year)): Date |
+
+| Instances |
+| --------- |
+| Order[Date] |
+| Eq[Date] |
+| Show[Date] |
+
+The default constructor`Date(day: Day, month: Month, year: Year): Option[Date]` only allows the creation of valid dates, and will return `None` for invalid dates. The unsafe constructor `Date.unsafe(day: Day, month: Month, year: Year): Date` allows for creating invalid date combinations such as _30 February 2019_.
 
 ### Numeric types
 
