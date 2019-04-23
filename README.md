@@ -31,6 +31,20 @@ Wen provides types to represent date/time components, as well as types for full 
 
 ### Date/Time Components
 
+#### Day
+
+| Constructors |
+| ------------ |
+| Day(day: Int): Option[Day] |
+| Day(day: [NumericDay](#NumericDay)): Day |
+
+| Instances |
+| --------- |
+| Order[Epoch] |
+| Eq[Epoch] |
+| Show[Epoch] |
+
+
 #### Month
 
 | Constructors |
@@ -58,8 +72,7 @@ Wen provides types to represent date/time components, as well as types for full 
 
 `Month.toInt: Month => Int`
 
-Returns the 
-ordinal number of a Month, starting at 1 for January and ending in 12 for December.
+Returns the ordinal number of a Month, starting at 1 for January and ending in 12 for December.
 
 #### Year
 
@@ -115,8 +128,18 @@ Numeric types use [refined](https://github.com/fthomas/refined) for type safe re
 
 #### NumericMonth
 
-```type NumericMonth =  Int Refined Interval.Closed[W.`1`.T, W.`12`.T]```
+```scala
+type NumericMonth =  Int Refined Interval.Closed[W.`1`.T, W.`12`.T]
+```
 
 #### NumericYear
 
-`type NumericYear = Int Refined Positive`
+```scala
+type NumericYear = Int Refined Positive
+```
+
+#### NumericDay
+
+```scala
+type NumericDay = Int Refined Interval.Closed[W.`1`.T, W.`31`.T]
+```
