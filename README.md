@@ -100,8 +100,8 @@ import wen.types._
 import eu.timepit.refined.{W, refineMV}
 import eu.timepit.refined.numeric.Interval
 
-val month = December
-// month: wen.types.December.type = December
+val month: Month = December
+// month: wen.types.Month = December
 
 val monthFromInt = Month(7)
 // monthFromInt: Option[wen.types.Month] = Some(July)
