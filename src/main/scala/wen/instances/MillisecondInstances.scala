@@ -4,7 +4,9 @@ import cats.implicits._
 import cats._
 import wen.types.Millisecond
 
-object MillisecondInstances {
+object MillisecondInstances extends MillisecondInstances
+
+trait MillisecondInstances {
   implicit val millisecondOrderInstance: Order[Millisecond] = new Order[Millisecond] {
     override def compare(x: Millisecond, y: Millisecond): Int = Order[Int].compare(x.millisecond.value, y.millisecond.value)
   }

@@ -4,7 +4,9 @@ import cats._
 import cats.implicits._
 import wen.types._
 
-object MonthInstances {
+object MonthInstances extends MonthInstances
+
+trait MonthInstances {
   implicit val monthOrderInstance: Order[Month] = new Order[Month] {
     override def compare(x: Month, y: Month): Int =
       Order[Int].compare(Month.toInt(x), Month.toInt(y))

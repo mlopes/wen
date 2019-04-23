@@ -8,7 +8,9 @@ import wen.instances.DayInstances._
 import wen.instances.EpochInstances._
 import wen.datetime.Date
 
-object DateInstances {
+object DateInstances extends DateInstances
+
+trait DateInstances {
 
   implicit val dateOrderInstance: Order[Date] = new Order[Date] {
     override def compare(x: Date, y: Date): Int =

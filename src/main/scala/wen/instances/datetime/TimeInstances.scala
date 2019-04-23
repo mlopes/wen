@@ -9,7 +9,9 @@ import wen.instances.MinuteInstances._
 import wen.instances.MillisecondInstances._
 import wen.instances.SecondInstances._
 
-object TimeInstances {
+object TimeInstances extends TimeInstances
+
+trait TimeInstances {
 
   implicit val timeOrderInstance: Order[Time] = new Order[Time] {
     override def compare(x: Time, y: Time): Int = {

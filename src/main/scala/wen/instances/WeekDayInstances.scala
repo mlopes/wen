@@ -4,7 +4,9 @@ import cats.implicits._
 import cats.{Order, Show}
 import wen.types._
 
-object WeekDayInstances {
+object WeekDayInstances extends WeekDayInstances
+
+trait WeekDayInstances {
 
   implicit val weekDayOrderInstance: Order[WeekDay] = new Order[WeekDay] {
     override def compare(x: WeekDay, y: WeekDay): Int = {

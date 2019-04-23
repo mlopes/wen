@@ -4,7 +4,9 @@ import cats.implicits._
 import cats._
 import wen.types.Minute
 
-object MinuteInstances {
+object MinuteInstances extends MinuteInstances
+
+trait MinuteInstances {
   implicit val minuteOrderInstance: Order[Minute] = new Order[Minute] {
     override def compare(x: Minute, y: Minute): Int = Order[Int].compare(x.minute.value, y.minute.value)
   }

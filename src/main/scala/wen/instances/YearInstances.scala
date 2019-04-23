@@ -5,7 +5,9 @@ import cats.implicits._
 import wen.types.{AD, BC, Year}
 import wen.instances.EpochInstances._
 
-object YearInstances {
+object YearInstances extends YearInstances
+
+trait YearInstances {
 
   implicit val yearOrderInstance: Order[Year] = new Order[Year] {
     override def compare(x: Year, y: Year): Int =

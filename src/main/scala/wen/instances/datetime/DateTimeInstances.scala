@@ -6,7 +6,9 @@ import wen.datetime.{DateTime, ZoneDateTime}
 import wen.instances.datetime.DateInstances._
 import wen.instances.datetime.TimeInstances._
 
-object DateTimeInstances {
+object DateTimeInstances extends DateTimeInstances
+
+trait DateTimeInstances {
 
   implicit var dateTimeOrderInstance: Order[DateTime] = new Order[DateTime] {
     override def compare(x: DateTime, y: DateTime): Int =

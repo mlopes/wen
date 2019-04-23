@@ -3,7 +3,9 @@ package wen.instances
 import cats._
 import wen.types.{AD, BC, Epoch}
 
-object EpochInstances {
+object EpochInstances extends EpochInstances
+
+trait EpochInstances {
 
   implicit val epochOrderInstance: Order[Epoch] = new Order[Epoch] {
     override def compare(x: Epoch, y: Epoch): Int =
