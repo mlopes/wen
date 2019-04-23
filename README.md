@@ -58,7 +58,54 @@ Wen provides types to represent date/time components, as well as types for full 
 
 `Month.toInt: Month => Int`
 
-Returns the ordinal number of a Month, starting at 1 for January and ending in 12 for December.
+Returns the 
+ordinal number of a Month, starting at 1 for January and ending in 12 for December.
+
+#### Year
+
+| Constructors |
+| ------------ |
+| (year: Int, epoch: [Epoch](#Epoch): Option[Year] |
+| Year(year: [NumericYear](#NumericYear), val epoch: [Epoch](#Epoch)): Year |
+
+| Instances |
+| --------- |
+| Order[Year] |
+| Eq[Year] |
+| Show[Year] |
+
+#### Epoch
+
+| Constructors |
+| ------------ |
+| BC |
+| AD |
+
+| Instances |
+| --------- |
+| Order[Epoch] |
+| Eq[Epoch] |
+| Show[Epoch] |
+
+#### WeekDay
+
+| Constructors |
+| ------------ |
+| Sunday |
+| Monday |
+| Tuesday |
+| Wednesday |
+| Thursday |
+| Friday |
+| Saturday |
+
+| Instances |
+| --------- |
+| Order[WeekDay] |
+| Eq[WeekDay] |
+| Show[WeekDay] |
+
+The provided `Order` instance starts on `Sunday` and ends on `Saturday`.
 
 ### Full Representations
 
@@ -69,3 +116,7 @@ Numeric types use [refined](https://github.com/fthomas/refined) for type safe re
 #### NumericMonth
 
 ```type NumericMonth =  Int Refined Interval.Closed[W.`1`.T, W.`12`.T]```
+
+#### NumericYear
+
+`type NumericYear = Int Refined Positive`
