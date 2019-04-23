@@ -68,4 +68,4 @@ Numeric types use [refined](https://github.com/fthomas/refined) for type safe re
 
 #### NumericMonth
 
-`type NumericMonth =  Int Refined Interval.Closed[W.\`1\`.T, W.\`12\`.T]`
+```type NumericMonth =  Int Refined Interval.Closed[W.`1`.T, W.`12`.T]```
