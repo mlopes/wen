@@ -120,11 +120,69 @@ Returns the ordinal number of a Month, starting at 1 for January and ending in 1
 
 The provided `Order` instance starts on `Sunday` and ends on `Saturday`.
 
+#### Hour
+
+| Constructors |
+| ------------ |
+| Hour(hour: Int): Option[Hour] |
+| Hour(hour: [NumericHour](#NumericHour)): Hour |
+
+| Instances |
+| --------- |
+| Order[Hour] |
+| Eq[Hour] |
+| Show[Hour] |
+
+#### Minute
+
+| Constructors |
+| ------------ |
+| Minute(minute: Int): Option[Minute] |
+| Minute(minute: [NumericMinute](#NumericMinute)): Minute |
+
+| Instances |
+| --------- |
+| Order[Minute] |
+| Eq[Minute] |
+| Show[Minute] |
+
+#### Second
+
+| Constructors |
+| ------------ |
+| Second(second: Int): Option[Second] |
+| Second(second: [NumericSecond](#NumericSecond)): Second |
+
+| Instances |
+| --------- |
+| Order[Second] |
+| Eq[Second] |
+| Show[Second] |
+
+#### Millisecond
+
+| Constructors |
+| ------------ |
+| Millisecond(millisecond: Int): Option[Millisecond] |
+| Millisecond(millisecond: [NumericMillisecond](#NumericMillisecond)): Millisecond |
+
+| Instances |
+| --------- |
+| Order[Millisecond] |
+| Eq[Millisecond] |
+| Show[Millisecond] |
+
 ### Full Representations
 
 ### Numeric types
 
 Numeric types use [refined](https://github.com/fthomas/refined) for type safe representation of date/time components as integers.
+
+#### NumericDay
+
+```scala
+type NumericDay = Int Refined Interval.Closed[W.`1`.T, W.`31`.T]
+```
 
 #### NumericMonth
 
@@ -138,8 +196,26 @@ type NumericMonth =  Int Refined Interval.Closed[W.`1`.T, W.`12`.T]
 type NumericYear = Int Refined Positive
 ```
 
-#### NumericDay
+#### NumericHour
 
 ```scala
-type NumericDay = Int Refined Interval.Closed[W.`1`.T, W.`31`.T]
+type NumericHour = Int Refined Interval.Closed[W.`0`.T, W.`23`.T]
+```
+
+#### NumericMinute
+
+```scala
+type NumericMinute = Int Refined Interval.Closed[W.`0`.T, W.`59`.T]
+```
+
+#### NumericSecond
+
+```scala
+type NumericSecond = Int Refined Interval.Closed[W.`0`.T, W.`59`.T]
+```
+
+#### NumericMillisecond
+
+```scala
+type NumericMillisecond = Int Refined Interval.Closed[W.`0`.T, W.`999`.T]
 ```
