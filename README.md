@@ -44,6 +44,23 @@ Wen provides types to represent date/time components, as well as types for full 
 | Eq[Day] |
 | Show[Day] |
 
+**Usage**
+
+```scala
+import wen.types._
+import eu.timepit.refined.{W, refineMV}
+import eu.timepit.refined.numeric.Interval
+
+val day = Day(31)
+// day: Option[wen.types.Day] = Some(Day(31))
+
+val notDay = Day(32)
+// notDay: Option[wen.types.Day] = None
+
+// You need to use refineV when refining non-literal values
+val refinedDay = Day(refineMV[Interval.Closed[W.`1`.T, W.`31`.T]](22))
+// refinedDay: wen.types.Day = Day(22)
+```
 
 #### Month
 
@@ -60,7 +77,7 @@ Wen provides types to represent date/time components, as well as types for full 
 | September |
 | October |
 | November |
-| December |(month: Int): Option[Month] |
+| December |
 | Month(month: Int): Option[Month] |
 | Month(numericMonth: [NumericMonth](#NumericMonth)): Month |
 
@@ -74,6 +91,27 @@ Wen provides types to represent date/time components, as well as types for full 
 
 ```scala
 Month.toInt: Month => Int
+```
+
+**Usage**
+
+```scala
+import wen.types._
+import eu.timepit.refined.{W, refineMV}
+import eu.timepit.refined.numeric.Interval
+
+val month = December
+// month: wen.types.December.type = December
+
+val monthFromInt = Month(7)
+// monthFromInt: Option[wen.types.Month] = Some(July)
+
+val notMonth = Month(24)
+// notMonth: Option[wen.types.Month] = None
+
+// You need to use refineV when refining non-literal values
+val refinedMonth = Month(refineMV[Interval.Closed[W.`1`.T, W.`12`.T]](4))
+// refinedMonth: wen.types.Month = April
 ```
 
 Returns the ordinal number of a Month, starting at 1 for January and ending in 12 for December.
@@ -90,6 +128,27 @@ Returns the ordinal number of a Month, starting at 1 for January and ending in 1
 | Order[Year] |
 | Eq[Year] |
 | Show[Year] |
+
+**Usage**
+
+```scala
+import wen.types._
+import eu.timepit.refined.{W, refineMV}
+import eu.timepit.refined.numeric.{Interval, Positive}
+
+val adYear = Year(2019, AD)
+// adYear: Option[wen.types.Year] = Some(Year(2019,AD))
+
+val bcYear = Year(19, BC)
+// bcYear: Option[wen.types.Year] = Some(Year(19,BC))
+
+val notYear = Year(-21, AD)
+// notYear: Option[wen.types.Year] = None
+
+// You need to use refineV when refining non-literal values
+val refinedYear = Year(refineMV[Positive](2019), AD)
+// refinedYear: wen.types.Year = Year(2019,AD)
+```
 
 #### Epoch
 
