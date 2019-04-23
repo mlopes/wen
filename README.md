@@ -25,15 +25,13 @@ well, for the relevant types.
 Wen does not aim for date/time related functionality like the one provided by the
 `java.time`. Its purpose is to provide stateless representations for date/time data types.
 
-## Summary
-
-### Types
+## Types
 
 Wen provides types to represent date/time components, as well as types for full time and date representations, and auxiliary refined types for numeric representation of date/time components.
 
-#### Date/Time Components
+### Date/Time Components
 
-##### Month
+#### Month
 
 | Constructors |
 | ------------ |
@@ -62,12 +60,12 @@ Wen provides types to represent date/time components, as well as types for full 
 
 Returns the ordinal number of a Month, starting at 1 for January and ending in 12 for December.
 
-#### Full Representations
+### Full Representations
 
-#### Numeric types
+### Numeric types
 
 Numeric types use [refined](https://github.com/fthomas/refined) for type safe representation of date/time components as integers.
 
-##### NumericMonth
+#### NumericMonth
 
 `type NumericMonth =  Int Refined Interval.Closed[W.\`1\`.T, W.\`12\`.T]`
