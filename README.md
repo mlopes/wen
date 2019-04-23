@@ -242,6 +242,30 @@ UTC: Offset = Offset([UTCPlus](#OffsetType), Hour(0), Minute(0))
 
 The default constructor`Date(day: Day, month: Month, year: Year): Option[Date]` only allows the creation of valid dates, and will return `None` for invalid dates. The unsafe constructor `Date.unsafe(day: Day, month: Month, year: Year): Date` allows for creating invalid date combinations such as _30 February 2019_.
 
+#### DateTime
+
+| Constructors |
+| ------------ |
+| DateTime(date: [Date](#Date0, time: [Time](#Time)): DateTime |
+
+| Instances |
+| --------- |
+| Order[DateTime] |
+| Eq[DateTime] |
+| Show[DateTime] |
+
+#### ZoneDateTime
+
+| Constructors |
+| ------------ |
+| ZoneDateTime(date: [Date](#Date), zoneTime: [ZoneTime](#ZoneTime)): ZoneDateTime |
+
+| Instances |
+| --------- |
+| Order[ZoneDateTime] |
+| Eq[ZoneDateTime] |
+| Show[ZoneDateTime] |
+
 ### Numeric types
 
 Numeric types use [refined](https://github.com/fthomas/refined) for type safe representation of date/time components as integers.
