@@ -112,6 +112,9 @@ val notMonth = Month(24)
 // You need to use refineV when refining non-literal values
 val refinedMonth = Month(refineMV[Interval.Closed[W.`1`.T, W.`12`.T]](4))
 // refinedMonth: wen.types.Month = April
+
+val monthInt = Month.toInt(June)
+// monthInt: Int = 6
 ```
 
 Returns the ordinal number of a Month, starting at 1 for January and ending in 12 for December.
