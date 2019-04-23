@@ -65,7 +65,7 @@ ordinal number of a Month, starting at 1 for January and ending in 12 for Decemb
 
 | Constructors |
 | ------------ |
-| (year: Int, epoch: [Epoch](#Epoch): Option[Year] |
+| Year(year: Int, epoch: [Epoch](#Epoch): Option[Year] |
 | Year(year: [NumericYear](#NumericYear), val epoch: [Epoch](#Epoch)): Year |
 
 | Instances |
