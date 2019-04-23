@@ -48,7 +48,7 @@ Wen provides types to represent date/time components, as well as types for full 
 | November |
 | December |(month: Int): Option[Month] |
 | Month(month: Int): Option[Month] |
-| Month(numericMonth: [NumericMonth](#NumericMonth)) |
+| Month(numericMonth: [NumericMonth](#NumericMonth)): Month |
 
 | Instances |
 | --------- |
