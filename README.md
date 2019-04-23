@@ -24,3 +24,290 @@ well, for the relevant types.
 
 Wen does not aim for date/time related functionality like the one provided by the
 `java.time`. Its purpose is to provide stateless representations for date/time data types.
+
+## Types
+
+Wen provides types to represent date/time components, as well as types for full time and date representations, and auxiliary refined types for numeric representation of date/time components.
+
+### Date/Time Components
+
+#### Day
+
+| Constructors |
+| ------------ |
+| Day(day: Int): Option[Day] |
+| Day(day: [NumericDay](#NumericDay)): Day |
+
+| Instances |
+| --------- |
+| Order[Day] |
+| Eq[Day] |
+| Show[Day] |
+
+
+#### Month
+
+| Constructors |
+| ------------ |
+| January |
+| February |
+| March |
+| April |
+| May |
+| June |
+| July |
+| August|
+| September |
+| October |
+| November |
+| December |(month: Int): Option[Month] |
+| Month(month: Int): Option[Month] |
+| Month(numericMonth: [NumericMonth](#NumericMonth)): Month |
+
+| Instances |
+| --------- |
+| Order[Month] |
+| Eq[Month] |
+| Show[Month] |
+
+**Members**
+
+```scala
+Month.toInt: Month => Int
+```
+
+Returns the ordinal number of a Month, starting at 1 for January and ending in 12 for December.
+
+#### Year
+
+| Constructors |
+| ------------ |
+| Year(year: Int, epoch: [Epoch](#Epoch)): Option[Year] |
+| Year(year: [NumericYear](#NumericYear), val epoch: [Epoch](#Epoch)): Year |
+
+| Instances |
+| --------- |
+| Order[Year] |
+| Eq[Year] |
+| Show[Year] |
+
+#### Epoch
+
+| Constructors |
+| ------------ |
+| BC |
+| AD |
+
+| Instances |
+| --------- |
+| Order[Epoch] |
+| Eq[Epoch] |
+| Show[Epoch] |
+
+#### WeekDay
+
+| Constructors |
+| ------------ |
+| Sunday |
+| Monday |
+| Tuesday |
+| Wednesday |
+| Thursday |
+| Friday |
+| Saturday |
+
+| Instances |
+| --------- |
+| Order[WeekDay] |
+| Eq[WeekDay] |
+| Show[WeekDay] |
+
+The provided `Order` instance starts on `Sunday` and ends on `Saturday`.
+
+#### Hour
+
+| Constructors |
+| ------------ |
+| Hour(hour: Int): Option[Hour] |
+| Hour(hour: [NumericHour](#NumericHour)): Hour |
+
+| Instances |
+| --------- |
+| Order[Hour] |
+| Eq[Hour] |
+| Show[Hour] |
+
+#### Minute
+
+| Constructors |
+| ------------ |
+| Minute(minute: Int): Option[Minute] |
+| Minute(minute: [NumericMinute](#NumericMinute)): Minute |
+
+| Instances |
+| --------- |
+| Order[Minute] |
+| Eq[Minute] |
+| Show[Minute] |
+
+#### Second
+
+| Constructors |
+| ------------ |
+| Second(second: Int): Option[Second] |
+| Second(second: [NumericSecond](#NumericSecond)): Second |
+
+| Instances |
+| --------- |
+| Order[Second] |
+| Eq[Second] |
+| Show[Second] |
+
+#### Millisecond
+
+| Constructors |
+| ------------ |
+| Millisecond(millisecond: Int): Option[Millisecond] |
+| Millisecond(millisecond: [NumericMillisecond](#NumericMillisecond)): Millisecond |
+
+| Instances |
+| --------- |
+| Order[Millisecond] |
+| Eq[Millisecond] |
+| Show[Millisecond] |
+
+### Full Representations
+
+#### Time
+
+| Constructors |
+| ------------ |
+| Time(hour: [Hour](#Hour), minute: [Minute](#Minute), second: [Second](#Second), millisecond: [Millisecond](#Millisecond)): Time |
+| Time(hour: [Hour](#Hour), minute: [Minute](#Minute), second: [Second](#Second)): Time |
+| Time(hour: [Hour](#Hour), minute: [Minute](#Minute)): Time |
+| Time(hour: [Hour](#Hour)): Time |
+
+| Instances |
+| --------- |
+| Order[Time] |
+| Eq[Time] |
+| Show[Time] |
+
+Values for the properties that are not specified, will default to 0.
+
+#### ZoneTime
+
+| Constructors |
+| ------------ |
+| ZoneTime(time: [Time](#Time), offset: [Offset](#Offset)): ZoneTime |
+
+| Instances |
+| --------- |
+| Order[ZoneTime] |
+| Eq[ZoneTime] |
+| Show[ZoneTime] |
+
+##### Offset
+
+| Constructors |
+| ------------ |
+| Offset(offsetType: [OffsetType](#OffsetType), hour: [Hour](#Hour), minute: [Minute](#Minute)): Offset |
+
+**Members**
+
+```scala
+UTC: Offset = Offset([UTCPlus](#OffsetType), Hour(0), Minute(0))
+```
+
+##### OffsetType
+ 
+| Constructors |
+| ------------ |
+| UTCMinus |
+| UTCPlus |
+
+
+#### Date
+
+| Constructors |
+| ------------ |
+| Date(day: [Day](#Day), month: [Month](#Month), year: [Year](#Year)): Option[Date] |
+| Date.unsafe(day: [Day](#Day), month: [Month](#Month), year: [Year](#Year)): Date |
+
+| Instances |
+| --------- |
+| Order[Date] |
+| Eq[Date] |
+| Show[Date] |
+
+The default constructor`Date(day: Day, month: Month, year: Year): Option[Date]` only allows the creation of valid dates, and will return `None` for invalid dates. The unsafe constructor `Date.unsafe(day: Day, month: Month, year: Year): Date` allows for creating invalid date combinations such as _30 February 2019_.
+
+#### DateTime
+
+| Constructors |
+| ------------ |
+| DateTime(date: [Date](#Date0, time: [Time](#Time)): DateTime |
+
+| Instances |
+| --------- |
+| Order[DateTime] |
+| Eq[DateTime] |
+| Show[DateTime] |
+
+#### ZoneDateTime
+
+| Constructors |
+| ------------ |
+| ZoneDateTime(date: [Date](#Date), zoneTime: [ZoneTime](#ZoneTime)): ZoneDateTime |
+
+| Instances |
+| --------- |
+| Order[ZoneDateTime] |
+| Eq[ZoneDateTime] |
+| Show[ZoneDateTime] |
+
+### Numeric types
+
+Numeric types use [refined](https://github.com/fthomas/refined) for type safe representation of date/time components as integers.
+
+#### NumericDay
+
+```scala
+type NumericDay = Int Refined Interval.Closed[W.`1`.T, W.`31`.T]
+```
+
+#### NumericMonth
+
+```scala
+type NumericMonth =  Int Refined Interval.Closed[W.`1`.T, W.`12`.T]
+```
+
+#### NumericYear
+
+```scala
+type NumericYear = Int Refined Positive
+```
+
+#### NumericHour
+
+```scala
+type NumericHour = Int Refined Interval.Closed[W.`0`.T, W.`23`.T]
+```
+
+#### NumericMinute
+
+```scala
+type NumericMinute = Int Refined Interval.Closed[W.`0`.T, W.`59`.T]
+```
+
+#### NumericSecond
+
+```scala
+type NumericSecond = Int Refined Interval.Closed[W.`0`.T, W.`59`.T]
+```
+
+#### NumericMillisecond
+
+```scala
+type NumericMillisecond = Int Refined Interval.Closed[W.`0`.T, W.`999`.T]
+```
