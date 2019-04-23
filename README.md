@@ -40,9 +40,9 @@ Wen provides types to represent date/time components, as well as types for full 
 
 | Instances |
 | --------- |
-| Order[Epoch] |
-| Eq[Epoch] |
-| Show[Epoch] |
+| Order[Day] |
+| Eq[Day] |
+| Show[Day] |
 
 
 #### Month
