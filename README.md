@@ -209,7 +209,7 @@ res16: String = July
 | Constructors |
 | ------------ |
 | Year(year: Int, epoch: [Epoch](#Epoch)): Option[Year] |
-| Year(year: [NumericYear](#NumericYear), val epoch: [Epoch](#Epoch)): Year |
+| Year(year: [NumericYear](#NumericYear), epoch: [Epoch](#Epoch)): Year |
 
 | Instances |
 | --------- |

@@ -68,7 +68,7 @@ sealed trait Epoch
 final case object AD extends Epoch
 final case object BC extends Epoch
 
-final case class Year(year: NumericYear, val epoch: Epoch)
+final case class Year(year: NumericYear, epoch: Epoch)
 
 object Year {
   def apply(year: Int, epoch: Epoch): Option[Year] =
