@@ -60,6 +60,33 @@ val notDay = Day(32)
 // You need to use refineV when refining non-literal values
 val refinedDay = Day(refineMV[Interval.Closed[W.`1`.T, W.`31`.T]](22))
 // refinedDay: wen.types.Day = Day(22)
+
+import eu.timepit.refined.auto._
+
+
+// This works because we add the type annotation to `autoRefinedDay`
+// so Scala infers that we're using the constructor
+// `Day(numericDay: NumericDay): Day`
+// refined.auto provides the necessary implicit conversion from Int.
+val autoRefinedDay: Day = Day(25)
+// autoRefinedDay: wen.types.Day = Day(25)
+```
+
+Because instances of cats's `Eq`, `Order` and `Show` are available, we can also do the following:
+
+```scala
+import cats.implicits._ // for cats syntax
+import wen.implicits._ // fo wen's instances
+
+refinedDay.show
+// res0: String = 22
+
+autoRefinedDay compare refinedDay
+// res1: Int = 1
+
+refinedDay =!= autoRefinedDay
+// res2: Boolean = true
+
 ```
 
 #### Month
@@ -93,6 +120,8 @@ val refinedDay = Day(refineMV[Interval.Closed[W.`1`.T, W.`31`.T]](22))
 Month.toInt: Month => Int
 ```
 
+Returns the ordinal number of a Month, starting at 1 for January and ending in 12 for December.
+
 **Usage**
 
 ```scala
@@ -118,15 +147,25 @@ val monthInt = Month.toInt(June)
 
 import eu.timepit.refined.auto._
 
-// This works because we add the type annotation to `autoRefinedMonth`
-// so Scala infers that we're using the constructor
-// `Month(numericMonth: [NumericMonth](#NumericMonth)): Month`
-// refined.auto provides the necessary implicit conversion from Int.
 val autoRefinedMonth: Month =  Month(8)
 // autoRefinedMonth: wen.types.Month = August
 ```
 
-Returns the ordinal number of a Month, starting at 1 for January and ending in 12 for December.
+Because instances of cats's `Eq`, `Order` and `Show` are available, we can also do the following:
+
+```scala
+import cats.implicits._ // for cats syntax
+import wen.implicits._ // fo wen's instances
+
+refinedMonth.show
+// res0: String = April
+
+refinedMonth compare autoRefinedMonth
+// res1: Int = -1
+
+refinedMonth === autoRefinedMonth
+// res2: Boolean = false
+```
 
 #### Year
 
