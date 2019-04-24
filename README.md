@@ -81,8 +81,8 @@ import wen.implicits._ // for wen's instances
 refinedDay.show
 // res0: String = 22
 
-autoRefinedDay compare refinedDay
-// res1: Int = 1
+autoRefinedDay >= refinedDay
+// res1: Boolean = true
 
 refinedDay =!= autoRefinedDay
 // res2: Boolean = true
@@ -160,11 +160,15 @@ import wen.implicits._ // for wen's instances
 refinedMonth.show
 // res0: String = April
 
-refinedMonth compare autoRefinedMonth
-// res1: Int = -1
+refinedMonth > autoRefinedMonth
+// res1: Boolean = false
 
 refinedMonth === autoRefinedMonth
 // res2: Boolean = false
+
+// Note that we have to specify the type Month so that Scala doesn't infer the type as July
+(July : Month).show
+res16: String = July
 ```
 
 #### Year
@@ -215,8 +219,8 @@ import wen.implicits._ // for wen's instances
 refinedYear.show
 // res0: String = AD 2019
 
-refinedYear compare refinedYear
-// res1: Int = 0
+refinedYear <= refinedYear
+// res1: Boolean = true
 
 refinedYear ===  autoRefinedYear
 // res2: Boolean = false
@@ -264,11 +268,11 @@ import wen.implicits._ // for wen's instances
 val oneDay: WeekDay  = Tuesday
 // oneDay: wen.types.WeekDay = Tuesday
 
-scala> val otherDay: WeekDay  = Friday
+val otherDay: WeekDay  = Friday
 // otherDay: wen.types.WeekDay = Friday
 
-otherDay compare oneDay
-// res0: Int = 1
+otherDay < oneDay
+// res0: Boolean = false
 
 otherDay ===  oneDay
 // res1: Boolean = false
@@ -324,8 +328,8 @@ import wen.implicits._ // for wen's instances
 refinedHour.show
 // res0: String = 10
 
-refinedHour compare refinedHour
-// res1: Int = 0
+refinedHour > autoRefinedHour
+// res1: Boolean = false
 
 autoRefinedHour === autoRefinedHour
 // res2: Boolean = true
@@ -375,8 +379,8 @@ import wen.implicits._ // for wen's instances
 autoRefinedMinute.show
 // res0: String = 45
 
-autoRefinedMinute compare refinedMinute
-// res1: Int = 1
+autoRefinedMinute > refinedMinute
+// res1: Boolean = true
 
 autoRefinedMinute =!= refinedMinute
 // res2: Boolean = true
