@@ -66,7 +66,7 @@ import eu.timepit.refined.auto._
 
 // This works because we add the type annotation to `autoRefinedDay`
 // so Scala infers that we're using the constructor
-// `Day(numericDay: NumericDay): Day`
+// Day(numericDay: NumericDay): Day
 // refined.auto provides the necessary implicit conversion from Int.
 val autoRefinedDay: Day = Day(25)
 // autoRefinedDay: wen.types.Day = Day(25)
@@ -255,6 +255,32 @@ refinedYear ===  autoRefinedYear
 
 The provided `Order` instance starts on `Sunday` and ends on `Saturday`.
 
+Because instances of cats's `Eq`, `Order` and `Show` are available, we can do the following:
+
+```scala
+import cats.implicits._ // for cats syntax
+import wen.implicits._ // for wen's instances
+
+val oneDay: WeekDay  = Tuesday
+// oneDay: wen.types.WeekDay = Tuesday
+
+scala> val otherDay: WeekDay  = Friday
+// otherDay: wen.types.WeekDay = Friday
+
+otherDay compare oneDay
+// res0: Int = 1
+
+otherDay ===  oneDay
+// res1: Boolean = false
+
+otherDay.show
+// res2: String = Friday
+
+// Note that we have to specify the type WeekDay so that Scala doesn't infer the type as Saturday
+(Saturday: WeekDay).show
+// res3: String = Saturday
+```
+
 #### Hour
 
 | Constructors |
@@ -267,6 +293,43 @@ The provided `Order` instance starts on `Sunday` and ends on `Saturday`.
 | Order[Hour] |
 | Eq[Hour] |
 | Show[Hour] |
+
+```scala
+import wen.types._
+import eu.timepit.refined.{W, refineMV}
+import eu.timepit.refined.numeric.{Interval, Positive}
+
+val hour = Hour(23)
+// hour: Option[wen.types.Hour] = Some(Hour(23))
+
+val notHour = Hour(25)
+// notHour: Option[wen.types.Hour] = None
+
+// You need to use refineV when refining non-literal values
+val refinedHour = Hour(refineMV[Interval.Closed[W.`0`.T, W.`23`.T]](10))
+// refinedHour: wen.types.Hour = Hour(10)
+
+import eu.timepit.refined.auto._
+
+val autoRefinedHour: Hour = Hour(12)
+// autoRefinedHour: wen.types.Hour = Hour(12)
+```
+
+Because instances of cats's `Eq`, `Order` and `Show` are available, we can also do the following:
+
+```scala
+import cats.implicits._ // for cats syntax
+import wen.implicits._ // for wen's instances
+
+refinedHour.show
+// res0: String = 10
+
+refinedHour compare refinedHour
+// res1: Int = 0
+
+autoRefinedHour === autoRefinedHour
+// res2: Boolean = true
+```
 
 #### Minute
 
