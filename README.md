@@ -515,7 +515,7 @@ The default constructor`Date(day: Day, month: Month, year: Year): Option[Date]` 
 
 | Constructors |
 | ------------ |
-| DateTime(date: [Date](#Date0, time: [Time](#Time)): DateTime |
+| DateTime(date: [Date](#Date), time: [Time](#Time)): DateTime |
 
 | Instances |
 | --------- |
