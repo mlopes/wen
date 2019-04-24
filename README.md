@@ -344,6 +344,44 @@ autoRefinedHour === autoRefinedHour
 | Eq[Minute] |
 | Show[Minute] |
 
+
+```scala
+import wen.types._
+import eu.timepit.refined.{W, refineMV}
+import eu.timepit.refined.numeric.{Interval, Positive}
+
+val minute = Minute(0)
+// minute: Option[wen.types.Minute] = Some(Minute(0))
+
+val notMinute = Minute(-12)
+// notMinute: Option[wen.types.Minute] = None
+
+// You need to use refineV when refining non-literal values
+val refinedMinute: Minute = Minute(refineMV[Interval.Closed[W.`0`.T, W.`59`.T]](15))
+// refinedMinute: wen.types.Minute = Minute(15)
+
+import eu.timepit.refined.auto._
+
+val autoRefinedMinute: Minute = Minute(45)
+// autoRefinedMinute: wen.types.Minute = Minute(45)
+```
+
+Because instances of cats's `Eq`, `Order` and `Show` are available, we can also do the following:
+
+```scala
+import cats.implicits._ // for cats syntax
+import wen.implicits._ // for wen's instances
+
+autoRefinedMinute.show
+// res0: String = 45
+
+autoRefinedMinute compare refinedMinute
+// res1: Int = 1
+
+autoRefinedMinute =!= refinedMinute
+// res2: Boolean = true
+```
+
 #### Second
 
 | Constructors |
