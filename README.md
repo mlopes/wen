@@ -115,6 +115,15 @@ val refinedMonth = Month(refineMV[Interval.Closed[W.`1`.T, W.`12`.T]](4))
 
 val monthInt = Month.toInt(June)
 // monthInt: Int = 6
+
+import eu.timepit.refined.auto._
+
+// This works because we add the type annotation to `autoRefinedMonth`
+// so Scala infers that we're using the constructor
+// `Month(numericMonth: [NumericMonth](#NumericMonth)): Month`
+// refined.auto provides the necessary implicit conversion from Int.
+val autoRefinedMonth: Month =  Month(8)
+// autoRefinedMonth: wen.types.Month = August
 ```
 
 Returns the ordinal number of a Month, starting at 1 for January and ending in 12 for December.
