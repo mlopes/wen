@@ -76,7 +76,7 @@ Because instances of cats's `Eq`, `Order` and `Show` are available, we can also 
 
 ```scala
 import cats.implicits._ // for cats syntax
-import wen.implicits._ // fo wen's instances
+import wen.implicits._ // for wen's instances
 
 refinedDay.show
 // res0: String = 22
@@ -155,7 +155,7 @@ Because instances of cats's `Eq`, `Order` and `Show` are available, we can also 
 
 ```scala
 import cats.implicits._ // for cats syntax
-import wen.implicits._ // fo wen's instances
+import wen.implicits._ // for wen's instances
 
 refinedMonth.show
 // res0: String = April
@@ -199,6 +199,27 @@ val notYear = Year(-21, AD)
 // You need to use refineV when refining non-literal values
 val refinedYear = Year(refineMV[Positive](2019), AD)
 // refinedYear: wen.types.Year = Year(2019,AD)
+
+import eu.timepit.refined.auto._
+
+val autoRefinedYear: Year = Year(2000, AD)
+// autoRefinedYear: wen.types.Year = Year(2000,AD)
+```
+
+Because instances of cats's `Eq`, `Order` and `Show` are available, we can also do the following:
+
+```scala
+import cats.implicits._ // for cats syntax
+import wen.implicits._ // for wen's instances
+
+refinedYear.show
+// res0: String = AD 2019
+
+refinedYear compare refinedYear
+// res1: Int = 0
+
+refinedYear ===  autoRefinedYear
+// res2: Boolean = false
 ```
 
 #### Epoch
