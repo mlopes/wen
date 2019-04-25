@@ -633,6 +633,60 @@ UTC: Offset = Offset([UTCPlus](#OffsetType), Hour(0), Minute(0))
 | UTCMinus |
 | UTCPlus |
 
+*Usage*
+
+```scala
+import wen.types._
+import eu.timepit.refined.auto._
+import wen.datetime._
+
+val time1 = Time(Hour(10), Minute(11), Second(12), Millisecond(13))
+// time1: wen.datetime.Time = Time(Hour(10),Minute(11),Second(12),Millisecond(13))
+
+val zoneTime1 = ZoneTime(time1, Offset.UTC)
+// zoneTime1: wen.datetime.ZoneTime = ZoneTime(Time(Hour(10),Minute(11),Second(12),Millisecond(13)),Offset(UTCPlus,Hour(0),Minute(0)))
+
+val offset1 = Offset(Offset.UTCPlus, Hour(1), Minute(0))
+// offset1: wen.datetime.Offset = Offset(UTCPlus,Hour(1),Minute(0))
+
+val offset2 = Offset(Offset.UTCMinus, Hour(1), Minute(0))
+// offset2: wen.datetime.Offset = Offset(UTCMinus,Hour(1),Minute(0))
+
+val zoneTime2 = ZoneTime(time1, offset1)
+// zoneTime2: wen.datetime.ZoneTime = ZoneTime(Time(Hour(10),Minute(11),Second(12),Millisecond(13)),Offset(UTCPlus,Hour(1),Minute(0)))
+
+val zoneTime3 = ZoneTime(time1, offset2)
+// zoneTime3: wen.datetime.ZoneTime = ZoneTime(Time(Hour(10),Minute(11),Second(12),Millisecond(13)),Offset(UTCMinus,Hour(1),Minute(0)))
+
+val time2 = Time(Hour(9), Minute(11), Second(12), Millisecond(13))
+time2: wen.datetime.Time = Time(Hour(9),Minute(11),Second(12),Millisecond(13))
+
+val zoneTime4 = ZoneTime(time2, offset1)
+// zoneTime4: wen.datetime.ZoneTime = ZoneTime(Time(Hour(9),Minute(11),Second(12),Millisecond(13)),Offset(UTCPlus,Hour(1),Minute(0)))
+
+```
+
+Because instances of cats's `Eq`, `Order` and `Show` are available, we can also do the following:
+
+```scala
+import cats.implicits._ // for cats syntax
+import wen.implicits._ // for wen's instances
+
+zoneTime1.show
+// res0: String = 10:11:12.13 +00:00
+
+zoneTime2.show
+// res1: String = 10:11:12.13 +01:00
+
+zoneTime4.show
+// res2: String = 09:11:12.13 +01:00
+
+zoneTime1 < zoneTime2
+// res3: Boolean = true
+
+zoneTime1 === zoneTime4
+// res4: Boolean = true
+```
 
 #### Date
 
