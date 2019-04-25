@@ -294,6 +294,8 @@ The provided `Order` instance starts on `Sunday` and ends on `Saturday`.
 
 Because instances of cats's `Eq`, `Order` and `Show` are available, we can do the following:
 
+**Usage**
+
 ```scala
 import cats.implicits._ // for cats syntax
 import wen.implicits._ // for wen's instances
@@ -330,6 +332,8 @@ otherDay.show
 | Order[Hour] |
 | Eq[Hour] |
 | Show[Hour] |
+
+**Usage**
 
 ```scala
 import wen.types._
@@ -381,6 +385,8 @@ autoRefinedHour === autoRefinedHour
 | Eq[Minute] |
 | Show[Minute] |
 
+**Usage**
+
 ```scala
 import wen.types._
 import eu.timepit.refined.{W, refineMV}
@@ -431,6 +437,8 @@ autoRefinedMinute =!= refinedMinute
 | Eq[Second] |
 | Show[Second] |
 
+**Usage**
+
 ```scala
 import wen.types._
 import eu.timepit.refined.{W, refineMV}
@@ -480,6 +488,8 @@ refinedSecond === autoRefinedSecond
 | Order[Millisecond] |
 | Eq[Millisecond] |
 | Show[Millisecond] |
+
+**Usage**
 
 ```scala
 import wen.types._
@@ -537,6 +547,60 @@ refinedMillisecond === autoRefinedMillisecond
 | Show[Time] |
 
 Values for the properties that are not specified, will default to 0.
+
+**Usage**
+
+```scala
+import wen.types._
+import eu.timepit.refined.auto._
+import wen.datetime._
+
+val time1 = Time(Hour(7), Minute(5), Second(10), Millisecond(200))
+// time1: wen.datetime.Time = Time(Hour(7),Minute(5),Second(10),Millisecond(200))
+
+val time2 = Time(Hour(7), Minute(5), Second(10))
+// time2: wen.datetime.Time = Time(Hour(7),Minute(5),Second(10),Millisecond(0))
+
+val time3 = Time(Hour(7), Minute(5))
+// time3: wen.datetime.Time = Time(Hour(7),Minute(5),Second(0),Millisecond(0))
+
+val time4 = Time(Hour(7))
+// time4: wen.datetime.Time = Time(Hour(7),Minute(0),Second(0),Millisecond(0))
+```
+
+Because instances of cats's `Eq`, `Order` and `Show` are available, we can also do the following:
+
+```scala
+import cats.implicits._ // for cats syntax
+import wen.implicits._ // for wen's instances
+
+time1.show
+// res0: String = 07:05:10.200
+
+time3.show
+// res1: String = 07:05:00.0
+
+time1 > time3
+// res2: Boolean = true
+
+time2 =!= time4
+res6: Boolean = true
+```
+
+To create a `Time` from non-refined values, you can do the following:
+
+```scala
+import wen.types._
+import wen.datetime._
+
+val optionTime = for {
+  hour <- Hour(12)
+  minute <- Minute(15)
+  second <- Second(59)
+  millisecond <- Millisecond(908)
+} yield Time(hour, minute, second, millisecond)
+// optionTime: Option[wen.datetime.Time] = Some(Time(Hour(12),Minute(15),Second(59),Millisecond(908)))
+```
 
 #### ZoneTime
 
