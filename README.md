@@ -465,7 +465,7 @@ refinedSecond > autoRefinedSecond
 // res1: Boolean = true
 
 refinedSecond === autoRefinedSecond
-// res2: Boolean = false<Paste>
+// res2: Boolean = false
 ```
 
 #### Millisecond
