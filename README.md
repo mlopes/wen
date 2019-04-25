@@ -481,6 +481,44 @@ refinedSecond === autoRefinedSecond
 | Eq[Millisecond] |
 | Show[Millisecond] |
 
+```scala
+import wen.types._
+import eu.timepit.refined.{W, refineMV}
+import eu.timepit.refined.numeric.{Interval, Positive}
+
+val millisecond = Millisecond(456)
+// millisecond: Option[wen.types.Millisecond] = Some(Millisecond(456))
+
+val notMillisecond = Millisecond(-1)
+// notMillisecond: Option[wen.types.Millisecond] = None
+
+// You need to use refineV when refining non-literal values
+val refinedMillisecond = Millisecond(refineMV[Interval.Closed[W.`0`.T,
+W.`999`.T]](999))
+// refinedMillisecond: wen.types.Millisecond = Millisecond(999)
+
+import eu.timepit.refined.auto._
+
+val autoRefinedMillisecond: Millisecond = Millisecond(999)
+// autoRefinedMillisecond: wen.types.Millisecond = Millisecond(999)
+```
+
+Because instances of cats's `Eq`, `Order` and `Show` are available, we can also do the following:
+
+```scala
+import cats.implicits._ // for cats syntax
+import wen.implicits._ // for wen's instances
+
+refinedMillisecond.show
+// res0: String = 999
+
+refinedMillisecond >= autoRefinedMillisecond
+// res1: Boolean = true
+
+refinedMillisecond === autoRefinedMillisecond
+// res2: Boolean = true
+```
+
 ### Full Representations
 
 #### Time
