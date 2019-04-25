@@ -381,7 +381,6 @@ autoRefinedHour === autoRefinedHour
 | Eq[Minute] |
 | Show[Minute] |
 
-
 ```scala
 import wen.types._
 import eu.timepit.refined.{W, refineMV}
@@ -431,6 +430,43 @@ autoRefinedMinute =!= refinedMinute
 | Order[Second] |
 | Eq[Second] |
 | Show[Second] |
+
+```scala
+import wen.types._
+import eu.timepit.refined.{W, refineMV}
+import eu.timepit.refined.numeric.{Interval, Positive}
+
+val second = Second(42)
+// second: Option[wen.types.Second] = Some(Second(42))
+
+val notSecond = Second(591)
+// notSecond: Option[wen.types.Second] = None
+
+// You need to use refineV when refining non-literal values
+val refinedSecond = Second(refineMV[Interval.Closed[W.`0`.T, W.`59`.T]](20))
+refinedSecond: wen.types.Second = Second(20)
+
+import eu.timepit.refined.auto._
+
+val autoRefinedSecond: Second = Second(12)
+// autoRefinedSecond: wen.types.Second = Second(12)
+```
+
+Because instances of cats's `Eq`, `Order` and `Show` are available, we can also do the following:
+
+```scala
+import cats.implicits._ // for cats syntax
+import wen.implicits._ // for wen's instances
+
+refinedSecond.show
+// res0: String = Some(20)
+
+refinedSecond > autoRefinedSecond
+// res1: Boolean = true
+
+refinedSecond === autoRefinedSecond
+// res2: Boolean = false<Paste>
+```
 
 #### Millisecond
 
