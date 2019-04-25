@@ -201,7 +201,7 @@ refinedMonth === autoRefinedMonth
 
 // Note that we have to specify the type Month so that Scala doesn't infer the type as July
 (July : Month).show
-res16: String = July
+// res3: String = July
 ```
 
 #### Year
@@ -452,7 +452,7 @@ val notSecond = Second(591)
 
 // You need to use refineV when refining non-literal values
 val refinedSecond = Second(refineMV[Interval.Closed[W.`0`.T, W.`59`.T]](20))
-refinedSecond: wen.types.Second = Second(20)
+// refinedSecond: wen.types.Second = Second(20)
 
 import eu.timepit.refined.auto._
 
@@ -584,7 +584,7 @@ time1 > time3
 // res2: Boolean = true
 
 time2 =!= time4
-res6: Boolean = true
+// res3: Boolean = true
 ```
 
 To create a `Time` from non-refined values, you can do the following:
