@@ -701,7 +701,7 @@ zoneTime1 === zoneTime4
 | Eq[Date] |
 | Show[Date] |
 
-The default constructor`Date(day: Day, month: Month, year: Year): Option[Date]` only allows the creation of valid dates, and will return `None` for invalid dates. The unsafe constructor `Date.unsafe(day: Day, month: Month, year: Year): Date` allows for creating invalid date combinations such as _30 February 2019_.
+The default constructor `Date(day: Day, month: Month, year: Year): Option[Date]` only allows the creation of valid dates, and will return `None` for invalid dates. The unsafe constructor `Date.unsafe(day: Day, month: Month, year: Year): Date` allows for creating invalid date combinations such as _30 February 2019_.
 
 #### DateTime
 
