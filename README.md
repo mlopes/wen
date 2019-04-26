@@ -703,6 +703,46 @@ zoneTime1 === zoneTime4
 
 The default constructor `Date(day: Day, month: Month, year: Year): Option[Date]` only allows the creation of valid dates, and will return `None` for invalid dates. The unsafe constructor `Date.unsafe(day: Day, month: Month, year: Year): Date` allows for creating invalid date combinations such as _30 February 2019_.
 
+*Usage*
+
+```scala
+import wen.types._
+import eu.timepit.refined.auto._
+import wen.datetime._
+
+val date = Date(Day(12), Month(8), Year(2016, AD)) 
+// date: Option[wen.datetime.Date] = Some(Date(Day(12),August,Year(2016,AD)))
+
+val notDate = Date(Day(31), September, Year(2000, AD))
+// notDate: Option[wen.datetime.Date] = None
+
+val unsafeDate = Date.unsafe(Day(31), August, Year(2019, AD))
+// unsafeDate: wen.datetime.Date = Date(Day(31),August,Year(2019,AD))
+
+// This creates an invalid date
+val unsafeNotDate = Date.unsafe(Day(31), February, Year(2018, AD))
+// unsafeNotDate: wen.datetime.Date = Date(Day(31),February,Year(2018,AD))
+```
+
+Because instances of cats's `Eq`, `Order` and `Show` are available, we can also do the following:
+
+```scala
+import cats.implicits._ // for cats syntax
+import wen.implicits._ // for wen's instances
+
+ unsafeDate.show
+// res0: String = 31 August 2019 AD
+
+val unsafeDate1 = Date.unsafe(Day(31), August, Year(2018, AD))
+// unsafeDate1: wen.datetime.Date = Date(Day(31),August,Year(2018,AD))
+
+unsafeDate < unsafeDate1
+// res1: Boolean = false
+
+unsafeDate === unsafeDate1
+// res1: Boolean = false
+```
+
 #### DateTime
 
 | Constructors |
