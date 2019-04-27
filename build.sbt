@@ -14,7 +14,6 @@ lazy val root = (project in file("."))
     libraryDependencies ++= wenDependencies,
     coverageMinimum := 100,
     coverageFailOnMinimum := true,
-    useGpg := true,
     publishTo := sonatypePublishTo.value
   )
 
