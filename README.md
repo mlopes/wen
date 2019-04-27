@@ -815,6 +815,57 @@ dateTime1 =!= dateTime2
 | Eq[ZoneDateTime] |
 | Show[ZoneDateTime] |
 
+*Usage*
+
+```scala
+import wen.types._
+import eu.timepit.refined.auto._
+import wen.datetime._
+
+val date1 = Date.unsafe(Day(12), Month(8), Year(2016, AD))
+// date1: wen.datetime.Date = Date(Day(12),August,Year(2016,AD))
+
+val time1 = ZoneTime(Time(Hour(7), Minute(5)), Offset.UTC)
+// time1: wen.datetime.ZoneTime = ZoneTime(Time(Hour(7),Minute(5),Second(0),Millisecond(0)),Offset(UTCPlus,Hour(0),Minute(0)))
+
+val time2 = ZoneTime(Time(Hour(7), Minute(5)), Offset(Offset.UTCMinus, Hour(1), Minute(0)))
+// time2: wen.datetime.ZoneTime = ZoneTime(Time(Hour(7),Minute(5),Second(0),Millisecond(0)),Offset(UTCMinus,Hour(1),Minute(0)))
+
+val time3 = ZoneTime(Time(Hour(8), Minute(5)), Offset(Offset.UTCMinus, Hour(1), Minute(0)))
+// time3: wen.datetime.ZoneTime = ZoneTime(Time(Hour(8),Minute(5),Second(0),Millisecond(0)),Offset(UTCMinus,Hour(1),Minute(0)))
+
+val zoneDateTime1 = ZoneDateTime(date1, time1)
+// zoneDateTime1: wen.datetime.ZoneDateTime = ZoneDateTime(Date(Day(12),August,Year(2016,AD)),ZoneTime(Time(Hour(7),Minute(5),Second(0),Millisecond(0)),Offset(UTCPlus,Hour(0),Minute(0))))
+
+val zoneDateTime2 = ZoneDateTime(date1, time2)
+// zoneDateTime2: wen.datetime.ZoneDateTime = ZoneDateTime(Date(Day(12),August,Year(2016,AD)),ZoneTime(Time(Hour(7),Minute(5),Second(0),Millisecond(0)),Offset(UTCMinus,Hour(1),Minute(0))))
+
+val zoneDateTime3 = ZoneDateTime(date1, time3)
+// zoneDateTime3: wen.datetime.ZoneDateTime = ZoneDateTime(Date(Day(12),August,Year(2016,AD)),ZoneTime(Time(Hour(8),Minute(5),Second(0),Millisecond(0)),Offset(UTCMinus,Hour(1),Minute(0))))
+```
+
+Because instances of cats's `Eq`, `Order` and `Show` are available, we can also do the following:
+
+```scala
+import cats.implicits._ // for cats syntax
+import wen.implicits._ // for wen's instances
+
+zoneDateTime1.show
+// res0: String = 12 August 2016 AD 07:05:00.0 +00:00
+
+scala> zoneDateTime2.show
+// res1: String = 12 August 2016 AD 07:05:00.0 -01:00
+
+scala> zoneDateTime3.show
+// res2: String = 12 August 2016 AD 08:05:00.0 -01:00
+
+zoneDateTime1 > zoneDateTime2
+// res3: Boolean = true
+
+zoneDateTime1 === zoneDateTime3
+// res4: Boolean = true
+```
+
 ### Numeric types
 
 Numeric types use [refined](https://github.com/fthomas/refined) for type safe representation of date/time components as integers.
