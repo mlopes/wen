@@ -755,6 +755,54 @@ unsafeDate === unsafeDate1
 | Eq[DateTime] |
 | Show[DateTime] |
 
+*Usage*
+
+```scala
+import wen.types._
+import eu.timepit.refined.auto._
+import wen.datetime._
+
+val date1 = Date.unsafe(Day(12), Month(8), Year(2016, AD))
+// date1: wen.datetime.Date = Date(Day(12),August,Year(2016,AD))
+
+val date2 = Date.unsafe(Day(22), Month(8), Year(1982, AD))
+// date2: wen.datetime.Date = Date(Day(22),August,Year(1982,AD))
+
+val time1 = Time(Hour(7), Minute(5))
+// time1: wen.datetime.Time = Time(Hour(7),Minute(5),Second(0),Millisecond(0))
+
+val time2 = Time(Hour(20), Minute(30))
+// time2: wen.datetime.Time = Time(Hour(20),Minute(30),Second(0),Millisecond(0))
+
+val dateTime1 = DateTime(date1, time1)
+// dateTime1: wen.datetime.DateTime = DateTime(Date(Day(12),August,Year(2016,AD)),Time(Hour(7),Minute(5),Second(0),Millisecond(0)))
+
+val dateTime2 = DateTime(date2, time2)
+// dateTime2: wen.datetime.DateTime = DateTime(Date(Day(22),August,Year(1982,AD)),Time(Hour(20),Minute(30),Second(0),Millisecond(0)))
+
+val dateTime3 = DateTime(date1, time2)
+dateTime3: wen.datetime.DateTime = DateTime(Date(Day(12),August,Year(2016,AD)),Time(Hour(20),Minute(30),Second(0),Millisecond(0)))
+```
+
+Because instances of cats's `Eq`, `Order` and `Show` are available, we can also do the following:
+
+```scala
+import cats.implicits._ // for cats syntax
+import wen.implicits._ // for wen's instances
+
+dateTime1.show
+// res0: String = 12 August 2016 AD 07:05:00.0
+
+dateTime1 > dateTime2
+// res1: Boolean = true
+
+dateTime3 > dateTime1
+// res2: Boolean = true
+
+dateTime1 =!= dateTime2
+// res3: Boolean = true
+```
+
 #### ZoneDateTime
 
 | Constructors |
