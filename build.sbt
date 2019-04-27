@@ -2,7 +2,7 @@ import Dependencies._
 
 ThisBuild / scalaVersion     := "2.12.8"
 ThisBuild / version          := "0.1.0-SNAPSHOT"
-ThisBuild / organization     := "org.mlopes"
+ThisBuild / organization     := "dev.mlopes"
 ThisBuild / organizationName := "mlopes"
 
 lazy val root = (project in file("."))
@@ -13,7 +13,9 @@ lazy val root = (project in file("."))
     libraryDependencies ++= scalaTest,
     libraryDependencies ++= wenDependencies,
     coverageMinimum := 100,
-    coverageFailOnMinimum := true
+    coverageFailOnMinimum := true,
+    useGpg := true,
+    publishTo := sonatypePublishTo.value
   )
 
 lazy val appScalacOptions = Seq(
