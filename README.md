@@ -41,9 +41,14 @@ Date and time types and instances
       - [NumericMillisecond](#numericmillisecond)
 
 
-## Status
+## Getting Started
 
-Wen is in early development. There is no release yet.
+Wen is available for Scala 2.12. You can add wen to your sbt project by adding the following to
+your `build.sbt`:
+
+```scala
+libraryDependencies += "dev.mlopes" %% "wen" % "0.1.0"
+```
 
 ## What is Wen?
 
