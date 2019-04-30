@@ -24,6 +24,15 @@ class YearSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with 
       check(prop)
     }
 
+    "be created with AD as default EPOCH" in {
+      val year = Gen.posNum[Int].map(Year(_))
+
+      val prop = forAll(year) { y =>
+        y.get.epoch ===(AD)
+      }
+      check(prop)
+    }
+
     "fail to be created with a negative number" in {
       val year = for {
         y <- Gen.negNum[Int]
@@ -47,7 +56,7 @@ class YearSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with 
       check(prop)
     }
 
-    "creates a year from a numeric year" in {
+    "be created from a numeric year" in {
       case class TestYear(y: Int, e: Epoch)
 
       val testValues: Gen[TestYear] = for {
@@ -61,6 +70,19 @@ class YearSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with 
             val yearFromNumberic = Year(x, y.e)
             val yearFromOption = Year(y.y, y.e).get
           yearFromNumberic ===(yearFromOption)})
+      }
+
+      check(prop)
+    }
+
+    "be created from a numeric year wit AD as default Epoch" in {
+      val testValues: Gen[Int] = Gen.posNum[Int]
+
+      val prop = forAll(testValues) { i =>
+        refineV[Positive](i)
+          .fold(_ => false, { x =>
+            val yearFromNumberic = Year(x)
+            yearFromNumberic.epoch ===(AD)})
       }
 
       check(prop)

@@ -242,6 +242,12 @@ val notYear = Year(-21, AD)
 val refinedYear = Year(refineMV[Positive](2019), AD)
 // refinedYear: wen.types.Year = Year(2019,AD)
 
+val yearWithDefaultEpoch = Year(refineMV[Positive](2011))
+// yearWithDefaultEpoch: wen.types.Year = Year(2011,AD)
+
+val yearWithDefaultEpoch1 = Year(2012)
+// yearWithDefaultEpoch1: Option[wen.types.Year] = Some(Year(2012,AD))
+
 import eu.timepit.refined.auto._
 
 val autoRefinedYear: Year = Year(2000, AD)
@@ -257,11 +263,14 @@ import wen.implicits._ // for wen's instances
 refinedYear.show
 // res0: String = AD 2019
 
+yearWithDefaultEpoch.show
+// res1: String = AD 2011
+
 refinedYear <= refinedYear
-// res1: Boolean = true
+// res2: Boolean = true
 
 refinedYear ===  autoRefinedYear
-// res2: Boolean = false
+// res3: Boolean = false
 ```
 
 #### Epoch
