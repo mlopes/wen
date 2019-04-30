@@ -81,6 +81,10 @@ object Year {
       Some(new Year(refineV[Positive].unsafeFrom(year), epoch))
     else
       None
+
+  def apply(year: NumericYear): Year = new Year(year, AD)
+
+  def apply(year: Int): Option[Year] = Year(year, AD)
 }
 
 final case class Day(day: NumericDay)
