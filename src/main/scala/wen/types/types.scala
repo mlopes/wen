@@ -150,5 +150,10 @@ object NumericTypes {
   type NumericMinute = refinedTimeTypes.Minute
   type NumericSecond = refinedTimeTypes.Second
   type NumericMillisecond = refinedTimeTypes.Millis
+
+  private[wen] type NumericHourConstraint = Interval.Closed[W.`0`.T, W.`23`.T]
+  private[wen] type NumericMinuteConstraint = Interval.Closed[W.`0`.T, W.`59`.T]
+  private[wen] type NumericSecondConstraint = Interval.Closed[W.`0`.T, W.`59`.T]
+  private[wen] type NumericMillisecondConstraint = Interval.Closed[W.`0`.T, W.`999`.T]
 }
 
