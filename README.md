@@ -629,6 +629,7 @@ val optionTime = for {
 | Constructors |
 | ------------ |
 | ZoneTime(time: [Time](#Time), offset: [Offset](#Offset)): ZoneTime |
+| ZoneTime(offsetTime: OffsetTime): ZoneTime |
 
 | Instances |
 | --------- |
@@ -641,6 +642,7 @@ val optionTime = for {
 | Constructors |
 | ------------ |
 | Offset(offsetType: [OffsetType](#OffsetType), hour: [Hour](#Hour), minute: [Minute](#Minute)): Offset |
+| Offset(zoneOffset: ZoneOffset): Offset |
 
 **Members**
 
@@ -686,6 +688,15 @@ time2: wen.datetime.Time = Time(Hour(9),Minute(11),Second(12),Millisecond(13))
 val zoneTime4 = ZoneTime(time2, offset1)
 // zoneTime4: wen.datetime.ZoneTime = ZoneTime(Time(Hour(9),Minute(11),Second(12),Millisecond(13)),Offset(UTCPlus,Hour(1),Minute(0)))
 
+import java.time.ZoneOffset
+
+val offset3 = Offset(ZoneOffset.MIN)
+// offset3: wen.datetime.Offset = Offset(UTCMinus,Hour(18),Minute(0))
+
+import java.time.OffsetTime
+
+val zoneTime5 = ZoneTime(OffsetTime.now)
+// zoneTime5: wen.datetime.ZoneTime = ZoneTime(Time(Hour(21),Minute(33),Second(10),Millisecond(1)),Offset(UTCPlus,Hour(1),Minute(0)))
 ```
 
 Because instances of cats's `Eq`, `Order` and `Show` are available, we can also do the following:
