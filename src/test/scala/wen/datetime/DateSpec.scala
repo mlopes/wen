@@ -1,11 +1,15 @@
 package wen.datetime
 
-import wen.types._
+import java.time.LocalDate
+
 import eu.timepit.refined.auto._
 import org.scalactic.TypeCheckedTripleEquals
 import org.scalatest.{Matchers, WordSpec}
+import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
+import wen.types._
+import wen.test.Arbitraries._
 
-class DateSpec extends WordSpec with Matchers with TypeCheckedTripleEquals {
+class DateSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with ScalaCheckDrivenPropertyChecks {
   "Date" should {
     "be created for a valid date" in {
       val date1 = Date(Day(31), January, Year(2012, AD))
@@ -33,13 +37,18 @@ class DateSpec extends WordSpec with Matchers with TypeCheckedTripleEquals {
       date5 should ===(None)
     }
 
-    "created from an invalid date using unsafe" in {
+    "be created from an invalid date using unsafe" in {
       val date = Date.unsafe(Day(31), April, Year(2019, AD))
 
       date.day.day.value should ===(31)
       date.month should ===(April)
       date.year.year.value should ===(2019)
       date.year.epoch should ===(AD)
+    }
+
+    "be created from a LocalDate" in forAll { localDate: LocalDate =>
+      val date = Date(localDate)
+      date shouldBe a[Date]
     }
   }
 }

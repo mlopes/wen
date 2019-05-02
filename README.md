@@ -584,6 +584,8 @@ val time3 = Time(Hour(7), Minute(5))
 val time4 = Time(Hour(7))
 // time4: wen.datetime.Time = Time(Hour(7),Minute(0),Second(0),Millisecond(0))
 
+import java.time.LocalTime
+
 val time5 = Time(LocalTime.now)
 // time5: wen.datetime.Time = Time(Hour(7),Minute(2),Second(48),Millisecond(159))
 ```
@@ -713,6 +715,7 @@ zoneTime1 === zoneTime4
 | Constructors |
 | ------------ |
 | Date(day: [Day](#Day), month: [Month](#Month), year: [Year](#Year)): Option[Date] |
+| Date(localDate: LocalDate): Date |
 | Date.unsafe(day: [Day](#Day), month: [Month](#Month), year: [Year](#Year)): Date |
 
 | Instances |
@@ -742,6 +745,11 @@ val unsafeDate = Date.unsafe(Day(31), August, Year(2019, AD))
 // This creates an invalid date
 val unsafeNotDate = Date.unsafe(Day(31), February, Year(2018, AD))
 // unsafeNotDate: wen.datetime.Date = Date(Day(31),February,Year(2018,AD))
+
+import java.time.LocalDate
+
+val date2 = Date(LocalDate.now)
+// date2: wen.datetime.Date = Date(Day(2),May,Year(2019,AD))
 ```
 
 Because instances of cats's `Eq`, `Order` and `Show` are available, we can also do the following:
