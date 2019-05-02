@@ -11,7 +11,7 @@
 Date and time types and instances
 
 - [wen](#wen)
-  - [Status](#status)
+  - [Getting Started](#getting-started)
   - [What is Wen?](#what-is-wen)
     - [What Wen isn't?](#what-wen-isnt)
   - [Types](#types)
@@ -41,7 +41,6 @@ Date and time types and instances
       - [NumericMinute](#numericminute)
       - [NumericSecond](#numericsecond)
       - [NumericMillisecond](#numericmillisecond)
-
 
 ## Getting Started
 
