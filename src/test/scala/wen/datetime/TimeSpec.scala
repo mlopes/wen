@@ -8,10 +8,10 @@ import org.scalacheck.Prop.forAll
 import org.scalactic.TypeCheckedTripleEquals
 import org.scalatest.{Matchers, WordSpec}
 import org.scalatestplus.scalacheck.Checkers
+import wen.test.Arbitraries._
 import wen.types._
 
 class TimeSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with Checkers {
-  import TimeSpec._
 
   "Time" should {
     "be created from hour with everything else defaulting to 0" in {
@@ -68,10 +68,3 @@ class TimeSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with 
   }
 }
 
-object TimeSpec {
-  implicit val localTimeArb: Arbitrary[LocalTime] = Arbitrary {
-    val rangeStart = LocalTime.MIN.toNanoOfDay
-    val rangeEnd = LocalTime.MAX.toNanoOfDay
-    Gen.choose(rangeStart, rangeEnd).map(i => LocalTime.ofNanoOfDay(i))
-  }
-}

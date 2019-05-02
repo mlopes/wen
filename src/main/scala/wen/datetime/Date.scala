@@ -1,6 +1,9 @@
 package wen.datetime
 
+import java.time.LocalDate
+
 import wen.types._
+import wen.refine.{refineDay, refineMonth, refineYear}
 
 final case class Date private (day: Day, month: Month, year: Year)
 
@@ -19,6 +22,23 @@ object Date {
       case November if (day.day.value > 30) => None
       case _ => Some(new Date(day, month, year))
     }
+  }
+
+  def apply(localDate: LocalDate): Date = {
+    val eitherDate: Either[String, Option[Date]] = for {
+      day <- refineDay(localDate.getDayOfMonth)
+      month <- refineMonth(localDate.getMonthValue)
+      year <-
+        if (localDate.getYear > 0)
+          refineYear(localDate.getYear).map[Year](Year(_))
+        else
+          refineYear(Math.abs(localDate.getYear - 1)).map[Year](Year(_, BC))
+    } yield Date(Day(day),Month(month), year)
+
+    // We run an unsafe operation here, because unless there's a bug in java.time.LocalDate
+    // we'll always have a Right, and we don't want the user to have to deal with an Option
+    // that is never a None.
+    eitherDate.toOption.flatten.get
   }
 
   def unsafe(day: Day, month: Month, year: Year): Date = new Date(day, month, year)
