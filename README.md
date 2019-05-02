@@ -555,6 +555,7 @@ refinedMillisecond === autoRefinedMillisecond
 | Time(hour: [Hour](#Hour), minute: [Minute](#Minute), second: [Second](#Second)): Time |
 | Time(hour: [Hour](#Hour), minute: [Minute](#Minute)): Time |
 | Time(hour: [Hour](#Hour)): Time |
+| Time(time: LocalTime): Time  |
 
 | Instances |
 | --------- |
@@ -582,6 +583,9 @@ val time3 = Time(Hour(7), Minute(5))
 
 val time4 = Time(Hour(7))
 // time4: wen.datetime.Time = Time(Hour(7),Minute(0),Second(0),Millisecond(0))
+
+val time5 = Time(LocalTime.now)
+// time5: wen.datetime.Time = Time(Hour(7),Minute(2),Second(48),Millisecond(159))
 ```
 
 Because instances of cats's `Eq`, `Order` and `Show` are available, we can also do the following:
