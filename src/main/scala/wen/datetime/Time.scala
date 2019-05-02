@@ -3,9 +3,8 @@ package wen.datetime
 import java.time.LocalTime
 
 import wen.types.{Hour, Millisecond, Minute, Second}
+import wen.refine._
 import eu.timepit.refined.auto._
-import eu.timepit.refined.refineV
-import wen.types.NumericTypes._
 
 final case class Time(hour: Hour, minute: Minute, second: Second, millisecond: Millisecond)
 
@@ -21,10 +20,10 @@ object Time {
 
   def apply(time: LocalTime): Time = {
     val eitherTime: Either[String, Time] = for {
-      hour <- refineV[NumericHourConstraint](time.getHour)
-      minute <- refineV[NumericMinuteConstraint](time.getMinute)
-      second <- refineV[NumericSecondConstraint](time.getSecond)
-      millisecond <- refineV[NumericMillisecondConstraint](time.getNano / 1000000)
+      hour <- refineHour(time.getHour)
+      minute <- refineMinute(time.getMinute)
+      second <- refineSecond(time.getSecond)
+      millisecond <- refineMilliSecond(time.getNano / 1000000)
     } yield new Time(Hour(hour), Minute(minute), Second(second), Millisecond(millisecond))
 
     // We run an unsafe operation here, because unless there's a bug in java.time.LocalTime
