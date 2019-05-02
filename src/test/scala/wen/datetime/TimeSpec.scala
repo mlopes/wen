@@ -59,9 +59,11 @@ class TimeSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with 
     "be created from a LocalTime" in {
       val localTime = Arbitrary.arbitrary[LocalTime]
 
-      forAll(localTime) { t =>
+      val prop = forAll(localTime) { t: LocalTime =>
         Time(t).isInstanceOf[Time]
       }
+
+      check(prop)
     }
   }
 }
