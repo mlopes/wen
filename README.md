@@ -800,7 +800,7 @@ val dateTime2 = DateTime(date2, time2)
 // dateTime2: wen.datetime.DateTime = DateTime(Date(Day(22),August,Year(1982,AD)),Time(Hour(20),Minute(30),Second(0),Millisecond(0)))
 
 val dateTime3 = DateTime(date1, time2)
-dateTime3: wen.datetime.DateTime = DateTime(Date(Day(12),August,Year(2016,AD)),Time(Hour(20),Minute(30),Second(0),Millisecond(0)))
+// dateTime3: wen.datetime.DateTime = DateTime(Date(Day(12),August,Year(2016,AD)),Time(Hour(20),Minute(30),Second(0),Millisecond(0)))
 ```
 
 Because instances of cats's `Eq`, `Order` and `Show` are available, we can also do the following:
@@ -888,6 +888,7 @@ zoneDateTime1 === zoneDateTime3
 ### Numeric types
 
 Numeric types use [refined](https://github.com/fthomas/refined) for type safe representation of date/time components as integers.
+These types are available under the `wen.types.NumericTypes` namespace.
 
 #### NumericDay
 
