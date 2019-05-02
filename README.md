@@ -853,6 +853,8 @@ dateTime1 =!= dateTime2
 | Constructors |
 | ------------ |
 | ZoneDateTime(date: [Date](#Date), zoneTime: [ZoneTime](#ZoneTime)): ZoneDateTime |
+| ZoneDateTime(offsetDateTime: OffsetDateTime): ZoneDateTime |
+| ZoneDateTime(instant: Instant): ZoneDateTime |
 
 | Instances |
 | --------- |
@@ -887,6 +889,15 @@ val zoneDateTime2 = ZoneDateTime(date1, time2)
 
 val zoneDateTime3 = ZoneDateTime(date1, time3)
 // zoneDateTime3: wen.datetime.ZoneDateTime = ZoneDateTime(Date(Day(12),August,Year(2016,AD)),ZoneTime(Time(Hour(8),Minute(5),Second(0),Millisecond(0)),Offset(UTCMinus,Hour(1),Minute(0))))
+
+import java.time.OffsetDateTime
+import java.time.Instant
+
+val zoneDateTime4 = ZoneDateTime(OffsetDateTime.now)
+// zoneDateTime4: wen.datetime.ZoneDateTime = ZoneDateTime(Date(Day(2),May,Year(2019,AD)),ZoneTime(Time(Hour(22),Minute(44),Second(34),Millisecond(833)),Offset(UTCPlus,Hour(1),Minute(0))))
+
+val zoneDateTime5 = ZoneDateTime(Instant.now)
+// zoneDateTime5: wen.datetime.ZoneDateTime = ZoneDateTime(Date(Day(2),May,Year(2019,AD)),ZoneTime(Time(Hour(21),Minute(45),Second(7),Millisecond(704)),Offset(UTCPlus,Hour(0),Minute(0))))
 ```
 
 Because instances of cats's `Eq`, `Order` and `Show` are available, we can also do the following:

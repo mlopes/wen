@@ -1,6 +1,6 @@
 package wen.test
 
-import java.time.{LocalDate, LocalDateTime, LocalTime, OffsetTime, ZoneOffset}
+import java.time._
 
 import org.scalacheck.{Arbitrary, Gen}
 
@@ -33,5 +33,15 @@ object Arbitraries {
     val rangeStart = ZoneOffset.MIN.getTotalSeconds
     val rangeEnd = ZoneOffset.MAX.getTotalSeconds
     Gen.choose(rangeStart, rangeEnd).map(i => ZoneOffset.ofTotalSeconds(i))
+  }
+
+  implicit val instantArb: Arbitrary[Instant] = Arbitrary {
+    Gen.choose(Long.MinValue, Long.MaxValue).map(i => Instant.ofEpochMilli(i))
+  }
+
+  implicit val offsetDateTimeArb: Arbitrary[OffsetDateTime] = Arbitrary {
+    val rangeStart = OffsetDateTime.MIN.toEpochSecond
+    val rangeEnd = OffsetDateTime.MAX.toEpochSecond
+    Gen.choose(rangeStart, rangeEnd).map(i => OffsetDateTime.ofInstant(Instant.ofEpochSecond(i), ZoneOffset.UTC))
   }
 }
