@@ -1,6 +1,7 @@
-Unreleased
-==========
+0.2.0
+=====
 
+- Add helper functions to refine numeric date/time types
 - Add constructors from types in java.time
 - Year constructor with epoch defaulting to AD
 
