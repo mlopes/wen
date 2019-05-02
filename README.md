@@ -776,6 +776,7 @@ unsafeDate === unsafeDate1
 | Constructors |
 | ------------ |
 | DateTime(date: [Date](#Date), time: [Time](#Time)): DateTime |
+| DateTime(localDateTime: LocalDateTime) |
 
 | Instances |
 | --------- |
@@ -810,6 +811,11 @@ val dateTime2 = DateTime(date2, time2)
 
 val dateTime3 = DateTime(date1, time2)
 // dateTime3: wen.datetime.DateTime = DateTime(Date(Day(12),August,Year(2016,AD)),Time(Hour(20),Minute(30),Second(0),Millisecond(0)))
+
+import java.time.LocalDateTime
+
+val dateTime4 = DateTime(LocalDateTime.now)
+// dateTime4: wen.datetime.DateTime = DateTime(Date(Day(2),May,Year(2019,AD)),Time(Hour(20),Minute(40),Second(16),Millisecond(612)))
 ```
 
 Because instances of cats's `Eq`, `Order` and `Show` are available, we can also do the following:
