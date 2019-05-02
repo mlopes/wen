@@ -41,6 +41,7 @@ Date and time types and instances
       - [NumericMinute](#numericminute)
       - [NumericSecond](#numericsecond)
       - [NumericMillisecond](#numericmillisecond)
+    - [Refinement Helpers](#refinement-helpers)
 
 ## Getting Started
 
@@ -930,4 +931,34 @@ type NumericSecond = Int Refined Interval.Closed[W.`0`.T, W.`59`.T]
 
 ```scala
 type NumericMillisecond = Int Refined Interval.Closed[W.`0`.T, W.`999`.T]
+```
+
+### Refinement Helpers
+
+Refinement helpers are made available under the `wen.refine` namespace, and their purpose
+is to make it easier to refine integer values into [NumericTypes](#NumericTypes), without
+the user having to know about un-specialised refinement types.
+
+The following refinement helper functions are available:
+
+| functions |
+| --------- |
+| def refineHour(hour: Int): Either[String, NumericHour] |
+| def refineMinute(minute: Int): Either[String, NumericMinute] |
+| def refineSecond(second: Int): Either[String, NumericSecond] |
+| def refineMilliSecond(millisecond: Int): Either[String, NumericMillisecond] |
+| def refineYear(year: Int): Either[String, NumericYear] |
+| def refineMonth(month: Int): Either[String, NumericMonth] |
+| def refineDay(day: Int): Either[String, NumericDay] |
+
+*Usage*
+
+```scala
+def time(hour: Int, minute: Int, second: Int): Either[String, Time] =
+  for {
+    h <- refineHour(hour)
+    m <- refineMinute(minute)
+    s <- refineSecond(second)
+    ms <- refineMilliSecond(millisecond)
+  } yield new Time(Hour(h), Minute(m), Second(s), Millisecond(ms))
 ```
