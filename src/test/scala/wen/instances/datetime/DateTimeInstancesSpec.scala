@@ -30,7 +30,8 @@ class DateTimeInstancesSpec extends WordSpec with Matchers with TypeCheckedTripl
     "provide eq for date time" in {
       val date1 = Date.unsafe(Day(25), April, Year(1974, AD))
       val date2 = Date.unsafe(Day(12), March, Year(2019, AD))
-      val time1 = Time(Hour(14))
+      val hour: Hour = Hour(14)
+      val time1 = Time(hour)
 
       val dateTime1: DateTime = DateTime(date1, time1)
       val dateTime2: DateTime = DateTime(date2, time1)

@@ -1,6 +1,7 @@
 Unreleased
 ==========
 
+- Add constructors from types in java.time
 - Year constructor with epoch defaulting to AD
 
 0.1.0
