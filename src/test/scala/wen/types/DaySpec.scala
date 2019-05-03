@@ -16,7 +16,7 @@ class DaySpec extends WordSpec with Matchers with TypeCheckedTripleEquals with S
       day should !==(None)
     }
 
-    "fail to be created with an day not between 1 and 31" in forAll (failedDayGen) { failedDay: Option[Day] =>
+    "fail to be created with an day not between 1 and 31" in forAll(failedDayGen) { failedDay: Option[Day] =>
       failedDay should ===(None)
     }
 

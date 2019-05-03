@@ -29,23 +29,44 @@ object Generators {
   val yearAsIntGen: Gen[Int] =
     Gen.posNum[Int]
 
+  val invalidYearAsIntGen: Gen[Int] =
+    Gen.negNum[Int]
+
   val monthAsIntGen: Gen[Int] =
     Gen.choose(January.asInt, December.asInt)
+
+  val invalidMonthAsIntGen: Gen[Int] =
+    Arbitrary.arbitrary[Int] suchThat (x => x < January.asInt || x > December.asInt)
 
   val dayAsIntGen: Gen[Int] =
     Gen.choose(Day.min, Day.max)
 
+  val invalidDayAsIntGen: Gen[Int] =
+    Arbitrary.arbitrary[Int] suchThat (x => x < Day.min || x > Day.max)
+
   val hourAsIntGen: Gen[Int] =
     Gen.choose(Hour.min, Hour.max)
+
+  val invalidHourAsIntGen: Gen[Int] =
+    Arbitrary.arbitrary[Int] suchThat (x => x < Hour.min || x > Hour.max)
 
   val minuteAsIntGen: Gen[Int] =
     Gen.choose(Minute.min, Minute.max)
 
+  val invalidMinuteAsIntGen: Gen[Int] =
+    Arbitrary.arbitrary[Int] suchThat (x => x < Minute.min || x > Minute.max)
+
   val secondAsIntGen: Gen[Int] =
     Gen.choose(Second.min, Second.max)
 
+  val invalidSecondAsIntGen: Gen[Int] =
+    Arbitrary.arbitrary[Int] suchThat (x => x < Second.min || x > Second.max)
+
   val millisecondAsIntGen: Gen[Int] =
     Gen.choose(Millisecond.min, Millisecond.max)
+
+  val invalidMillisecondAsIntGen: Gen[Int] =
+    Arbitrary.arbitrary[Int] suchThat (x => x < Millisecond.min || x > Millisecond.max)
 
   val optionYearWithDefaultEpochGen: Gen[Option[Year]] =
     Gen.posNum[Int].map(Year(_))

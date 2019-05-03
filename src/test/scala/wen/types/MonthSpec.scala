@@ -90,7 +90,7 @@ class MonthSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with
       December.asInt should ===(12)
     }
 
-    "creates a month from a numeric month" in forAll (monthAsIntGen) { monthAsInt: Int =>
+    "creates a month from a numeric month" in forAll(monthAsIntGen) { monthAsInt: Int =>
 
       refineMonth(monthAsInt) match {
         case Right(m: NumericMonth) =>

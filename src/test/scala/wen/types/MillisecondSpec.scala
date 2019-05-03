@@ -16,7 +16,7 @@ class MillisecondSpec extends WordSpec with Matchers with TypeCheckedTripleEqual
       millisecond should !==(None)
     }
 
-    "fail to be created with an Millisecond not between 0 and 999" in forAll (failedMillisecondGen) { failedMillisecond: Option[Millisecond] =>
+    "fail to be created with an Millisecond not between 0 and 999" in forAll(failedMillisecondGen) { failedMillisecond: Option[Millisecond] =>
       failedMillisecond should ===(None)
     }
 
