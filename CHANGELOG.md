@@ -1,3 +1,9 @@
+0.3.0
+=====
+
+- Change Month to Int conversion API. Example: from Month.toInt(January) to January.asInt
+- Make all companion objects final
+
 0.2.0
 =====
 
