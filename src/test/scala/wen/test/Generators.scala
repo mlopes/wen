@@ -1,9 +1,15 @@
 package wen.test
 
 import org.scalacheck.{Arbitrary, Gen}
-import wen.types.{Day, December, Hour, January, Millisecond, Minute, Second}
+import wen.types.{AD, BC, Day, December, Hour, January, Millisecond, Minute, Second, Year}
 
 object Generators {
+
+  val failedYearGen: Gen[Option[Year]] =
+    for {
+      y <- Gen.negNum[Int]
+      e <- Gen.oneOf(BC, AD)
+    } yield Year(y, e)
 
   val failedDayGen: Gen[Option[Day]] =
     (Arbitrary.arbitrary[Int] suchThat (x => x < Day.min || x > Day.max)).map(Day(_))
@@ -20,10 +26,13 @@ object Generators {
   val failedMillisecondGen: Gen[Option[Millisecond]] =
     (Arbitrary.arbitrary[Int] suchThat (x => x < Millisecond.min || x > Millisecond.max)).map(Millisecond(_))
 
+  val yearAsIntGen: Gen[Int] =
+    Gen.posNum[Int]
+
   val monthAsIntGen: Gen[Int] =
     Gen.choose(January.asInt, December.asInt)
 
-  val monthDayAsIntGen: Gen[Int] =
+  val dayAsIntGen: Gen[Int] =
     Gen.choose(Day.min, Day.max)
 
   val hourAsIntGen: Gen[Int] =
@@ -37,4 +46,8 @@ object Generators {
 
   val millisecondAsIntGen: Gen[Int] =
     Gen.choose(Millisecond.min, Millisecond.max)
+
+  val optionYearWithDefaultEpochGen: Gen[Option[Year]] =
+    Gen.posNum[Int].map(Year(_))
+
 }

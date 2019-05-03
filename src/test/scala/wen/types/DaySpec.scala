@@ -20,12 +20,12 @@ class DaySpec extends WordSpec with Matchers with TypeCheckedTripleEquals with S
       failedDay should ===(None)
     }
 
-    "creates a day from a numeric day" in forAll(monthDayAsIntGen) { monthDayAsInt: Int =>
+    "creates a day from a numeric day" in forAll(dayAsIntGen) { dayAsInt: Int =>
 
-      refineDay(monthDayAsInt) match {
+      refineDay(dayAsInt) match {
         case Right(day: NumericDay) =>
           Day(day) shouldBe a[Day]
-          Day(day) should ===(Day(monthDayAsInt).get)
+          Day(day) should ===(Day(dayAsInt).get)
         case _ => fail
       }
     }

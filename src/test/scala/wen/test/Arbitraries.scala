@@ -1,11 +1,18 @@
 package wen.test
 
-import java.time._
+import java.time.{Year => _, _}
 
 import org.scalacheck.{Arbitrary, Gen}
-import wen.types.{Day, Hour, Millisecond, Minute, Second}
+import wen.types._
 
 object Arbitraries {
+  implicit  val optionYearArb: Arbitrary[Option[Year]] = Arbitrary {
+    for {
+      y <- Gen.posNum[Int]
+      e <- Gen.oneOf(BC, AD)
+    } yield Year(y, e)
+  }
+
   implicit  val optionDayArb: Arbitrary[Option[Day]] = Arbitrary {
     Gen.choose(Day.min, Day.max).map(Day(_))
   }
@@ -24,6 +31,10 @@ object Arbitraries {
 
   implicit val optionMillisecondArb: Arbitrary[Option[Millisecond]] = Arbitrary {
     Gen.choose(Millisecond.min, Millisecond.max).map(Millisecond(_))
+  }
+
+  implicit val epochArb: Arbitrary[Epoch] = Arbitrary {
+    Gen.oneOf(BC, AD)
   }
 
   implicit val localTimeArb: Arbitrary[LocalTime] = Arbitrary {
