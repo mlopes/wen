@@ -3,6 +3,7 @@ package wen.test
 import java.time.{Year => _, _}
 
 import org.scalacheck.{Arbitrary, Gen}
+import wen.datetime.Time
 import wen.types._
 
 object Arbitraries {
@@ -21,12 +22,24 @@ object Arbitraries {
     Gen.choose(Hour.min, Hour.max).map(Hour(_))
   }
 
+  implicit val hourArb: Arbitrary[Hour] = Arbitrary {
+    optionHourArb.arbitrary.map(_.get)
+  }
+
   implicit val optionMinuteArb: Arbitrary[Option[Minute]] = Arbitrary {
     Gen.choose(Minute.min, Minute.max).map(Minute(_))
   }
 
+  implicit val minuteArb: Arbitrary[Minute] = Arbitrary {
+    optionMinuteArb.arbitrary.map(_.get)
+  }
+
   implicit val optionSecondArb: Arbitrary[Option[Second]] = Arbitrary {
     Gen.choose(Second.min, Second.max).map(Second(_))
+  }
+
+  implicit val secondArb: Arbitrary[Second] = Arbitrary {
+    optionSecondArb.arbitrary.map(_.get)
   }
 
   implicit val optionMillisecondArb: Arbitrary[Option[Millisecond]] = Arbitrary {
@@ -35,6 +48,15 @@ object Arbitraries {
 
   implicit val epochArb: Arbitrary[Epoch] = Arbitrary {
     Gen.oneOf(BC, AD)
+  }
+
+  implicit val timeArb: Arbitrary[Time] = Arbitrary {
+    for {
+      h <- optionHourArb.arbitrary
+      m <- optionMinuteArb.arbitrary
+      s <- optionSecondArb.arbitrary
+      ms <- optionMillisecondArb.arbitrary
+    } yield Time(h.get, m.get, s.get, ms.get)
   }
 
   implicit val localTimeArb: Arbitrary[LocalTime] = Arbitrary {
