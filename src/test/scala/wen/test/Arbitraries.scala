@@ -3,7 +3,7 @@ package wen.test
 import java.time._
 
 import org.scalacheck.{Arbitrary, Gen}
-import wen.types.{Day, Hour}
+import wen.types.{Day, Hour, Millisecond}
 
 object Arbitraries {
   implicit  val optionDayArb: Arbitrary[Option[Day]] = Arbitrary {
@@ -12,6 +12,10 @@ object Arbitraries {
 
   implicit val optionHourArb: Arbitrary[Option[Hour]] = Arbitrary {
     Gen.choose(Hour.min, Hour.max).map(Hour(_))
+  }
+
+  implicit val optionMillisecondArb: Arbitrary[Option[Millisecond]] = Arbitrary {
+    Gen.choose(Millisecond.min, Millisecond.max).map(Millisecond(_))
   }
 
   implicit val localTimeArb: Arbitrary[LocalTime] = Arbitrary {

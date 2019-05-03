@@ -15,14 +15,14 @@ package object refine {
   def refineSecond(second: Int): Either[String, NumericSecond] =
     refineV[NumericSecondConstraint](second)
 
-  def refineMilliSecond(millisecond: Int): Either[String, NumericMillisecond] =
+  def refineMillisecond(millisecond: Int): Either[String, NumericMillisecond] =
     refineV[NumericMillisecondConstraint](millisecond)
 
   def refineYear(year: Int): Either[String, NumericYear] =
     refineV[NumericYearConstraint](year)
 
   def refineMonth(month: Int): Either[String, NumericMonth] =
-    refineV[NumericMonthContstaint](month)
+    refineV[NumericMonthConstraint](month)
 
   def refineDay(day: Int): Either[String, NumericDay] =
     refineV[NumericDayConstraint](day)
@@ -33,6 +33,6 @@ package object refine {
   private[wen] type NumericSecondConstraint = Interval.Closed[W.`0`.T, W.`59`.T]
   private[wen] type NumericMillisecondConstraint = Interval.Closed[W.`0`.T, W.`999`.T]
   private[wen] type NumericYearConstraint = Positive
-  private[wen] type NumericMonthContstaint = Interval.Closed[W.`1`.T, W.`12`.T]
+  private[wen] type NumericMonthConstraint = Interval.Closed[W.`1`.T, W.`12`.T]
   private[wen] type NumericDayConstraint = Interval.Closed[W.`1`.T, W.`31`.T]
 }

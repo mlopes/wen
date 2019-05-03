@@ -138,7 +138,7 @@ class refineSpec extends WordSpec with Checkers {
       val millisecond = Gen.choose(0, 999)
 
       val prop = forAll(millisecond) { m =>
-        refineMilliSecond(m) match {
+        refineMillisecond(m) match {
           case Right(m1) => m1.value === (m)
           case _ => false
         }
@@ -151,7 +151,7 @@ class refineSpec extends WordSpec with Checkers {
       val notAMillisecond = Arbitrary.arbitrary[Int] suchThat (x => x < 0 || x > 999)
 
       val prop = forAll(notAMillisecond) { m =>
-        refineMilliSecond(m) match {
+        refineMillisecond(m) match {
           case Left(_) => true
           case _ => false
         }

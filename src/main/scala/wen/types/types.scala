@@ -140,9 +140,12 @@ object Second {
 final case class Millisecond(millisecond: NumericMillisecond)
 
 object Millisecond {
+  private[wen] val min: Int = 0
+  private[wen] val max: Int = 999
+
   def apply(millisecond: Int): Option[Millisecond] =
     // See comment on Year for the reasoning behind running unsafeFrom
-    if(millisecond >= 0 && millisecond <= 999)
+    if(millisecond >= min && millisecond <= max)
       Some(new Millisecond(refineV[Interval.Closed[W.`0`.T, W.`999`.T]].unsafeFrom(millisecond)))
     else
       None
