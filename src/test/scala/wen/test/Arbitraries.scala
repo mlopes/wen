@@ -3,8 +3,16 @@ package wen.test
 import java.time._
 
 import org.scalacheck.{Arbitrary, Gen}
+import wen.types.Day
 
 object Arbitraries {
+  private val minMonthDay: Int = 1
+  private val maxMonthDay: Int = 31
+
+  implicit  val dayArb: Arbitrary[Option[Day]] = Arbitrary {
+    Gen.choose(minMonthDay, maxMonthDay).map(Day(_))
+  }
+
   implicit val localTimeArb: Arbitrary[LocalTime] = Arbitrary {
     val rangeStart = LocalTime.MIN.toNanoOfDay
     val rangeEnd = LocalTime.MAX.toNanoOfDay
