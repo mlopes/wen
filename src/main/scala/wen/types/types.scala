@@ -133,9 +133,12 @@ final object Minute {
 final case class Second(second: NumericSecond)
 
 final object Second {
+  private[wen] val min: Int = 0
+  private[wen] val max: Int = 59
+
   def apply(second: Int): Option[Second] =
     // See comment on Year for the reasoning behind running unsafeFrom
-    if (second >= 0 && second <= 59)
+    if (second >= min && second <= max)
       Some(new Second(refineV[Interval.Closed[W.`0`.T, W.`59`.T]].unsafeFrom(second)))
     else
       None
