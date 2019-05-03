@@ -20,7 +20,7 @@ final case object October extends Month
 final case object November extends Month
 final case object December extends Month
 
-object Month {
+final object Month {
   def apply(month: Int): Option[Month] =
       if (month == 1) Some(January)
       else if (month == 2) Some(February)
@@ -70,7 +70,7 @@ final case object BC extends Epoch
 
 final case class Year(year: NumericYear, epoch: Epoch)
 
-object Year {
+final object Year {
   def apply(year: Int, epoch: Epoch): Option[Year] =
     /* We're running unsafe here because we're using the if as a
        safe-guard to guarantee that we can always refine the value
@@ -89,7 +89,7 @@ object Year {
 
 final case class Day(day: NumericDay)
 
-object Day {
+final object Day {
   private[wen] val min: Int = 1
   private[wen] val max: Int = 31
 
@@ -103,7 +103,7 @@ object Day {
 
 final case class Hour(hour: NumericHour)
 
-object Hour {
+final object Hour {
   private[wen] val min: Int = 0
   private[wen] val max: Int = 23
 
@@ -117,7 +117,7 @@ object Hour {
 
 final case class Minute(minute: NumericMinute)
 
-object Minute {
+final object Minute {
   def apply(minute: Int): Option[Minute] =
     // See comment on Year for the reasoning behind running unsafeFrom
     if (minute >= 0 && minute <= 59)
@@ -128,7 +128,7 @@ object Minute {
 
 final case class Second(second: NumericSecond)
 
-object Second {
+final object Second {
   def apply(second: Int): Option[Second] =
     // See comment on Year for the reasoning behind running unsafeFrom
     if (second >= 0 && second <= 59)
@@ -139,7 +139,7 @@ object Second {
 
 final case class Millisecond(millisecond: NumericMillisecond)
 
-object Millisecond {
+final object Millisecond {
   private[wen] val min: Int = 0
   private[wen] val max: Int = 999
 
@@ -151,7 +151,7 @@ object Millisecond {
       None
 }
 
-object NumericTypes {
+final object NumericTypes {
   type NumericYear = Int Refined Positive
   type NumericMonth = refinedTimeTypes.Month
   type NumericDay = refinedTimeTypes.Day

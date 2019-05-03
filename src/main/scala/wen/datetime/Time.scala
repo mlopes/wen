@@ -8,7 +8,7 @@ import eu.timepit.refined.auto._
 
 final case class Time(hour: Hour, minute: Minute, second: Second, millisecond: Millisecond)
 
-object Time {
+final object Time {
   def apply(hour: Hour, minute: Minute, second: Second): Time =
     new Time(hour, minute, second, Millisecond(0))
 
