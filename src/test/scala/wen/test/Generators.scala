@@ -1,7 +1,7 @@
 package wen.test
 
 import org.scalacheck.{Arbitrary, Gen}
-import wen.types.{Day, Hour, Millisecond, Minute}
+import wen.types.{Day, December, Hour, January, Millisecond, Minute}
 
 object Generators {
 
@@ -16,6 +16,9 @@ object Generators {
 
   val failedMillisecondGen: Gen[Option[Millisecond]] =
     (Arbitrary.arbitrary[Int] suchThat (x => x < Millisecond.min || x > Millisecond.max)).map(Millisecond(_))
+
+  val monthAsIntGen: Gen[Int] =
+    Gen.choose(January.asInt, December.asInt)
 
   val monthDayAsIntGen: Gen[Int] =
     Gen.choose(Day.min, Day.max)

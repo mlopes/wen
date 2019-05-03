@@ -6,7 +6,23 @@ import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric.{Interval, Positive}
 import eu.timepit.refined.types.{time => refinedTimeTypes}
 
-sealed trait Month
+sealed trait Month {
+  def asInt: Int =
+    this match {
+      case January => 1
+      case February => 2
+      case March => 3
+      case April => 4
+      case May => 5
+      case June => 6
+      case July => 7
+      case August => 8
+      case September => 9
+      case October => 10
+      case November => 11
+      case December => 12
+    }
+}
 final case object January extends Month
 final case object February extends Month
 final case object March extends Month
@@ -38,21 +54,6 @@ final object Month {
 
   def apply(numericMonth: NumericMonth): Month =
     Month(numericMonth.value).get
-
-  def toInt: Month => Int = {
-    case January => 1
-    case February => 2
-    case March => 3
-    case April => 4
-    case May => 5
-    case June => 6
-    case July => 7
-    case August => 8
-    case September => 9
-    case October => 10
-    case November => 11
-    case December => 12
-  }
 }
 
 sealed trait WeekDay
