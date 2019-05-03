@@ -6,7 +6,23 @@ import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric.{Interval, Positive}
 import eu.timepit.refined.types.{time => refinedTimeTypes}
 
-sealed trait Month
+sealed trait Month {
+  def asInt: Int =
+    this match {
+      case January => 1
+      case February => 2
+      case March => 3
+      case April => 4
+      case May => 5
+      case June => 6
+      case July => 7
+      case August => 8
+      case September => 9
+      case October => 10
+      case November => 11
+      case December => 12
+    }
+}
 final case object January extends Month
 final case object February extends Month
 final case object March extends Month
@@ -20,7 +36,7 @@ final case object October extends Month
 final case object November extends Month
 final case object December extends Month
 
-object Month {
+final object Month {
   def apply(month: Int): Option[Month] =
       if (month == 1) Some(January)
       else if (month == 2) Some(February)
@@ -38,21 +54,6 @@ object Month {
 
   def apply(numericMonth: NumericMonth): Month =
     Month(numericMonth.value).get
-
-  def toInt: Month => Int = {
-    case January => 1
-    case February => 2
-    case March => 3
-    case April => 4
-    case May => 5
-    case June => 6
-    case July => 7
-    case August => 8
-    case September => 9
-    case October => 10
-    case November => 11
-    case December => 12
-  }
 }
 
 sealed trait WeekDay
@@ -70,7 +71,7 @@ final case object BC extends Epoch
 
 final case class Year(year: NumericYear, epoch: Epoch)
 
-object Year {
+final object Year {
   def apply(year: Int, epoch: Epoch): Option[Year] =
     /* We're running unsafe here because we're using the if as a
        safe-guard to guarantee that we can always refine the value
@@ -89,10 +90,13 @@ object Year {
 
 final case class Day(day: NumericDay)
 
-object Day {
+final object Day {
+  private[wen] val min: Int = 1
+  private[wen] val max: Int = 31
+
   def apply(day: Int): Option[Day] =
   // See comment on Year for the reasoning behind running unsafeFrom
-    if (day >= 1 && day <= 31)
+    if (day >= min && day <= max)
       Some(new Day(refineV[Interval.Closed[W.`1`.T, W.`31`.T]].unsafeFrom(day)))
     else
       None
@@ -100,10 +104,13 @@ object Day {
 
 final case class Hour(hour: NumericHour)
 
-object Hour {
+final object Hour {
+  private[wen] val min: Int = 0
+  private[wen] val max: Int = 23
+
   def apply(hour: Int): Option[Hour] =
     // See comment on Year for the reasoning behind running unsafeFrom
-    if (hour >= 0 && hour <= 23)
+    if (hour >= min && hour <= max)
       Some(new Hour(refineV[Interval.Closed[W.`0`.T, W.`23`.T]].unsafeFrom(hour)))
     else
       None
@@ -111,10 +118,13 @@ object Hour {
 
 final case class Minute(minute: NumericMinute)
 
-object Minute {
+final object Minute {
+  private[wen] val min: Int = 0
+  private[wen] val max: Int = 59
+
   def apply(minute: Int): Option[Minute] =
     // See comment on Year for the reasoning behind running unsafeFrom
-    if (minute >= 0 && minute <= 59)
+    if (minute >= min && minute <= max)
       Some(new Minute(refineV[Interval.Closed[W.`0`.T, W.`59`.T]].unsafeFrom(minute)))
     else
       None
@@ -122,10 +132,13 @@ object Minute {
 
 final case class Second(second: NumericSecond)
 
-object Second {
+final object Second {
+  private[wen] val min: Int = 0
+  private[wen] val max: Int = 59
+
   def apply(second: Int): Option[Second] =
     // See comment on Year for the reasoning behind running unsafeFrom
-    if (second >= 0 && second <= 59)
+    if (second >= min && second <= max)
       Some(new Second(refineV[Interval.Closed[W.`0`.T, W.`59`.T]].unsafeFrom(second)))
     else
       None
@@ -133,16 +146,19 @@ object Second {
 
 final case class Millisecond(millisecond: NumericMillisecond)
 
-object Millisecond {
+final object Millisecond {
+  private[wen] val min: Int = 0
+  private[wen] val max: Int = 999
+
   def apply(millisecond: Int): Option[Millisecond] =
     // See comment on Year for the reasoning behind running unsafeFrom
-    if(millisecond >= 0 && millisecond <= 999)
+    if(millisecond >= min && millisecond <= max)
       Some(new Millisecond(refineV[Interval.Closed[W.`0`.T, W.`999`.T]].unsafeFrom(millisecond)))
     else
       None
 }
 
-object NumericTypes {
+final object NumericTypes {
   type NumericYear = Int Refined Positive
   type NumericMonth = refinedTimeTypes.Month
   type NumericDay = refinedTimeTypes.Day

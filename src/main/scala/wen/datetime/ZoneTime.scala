@@ -8,14 +8,14 @@ import eu.timepit.refined.auto._
 
 final case class ZoneTime(time: Time, offset: Offset)
 
-object ZoneTime {
+final object ZoneTime {
   def apply(offsetTime: OffsetTime): ZoneTime = {
     ZoneTime(Time(offsetTime.toLocalTime), Offset(offsetTime.getOffset))
   }
 }
 
-case class Offset(offsetType: OffsetType, hour: Hour, minute: Minute)
-object Offset {
+final case class Offset(offsetType: OffsetType, hour: Hour, minute: Minute)
+final object Offset {
 
   def apply(zoneOffset: ZoneOffset): Offset = {
     def getSignal(s: Int): OffsetType =

@@ -9,7 +9,7 @@ object MonthInstances extends MonthInstances
 trait MonthInstances {
   implicit val monthOrderInstance: Order[Month] = new Order[Month] {
     override def compare(x: Month, y: Month): Int =
-      Order[Int].compare(Month.toInt(x), Month.toInt(y))
+      Order[Int].compare(x.asInt, y.asInt)
   }
 
   implicit val monthShowInstance: Show[Month] = new Show[Month] {

@@ -1,14 +1,13 @@
 package wen.types
 
-import eu.timepit.refined._
-import eu.timepit.refined.numeric.Interval
-import org.scalacheck.Gen
-import org.scalacheck.Prop.forAll
 import org.scalactic.TypeCheckedTripleEquals
-import org.scalatestplus.scalacheck.Checkers
+import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 import org.scalatest.{Matchers, WordSpec}
+import wen.test.Generators.monthAsIntGen
+import wen.refine.refineMonth
+import wen.types.NumericTypes.NumericMonth
 
-class MonthSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with Checkers {
+class MonthSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with ScalaCheckDrivenPropertyChecks {
 
   "Month" should {
 
@@ -55,51 +54,50 @@ class MonthSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with
     }
 
     "return a 1 for January" in {
-      Month.toInt(January) should ===(1)
+      January.asInt should ===(1)
     }
     "return a 2 for February" in {
-      Month.toInt(February) should ===(2)
+      February.asInt should ===(2)
     }
     "return a 3 for March" in {
-      Month.toInt(March) should ===(3)
+      March.asInt should ===(3)
     }
     "return a 4 for April" in {
-      Month.toInt(April) should ===(4)
+      April.asInt should ===(4)
     }
     "return a 5 for May" in {
-      Month.toInt(May) should ===(5)
+      May.asInt should ===(5)
     }
     "return a 6 for June" in {
-      Month.toInt(June) should ===(6)
+      June.asInt should ===(6)
     }
     "return a 7 for July" in {
-      Month.toInt(July) should ===(7)
+      July.asInt should ===(7)
     }
     "return a 8 for August" in {
-      Month.toInt(August) should ===(8)
+      August.asInt should ===(8)
     }
     "return a 9 for September" in {
-      Month.toInt(September) should ===(9)
+      September.asInt should ===(9)
     }
     "return a 10 for October" in {
-      Month.toInt(October) should ===(10)
+      October.asInt should ===(10)
     }
     "return a 11 for November" in {
-      Month.toInt(November) should ===(11)
+      November.asInt should ===(11)
     }
     "return a 12 for December" in {
-      Month.toInt(December) should ===(12)
+      December.asInt should ===(12)
     }
 
-    "creates a month from a numeric month" in {
-      val numericMonth = Gen.choose(1, 12)
+    "creates a month from a numeric month" in forAll(monthAsIntGen) { monthAsInt: Int =>
 
-      val prop = forAll[Int, Boolean](numericMonth) { m: Int =>
-        refineV[Interval.Closed[W.`1`.T, W.`12`.T]](m)
-          .fold(_ => false, Month(_) ===(Month(m).get))
+      refineMonth(monthAsInt) match {
+        case Right(m: NumericMonth) =>
+          Month(m) shouldBe a[Month]
+          Month(m) should ===(Month(monthAsInt).get)
+        case _ => fail
       }
-
-      check(prop)
     }
   }
 }

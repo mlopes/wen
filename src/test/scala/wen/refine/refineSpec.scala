@@ -1,220 +1,133 @@
 package wen.refine
 
-import org.scalacheck.{Arbitrary, Gen}
-import org.scalatest.WordSpec
-import org.scalacheck.Prop.forAll
-import org.scalatestplus.scalacheck.Checkers
+import org.scalatest.{Matchers, WordSpec}
+import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
+import wen.test.Generators._
 
-class refineSpec extends WordSpec with Checkers {
+class refineSpec extends WordSpec with Matchers with ScalaCheckDrivenPropertyChecks {
 
   "refineSecond" should {
 
-    "refine Second" in {
-      val second = Gen.choose(0, 59)
-
-      val prop = forAll(second) { s: Int =>
-        refineSecond(s) match {
-          case Right(s1) => s1.value === (s)
-          case _ => false
-        }
+    "refine Second" in forAll(secondAsIntGen) { secondAsInt: Int =>
+      refineSecond(secondAsInt) match {
+        case Right(s1) => s1.value should ===(secondAsInt)
+        case _ => fail
       }
-
-      check(prop)
     }
 
-    "fail to refine non-second" in {
-      val notASecond = Arbitrary.arbitrary[Int] suchThat (x => x < 0 || x > 59)
-
-      val prop = forAll(notASecond) { s =>
-        refineSecond(s) match {
-          case Left(_) => true
-          case _ => false
-        }
+    "fail to refine non-second" in forAll(invalidSecondAsIntGen) { invalidSecondAsInt: Int =>
+      refineSecond(invalidSecondAsInt) match {
+        case Left(_) => succeed
+        case _ => fail
       }
-
-      check(prop)
     }
   }
 
   "refineMinute" should {
 
-    "refine Minute" in {
-      val minute = Gen.choose(0, 59)
-
-      val prop = forAll(minute) { m =>
-        refineMinute(m) match {
-          case Right(m1) => m1.value === (m)
-          case _ => false
-        }
+    "refine Minute" in forAll(minuteAsIntGen) { minuteAsInt: Int =>
+      refineMinute(minuteAsInt) match {
+        case Right(m1) => m1.value should ===(minuteAsInt)
+        case _ => fail
       }
-
-      check(prop)
     }
 
-    "fail to refine non-minute" in {
-      val notAMinute = Arbitrary.arbitrary[Int] suchThat (x => x < 0 || x > 59)
-
-      val prop = forAll(notAMinute) { m =>
-        refineMinute(m) match {
-          case Left(_) => true
-          case _ => false
-        }
+    "fail to refine non-minute" in forAll(invalidMinuteAsIntGen) { invalidMinuteAsInt: Int =>
+      refineMinute(invalidMinuteAsInt) match {
+        case Left(_) => succeed
+        case _ => fail
       }
-
-      check(prop)
     }
   }
 
   "refineYear" should {
 
-    "refine Year" in {
-      val year = Gen.posNum[Int]
-
-      val prop = forAll(year) { y =>
-        refineYear(y) match {
-          case Right(y1) => y1.value === (y)
-          case _ => false
-        }
+    "refine Year" in forAll(yearAsIntGen) { yearAsInt: Int =>
+      refineYear(yearAsInt) match {
+        case Right(y1) => y1.value should ===(yearAsInt)
+        case _ => fail
       }
-
-      check(prop)
     }
 
-    "fail to refine negative numbers" in {
-      val notAYear = Gen.negNum[Int]
-
-      val prop = forAll(notAYear) { y =>
-        refineYear(y) match {
-          case Left(_) => true
-          case _ => false
-        }
+    "fail to refine negative numbers" in forAll(invalidYearAsIntGen) { invalidYearAsInt: Int =>
+      refineYear(invalidYearAsInt) match {
+        case Left(_) => succeed
+        case _ => fail
       }
-
-      check(prop)
     }
 
     "should fail to refine 0" in {
-      val prop = refineYear(0) match {
-        case Left(_) => true
-        case _ => false
+      refineYear(0) match {
+        case Left(_) => succeed
+        case _ => fail
       }
-
-      check(prop)
     }
   }
 
   "refineHour" should {
 
-    "refine Hour" in {
-      val hour = Gen.choose(1, 23)
-
-      val prop = forAll(hour) { h =>
-        refineHour(h) match {
-          case Right(h1) => h1.value === (h)
-          case _ => false
-        }
+    "refine Hour" in forAll(hourAsIntGen) { hourAsInt: Int =>
+      refineHour(hourAsInt) match {
+        case Right(h1) => h1.value should ===(hourAsInt)
+        case _ => fail
       }
-
-      check(prop)
     }
 
-    "fail to refine non-hour" in {
-      val notAHour = Arbitrary.arbitrary[Int] suchThat (x => x < 0 || x > 23)
-
-      val prop = forAll(notAHour) { h =>
-        refineHour(h) match {
-          case Left(_) => true
-          case _ => false
-        }
+    "fail to refine non-hour" in forAll(invalidHourAsIntGen) { invalidHourAsInt: Int =>
+      refineHour(invalidHourAsInt) match {
+        case Left(_) => succeed
+        case _ => fail
       }
-
-      check(prop)
     }
   }
 
   "refineMillisecond" should {
 
-    "refine Millisecond" in {
-      val millisecond = Gen.choose(0, 999)
-
-      val prop = forAll(millisecond) { m =>
-        refineMilliSecond(m) match {
-          case Right(m1) => m1.value === (m)
-          case _ => false
-        }
+    "refine Millisecond" in forAll(millisecondAsIntGen) { millisecondAsInt: Int =>
+      refineMillisecond(millisecondAsInt) match {
+        case Right(m1) => m1.value should ===(millisecondAsInt)
+        case _ => fail
       }
-
-      check(prop)
     }
 
-    "fail to refine non-millisecond" in {
-      val notAMillisecond = Arbitrary.arbitrary[Int] suchThat (x => x < 0 || x > 999)
-
-      val prop = forAll(notAMillisecond) { m =>
-        refineMilliSecond(m) match {
-          case Left(_) => true
-          case _ => false
-        }
+    "fail to refine non-millisecond" in forAll(invalidMillisecondAsIntGen) { invalidMillisecondAsInt: Int =>
+      refineMillisecond(invalidMillisecondAsInt) match {
+        case Left(_) => succeed
+        case _ => fail
       }
-
-      check(prop)
     }
   }
 
   "refineDay" should {
 
-    "refine Day" in {
-      val day = Gen.choose(1, 31)
-
-      val prop = forAll(day) { d =>
-        refineDay(d) match {
-          case Right(d1) => d1.value === (d)
-          case _ => false
-        }
+    "refine Day" in forAll(dayAsIntGen) { dayAsInt: Int =>
+      refineDay(dayAsInt) match {
+        case Right(d1) => d1.value should ===(dayAsInt)
+        case _ => fail
       }
-
-      check(prop)
     }
 
-    "fail to refine non-day" in {
-      val notADay = Arbitrary.arbitrary[Int] suchThat (x => x < 1 || x > 31)
-
-      val prop = forAll(notADay) { d =>
-        refineMonth(d) match {
-          case Left(_) => true
-          case _ => false
-        }
+    "fail to refine non-day" in forAll(invalidDayAsIntGen) { invalidDayAsInt: Int =>
+      refineMonth(invalidDayAsInt) match {
+        case Left(_) => succeed
+        case _ => fail
       }
-
-      check(prop)
     }
   }
 
   "refineMonth" should {
-    "refine Month" in {
-      val month = Gen.choose(1, 12)
-
-      val prop = forAll(month) { m =>
-        refineMonth(m) match {
-          case Right(m1) => m1.value ===(m)
-          case _ => false
-        }
+    "refine Month" in forAll(monthAsIntGen) { monthAsInt: Int =>
+      refineMonth(monthAsInt) match {
+        case Right(m1) => m1.value should  ===(monthAsInt)
+        case _ => fail
       }
-
-      check(prop)
     }
 
-    "fail to refine non-month" in {
-      val notAMonth = Arbitrary.arbitrary[Int] suchThat (x => x < 1 || x > 12)
-
-      val prop = forAll(notAMonth) { m =>
-        refineMonth(m) match {
-          case Left(_) => true
-          case _ => false
-        }
+    "fail to refine non-month" in forAll(invalidMonthAsIntGen) { invalidMonthAsInt: Int =>
+      refineMonth(invalidMonthAsInt) match {
+        case Left(_) => succeed
+        case _ => fail
       }
-
-      check(prop)
     }
   }
 }

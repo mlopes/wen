@@ -8,7 +8,7 @@ import eu.timepit.refined.auto._
 
 final case class Time(hour: Hour, minute: Minute, second: Second, millisecond: Millisecond)
 
-object Time {
+final object Time {
   def apply(hour: Hour, minute: Minute, second: Second): Time =
     new Time(hour, minute, second, Millisecond(0))
 
@@ -23,7 +23,7 @@ object Time {
       hour <- refineHour(time.getHour)
       minute <- refineMinute(time.getMinute)
       second <- refineSecond(time.getSecond)
-      millisecond <- refineMilliSecond(time.getNano / 1000000)
+      millisecond <- refineMillisecond(time.getNano / 1000000)
     } yield new Time(Hour(hour), Minute(minute), Second(second), Millisecond(millisecond))
 
     // We run an unsafe operation here, because unless there's a bug in java.time.LocalTime
