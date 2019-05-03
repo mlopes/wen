@@ -17,7 +17,7 @@ class HourSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with 
     }
 
     "fail to be created with an hour not between 0 and 23" in forAll(failedHourGen) { failedHour: Option[Hour] =>
-      failedHour ===(None)
+      failedHour should ===(None)
     }
 
     "creates a hour from a numeric hour" in forAll(hourAsIntGen) { hourAsInt: Int =>

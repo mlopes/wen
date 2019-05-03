@@ -17,7 +17,7 @@ class MinuteSpec extends WordSpec with Matchers with TypeCheckedTripleEquals wit
     }
 
     "fail to be created with an Minute not between 0 and 59" in forAll(failedMinuteGen) { failedMinute: Option[Minute] =>
-      failedMinute ===(None)
+      failedMinute should ===(None)
     }
 
     "creates a minute from a numeric minute" in forAll(minuteAsIntGen) { minuteAsInt: Int =>
