@@ -1,52 +1,32 @@
 package wen.types
 
-import eu.timepit.refined.{W, refineV}
-import eu.timepit.refined.numeric.Interval
-import org.scalacheck.{Arbitrary, Gen}
-import org.scalacheck.Prop.forAll
 import org.scalactic.TypeCheckedTripleEquals
-import org.scalatestplus.scalacheck.Checkers
+import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 import org.scalatest.{Matchers, WordSpec}
+import wen.test.Arbitraries._
+import wen.test.Generators._
+import wen.refine.refineHour
+import wen.types.NumericTypes.NumericHour
 
-class HourSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with Checkers {
+class HourSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with ScalaCheckDrivenPropertyChecks {
 
   "Hour" should {
 
-    "be created with a value between 0 and 23" in {
-
-      val hour = for {
-        h <- Gen.choose(0, 23)
-      } yield Hour(h)
-
-      val prop = forAll(hour) { h =>
-        h !==(None)
-      }
-      check(prop)
+    "be created with a value between 0 and 23" in forAll { hour: Option[Hour] =>
+      hour should !==(None)
     }
 
-    "fail to be created with an hour not between 0 and 23" in {
-      val hour = for {
-        h <- Arbitrary.arbitrary[Int] suchThat (x => x < 0 || x > 23)
-      } yield Hour(h)
-
-      val prop = forAll(hour) { h =>
-        h ===(None)
-      }
-      check(prop)
+    "fail to be created with an hour not between 0 and 23" in forAll(failedHourGen) { failedHour: Option[Hour] =>
+      failedHour ===(None)
     }
 
-    "creates a hour from a numeric hour" in {
-      val numericHour = Gen.choose(0, 23)
-
-      val prop = forAll[Int, Boolean](numericHour) { h: Int =>
-        refineV[Interval.Closed[W.`0`.T, W.`23`.T]](h)
-          .fold(_ => false, {x =>
-            val numericHour = Hour(x)
-            val optionHour = Hour(h).get
-            numericHour ===(optionHour)})
+    "creates a hour from a numeric hour" in forAll(hourAsIntGen) { hourAsInt: Int =>
+      refineHour(hourAsInt) match {
+        case Right(h: NumericHour) =>
+          Hour(h) shouldBe a[Hour]
+          Hour(h) should ===(Hour(hourAsInt).get)
+        case _ => fail
       }
-
-      check(prop)
     }
   }
 }

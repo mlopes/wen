@@ -1,13 +1,12 @@
 package wen.types
 
-import eu.timepit.refined.{W, refineV}
-import eu.timepit.refined.numeric.Interval
 import org.scalactic.TypeCheckedTripleEquals
 import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 import org.scalatest.{Matchers, WordSpec}
 import wen.test.Arbitraries._
 import wen.test.Generators._
 import wen.types.NumericTypes.NumericDay
+import wen.refine.refineDay
 
 class DaySpec extends WordSpec with Matchers with TypeCheckedTripleEquals with ScalaCheckDrivenPropertyChecks {
 
@@ -17,13 +16,13 @@ class DaySpec extends WordSpec with Matchers with TypeCheckedTripleEquals with S
       day should !==(None)
     }
 
-    "fail to be created with an day not between 1 and 31" in forAll (failedDayGen) { notADay: Option[Day] =>
-      notADay should ===(None)
+    "fail to be created with an day not between 1 and 31" in forAll (failedDayGen) { failedDay: Option[Day] =>
+      failedDay should ===(None)
     }
 
     "creates a day from a numeric day" in forAll(monthDayAsIntGen) { monthDayAsInt: Int =>
 
-      refineV[Interval.Closed[W.`1`.T, W.`31`.T]](monthDayAsInt) match {
+      refineDay(monthDayAsInt) match {
         case Right(day: NumericDay) =>
           Day(day) shouldBe a[Day]
           Day(day) should ===(Day(monthDayAsInt).get)

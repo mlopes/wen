@@ -90,9 +90,12 @@ object Year {
 final case class Day(day: NumericDay)
 
 object Day {
+  private[wen] val min: Int = 1
+  private[wen] val max: Int = 31
+
   def apply(day: Int): Option[Day] =
   // See comment on Year for the reasoning behind running unsafeFrom
-    if (day >= 1 && day <= 31)
+    if (day >= min && day <= max)
       Some(new Day(refineV[Interval.Closed[W.`1`.T, W.`31`.T]].unsafeFrom(day)))
     else
       None
@@ -101,9 +104,12 @@ object Day {
 final case class Hour(hour: NumericHour)
 
 object Hour {
+  private[wen] val min: Int = 0
+  private[wen] val max: Int = 23
+
   def apply(hour: Int): Option[Hour] =
     // See comment on Year for the reasoning behind running unsafeFrom
-    if (hour >= 0 && hour <= 23)
+    if (hour >= min && hour <= max)
       Some(new Hour(refineV[Interval.Closed[W.`0`.T, W.`23`.T]].unsafeFrom(hour)))
     else
       None

@@ -3,14 +3,15 @@ package wen.test
 import java.time._
 
 import org.scalacheck.{Arbitrary, Gen}
-import wen.types.Day
+import wen.types.{Day, Hour}
 
 object Arbitraries {
-  private val minMonthDay: Int = 1
-  private val maxMonthDay: Int = 31
+  implicit  val optionDayArb: Arbitrary[Option[Day]] = Arbitrary {
+    Gen.choose(Day.min, Day.max).map(Day(_))
+  }
 
-  implicit  val dayArb: Arbitrary[Option[Day]] = Arbitrary {
-    Gen.choose(minMonthDay, maxMonthDay).map(Day(_))
+  implicit val optionHourArb: Arbitrary[Option[Hour]] = Arbitrary {
+    Gen.choose(Hour.min, Hour.max).map(Hour(_))
   }
 
   implicit val localTimeArb: Arbitrary[LocalTime] = Arbitrary {
