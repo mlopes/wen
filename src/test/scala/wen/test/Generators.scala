@@ -4,6 +4,7 @@ import org.scalacheck.{Arbitrary, Gen}
 import wen.types.{AD, BC, Day, December, Hour, January, Millisecond, Minute, Second, Year}
 
 object Generators {
+  lazy val negativeLeapYears: List[Int] = (-2 to -100000 by -2).toList.filter(x => (x % 4 == 0 && x % 100 != 0) || x % 400 == 0)
 
   val failedYearGen: Gen[Option[Year]] =
     for {
@@ -33,7 +34,7 @@ object Generators {
     Gen.negNum[Int]
 
   val negativeLeapYearAsIntGen: Gen[Int] =
-    invalidYearAsIntGen suchThat (x => (x % 4 == 0 && x % 100 != 0) || x % 400 == 0)
+    Gen.oneOf(negativeLeapYears)
 
   val monthAsIntGen: Gen[Int] =
     Gen.choose(January.asInt, December.asInt)
