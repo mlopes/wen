@@ -49,7 +49,7 @@ Wen is available for Scala 2.12. You can add wen to your sbt project by adding t
 your `build.sbt`:
 
 ```scala
-libraryDependencies += "dev.mlopes" %% "wen" % "0.2.0"
+libraryDependencies += "dev.mlopes" %% "wen" % "0.3.0"
 ```
 
 ## What is Wen?
