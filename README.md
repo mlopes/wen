@@ -737,6 +737,8 @@ zoneTime1 === zoneTime4
 
 The default constructor `Date(day: Day, month: Month, year: Year): Option[Date]` only allows the creation of valid dates, and will return `None` for invalid dates. The unsafe constructor `Date.unsafe(day: Day, month: Month, year: Year): Date` allows for creating invalid date combinations such as _30 February 2019_.
 
+Dates created from `java.time.LocalDate are unsafe, as `java.time.LocalDate` allow for invalid dates in the BC epoch. See [issue #19](https://github.com/mlopes/wen/issues/19) for details of why. For all AD, and non leap year BC dates, date creation should yield valid dates only. This is a problem with `java.time.LocalDate`, if you wish to avoid this you'll need to use one of the other safe constructors.
+
 *Usage*
 
 ```scala

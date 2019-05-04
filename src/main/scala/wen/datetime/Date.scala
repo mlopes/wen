@@ -25,7 +25,7 @@ final object Date {
   }
 
   def apply(localDate: LocalDate): Date = {
-    val eitherDate: Either[String, Option[Date]] = for {
+    val eitherDate: Either[String, Date] = for {
       day <- refineDay(localDate.getDayOfMonth)
       month <- refineMonth(localDate.getMonthValue)
       year <-
@@ -33,12 +33,12 @@ final object Date {
           refineYear(localDate.getYear).map[Year](Year(_))
         else
           refineYear(Math.abs(localDate.getYear - 1)).map[Year](Year(_, BC))
-    } yield Date(Day(day),Month(month), year)
+    } yield Date.unsafe(Day(day),Month(month), year)
 
     // We run an unsafe operation here, because unless there's a bug in java.time.LocalDate
     // we'll always have a Right, and we don't want the user to have to deal with an Option
     // that is never a None.
-    eitherDate.toOption.flatten.get
+    eitherDate.toOption.get
   }
 
   def unsafe(day: Day, month: Month, year: Year): Date = new Date(day, month, year)
