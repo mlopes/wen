@@ -8,6 +8,7 @@ import org.scalatest.{Matchers, WordSpec}
 import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 import wen.types._
 import wen.test.Arbitraries._
+import wen.test.Generators._
 
 class DateSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with ScalaCheckDrivenPropertyChecks {
   "Date" should {
@@ -47,6 +48,12 @@ class DateSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with 
     }
 
     "be created from a LocalDate" in forAll { localDate: LocalDate =>
+      val date = Date(localDate)
+      date shouldBe a[Date]
+    }
+
+    "allow creation from LocalDate even for invalid dates" in forAll(negativeLeapYearAsIntGen) { negativeLeapYearAsInt: Int =>
+      val localDate = LocalDate.parse(f"${negativeLeapYearAsInt}%05d-02-29")
       val date = Date(localDate)
       date shouldBe a[Date]
     }

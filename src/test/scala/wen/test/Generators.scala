@@ -32,6 +32,9 @@ object Generators {
   val invalidYearAsIntGen: Gen[Int] =
     Gen.negNum[Int]
 
+  val negativeLeapYearAsIntGen: Gen[Int] =
+    invalidYearAsIntGen suchThat (x => (x % 4 == 0 && x % 100 != 0) || x % 400 == 0)
+
   val monthAsIntGen: Gen[Int] =
     Gen.choose(January.asInt, December.asInt)
 
