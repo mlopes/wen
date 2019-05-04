@@ -34,6 +34,18 @@ ensureReleaseNotesExists in ThisBuild := {
   }
 }
 
+val ensureVersionUpdateOnReadme = taskKey[Unit]("Ensure README reflects the version correctly")
+ensureVersionUpdateOnReadme in ThisBuild := {
+  val haystack: List[String] = IO.readLines(file("README.md"))
+  val needle: String =  s"""libraryDependencies += "dev.mlopes" %% "wen" % "${(version in ThisBuild).value}""""
+  val count: Int =  haystack.filter(l => l.contains(needle)).size
+  if(count != 1) {
+    throw new IllegalStateException(
+      s"README.md hasn't been updated with: $needle"
+    )
+  }
+}
+
 ThisBuild / description := "Date and time types and instances"
 ThisBuild / licenses := List("Apache 2" -> new URL("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 ThisBuild / homepage := Some(url("https://github.com/mlopes/wen"))
@@ -48,6 +60,7 @@ ThisBuild / publishTo := {
 ThisBuild / publishMavenStyle := true
 
 releaseProcess := Seq[ReleaseStep](
+  releaseStepTask(ensureVersionUpdateOnReadme), // Makes sure that the README is up to date
   checkSnapshotDependencies,              // : ReleaseStep
   inquireVersions,                        // : ReleaseStep
   runClean,                               // : ReleaseStep
