@@ -5,9 +5,10 @@ ThisBuild / version          := "0.1.0-SNAPSHOT"
 ThisBuild / organization     := "dev.mlopes"
 ThisBuild / organizationName := "mlopes"
 
-lazy val root = (project in file("."))
+lazy val wen = project
+  .in(file("."))
+  .settings(moduleName := "wen", name := "Wen")
   .settings(
-    name := "wen",
     scalacOptions := appScalacOptions,
     compile in Compile := (compile in Compile).dependsOn(dependencyUpdates).value,
     libraryDependencies ++= scalaTest,

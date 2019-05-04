@@ -1,3 +1,5 @@
+import ReleaseTransformations._
+
 ThisBuild / organization := "dev.mlopes"
 ThisBuild / organizationName := "dev.mlopes"
 ThisBuild / organizationHomepage := Some(url("http://marco-lopes.com/"))
@@ -17,6 +19,21 @@ ThisBuild / developers := List(
   )
 )
 
+val releaseNotesFile = taskKey[File]("Release notes for current version")
+releaseNotesFile in ThisBuild := {
+  val currentVersion = (version in ThisBuild).value
+  file("notes") / s"$currentVersion.markdown"
+}
+
+val ensureReleaseNotesExists = taskKey[Unit]("Ensure release notes exists")
+ensureReleaseNotesExists in ThisBuild := {
+  val currentVersion = (version in ThisBuild).value
+  val notes = releaseNotesFile.value
+  if(!notes.isFile) {
+    throw new IllegalStateException(s"no release notes found for version [$currentVersion] at [$notes].")
+  }
+}
+
 ThisBuild / description := "Date and time types and instances"
 ThisBuild / licenses := List("Apache 2" -> new URL("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 ThisBuild / homepage := Some(url("https://github.com/mlopes/wen"))
@@ -29,3 +46,19 @@ ThisBuild / publishTo := {
   else Some("releases" at nexus + "service/local/staging/deploy/maven2")
 }
 ThisBuild / publishMavenStyle := true
+
+releaseProcess := Seq[ReleaseStep](
+  checkSnapshotDependencies,              // : ReleaseStep
+  inquireVersions,                        // : ReleaseStep
+  runClean,                               // : ReleaseStep
+  runTest,                                // : ReleaseStep
+  setReleaseVersion,                      // : ReleaseStep
+  commitReleaseVersion,                   // : ReleaseStep, performs the initial git checks
+  releaseStepTask(ensureReleaseNotesExists in ThisBuild), // Aborts the release if release notes are missing
+  tagRelease,                             // : ReleaseStep
+  publishArtifacts,                       // : ReleaseStep, checks whether `publishTo` is properly set up
+  setNextVersion,                         // : ReleaseStep
+  commitNextVersion,                      // : ReleaseStep
+  releaseStepCommand("sonatypeRelease"), // Removes the need to log into sonatype to release to maven central
+  pushChanges                             // : ReleaseStep, also checks that an upstream branch is properly configured
+)
