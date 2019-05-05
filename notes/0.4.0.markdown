@@ -1,0 +1,6 @@
+0.4.0
+=====
+
+- Add ISO Show instances
+- Improve default Show instances
+
