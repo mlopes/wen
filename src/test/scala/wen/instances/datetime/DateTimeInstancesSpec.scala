@@ -48,7 +48,7 @@ class DateTimeInstancesSpec extends WordSpec with Matchers with TypeCheckedTripl
       val dateTime1: DateTime = DateTime(date1, time1)
       val dateTime2: DateTime = DateTime(date2, time1)
 
-      dateTime1.show should ===("2 June 2010 AD 11:32:00.0")
+      dateTime1.show should ===("2 June 2010 11:32:00.0")
       dateTime2.show should ===("21 December 1519 BC 11:32:00.0")
     }
 
@@ -89,7 +89,7 @@ class DateTimeInstancesSpec extends WordSpec with Matchers with TypeCheckedTripl
       val dateTime1: ZoneDateTime = ZoneDateTime(date1, time1)
       val dateTime2: ZoneDateTime = ZoneDateTime(date2, time2)
 
-      dateTime1.show should ===("11 November 1918 AD 11:11:11.0 +00:00")
+      dateTime1.show should ===("11 November 1918 11:11:11.0 +00:00")
       dateTime2.show should ===("4 December 1919 BC 12:10:01.532 -10:30")
     }
   }

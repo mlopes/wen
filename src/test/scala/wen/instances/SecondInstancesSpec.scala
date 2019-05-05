@@ -34,9 +34,9 @@ class SecondInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleE
       val second2 = Second(40).get
       val second3 = Second(1).get
 
-      second1.show should ===("03")
+      second1.show should ===("3")
       second2.show should ===("40")
-      second3.show should !==("1")
+      second3.show should !==("01")
     }
   }
 

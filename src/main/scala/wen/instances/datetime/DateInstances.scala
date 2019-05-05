@@ -7,6 +7,7 @@ import wen.instances.MonthInstances._
 import wen.instances.DayInstances._
 import wen.instances.EpochInstances._
 import wen.datetime.Date
+import wen.types.{AD, BC, Epoch, Year}
 
 object DateInstances extends DateInstances
 
@@ -25,6 +26,10 @@ trait DateInstances {
 
   implicit val dateShowInstance: Show[Date] = new Show[Date] {
     override def show(t: Date): String =
-      s"${t.day.show} ${t.month.show} ${t.year.year} ${t.year.epoch.show}"
+      t match {
+        case Date(d, m, Year(y, AD)) => s"${d.show} ${m.show} ${y}"
+        case Date(d, m, Year(y, BC)) => s"${d.show} ${m.show} ${y} ${(BC: Epoch).show}"
+      }
+
   }
 }

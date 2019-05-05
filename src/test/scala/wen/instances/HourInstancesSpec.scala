@@ -34,9 +34,9 @@ class HourInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqu
       val hour2 = Hour(19).get
       val hour3 = Hour(4).get
 
-      hour1.show should ===("05")
+      hour1.show should ===("5")
       hour2.show should ===("19")
-      hour3.show should !==("4")
+      hour3.show should !==("04")
     }
   }
 }

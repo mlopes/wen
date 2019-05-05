@@ -12,6 +12,6 @@ trait SecondInstances {
   }
 
   implicit val secondShowInstance: Show[Second] = new Show[Second] {
-    override def show(t: Second): String = f"${t.second.value}%02d"
+    override def show(t: Second): String = s"${t.second.value}"
   }
 }
