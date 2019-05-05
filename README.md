@@ -41,7 +41,8 @@ Date and time types and instances
       - [NumericMinute](#numericminute)
       - [NumericSecond](#numericsecond)
       - [NumericMillisecond](#numericmillisecond)
-    - [Refinement Helpers](#refinement-helpers)
+  - [Refinement Helpers](#refinement-helpers)
+  - [ISO instances](#iso-instances)
 
 ## Getting Started
 
@@ -657,7 +658,7 @@ UTC: Offset = Offset([UTCPlus](#OffsetType), Hour(0), Minute(0))
 | UTCMinus |
 | UTCPlus |
 
-*Usage*
+**Usage**
 
 ```scala
 import wen.types._
@@ -739,7 +740,7 @@ The default constructor `Date(day: Day, month: Month, year: Year): Option[Date]`
 
 Dates created from `java.time.LocalDate are unsafe, as `java.time.LocalDate` allow for invalid dates in the BC epoch. See [issue #19](https://github.com/mlopes/wen/issues/19) for details of why. For all AD, and non leap year BC dates, date creation should yield valid dates only. This is a problem with `java.time.LocalDate`, if you wish to avoid this you'll need to use one of the other safe constructors.
 
-*Usage*
+**Usage**
 
 ```scala
 import wen.types._
@@ -797,7 +798,7 @@ unsafeDate === unsafeDate1
 | Eq[DateTime] |
 | Show[DateTime] |
 
-*Usage*
+**Usage**
 
 ```scala
 import wen.types._
@@ -864,7 +865,7 @@ dateTime1 =!= dateTime2
 | Eq[ZoneDateTime] |
 | Show[ZoneDateTime] |
 
-*Usage*
+**Usage**
 
 ```scala
 import wen.types._
@@ -971,11 +972,13 @@ type NumericSecond = Int Refined Interval.Closed[W.`0`.T, W.`59`.T]
 type NumericMillisecond = Int Refined Interval.Closed[W.`0`.T, W.`999`.T]
 ```
 
-### Refinement Helpers
+## Refinement Helpers
 
-Refinement helpers are made available under the `wen.refine` namespace, and their purpose
-is to make it easier to refine integer values into [NumericTypes](#NumericTypes), without
-the user having to know about un-specialised refinement types.
+Refinement helpers are made available under the `wen.refine` namespace.
+
+Their purpose is to make it easier to refine integer values into
+[NumericTypes](#NumericTypes), without the user having to know about
+un-specialised refinement types.
 
 The following refinement helper functions are available:
 
@@ -989,7 +992,7 @@ The following refinement helper functions are available:
 | def refineMonth(month: Int): Either[String, NumericMonth] |
 | def refineDay(day: Int): Either[String, NumericDay] |
 
-*Usage*
+**Usage**
 
 ```scala
 def time(hour: Int, minute: Int, second: Int): Either[String, Time] =
@@ -999,4 +1002,120 @@ def time(hour: Int, minute: Int, second: Int): Either[String, Time] =
     s <- refineSecond(second)
     ms <- refineMilliSecond(millisecond)
   } yield new Time(Hour(h), Minute(m), Second(s), Millisecond(ms))
+```
+
+## ISO instances
+
+ISO instances are made available under the `wen.instances.iso` namespace.
+
+| ISO Instances |
+| ------------- |
+| Show[Date] |
+| Show[Time] |
+| Show[ZoneTime] |
+| Show[DateTime] |
+| Show[ZoneDateTime] |
+
+ISO show instances are an alternative to the default ones provided in `wen.implicits`.
+Unlike the default instances which return the dates/times in human readable format,
+ISO instances return the dates in ISO-8601 format.
+
+See [here for the wikipedia entry on ISO-8601](https://en.m.wikipedia.org/wiki/ISO_8601).
+
+Note that when using the ISO instances you can't import the instances under `wen.implicits`
+or `wen.instances` otherwise the compiler won't be able to infer which instances to use for
+`Show`.
+
+**Usage**
+
+```scala
+import cats.implicits._
+import wen.instances.iso._
+import wen.datetime._
+import wen.types._
+import eu.timepit.refined.auto._
+
+val date1 = Date.unsafe(Day(25), July, Year(1975, AD))
+// date1: wen.datetime.Date = Date(Day(25),July,Year(1975,AD))
+
+val date2 = Date.unsafe(Day(1), January, Year(2131, BC))
+// date2: wen.datetime.Date = Date(Day(1),January,Year(2131,BC))
+
+date1.show
+// res0: String = 1975-07-25
+
+scala> date2.show
+// res1: String = -2130-01-01
+
+val date3 = Date.unsafe(Day(2), March, Year(1, BC))
+// date3: wen.datetime.Date = Date(Day(2),March,Year(1,BC))
+
+val time = Time(Hour(8), Minute(53), Second(23), Millisecond(900))
+// time: wen.datetime.Time = Time(Hour(8),Minute(53),Second(23),Millisecond(900))
+
+val dateTime1 = DateTime(date1, time)
+// dateTime1: wen.datetime.DateTime = DateTime(Date(Day(25),July,Year(1975,AD)),Time(Hour(8),Minute(53),Second(23),Millisecond(900)))
+
+val dateTime2 = DateTime(date2, time)
+// dateTime2: wen.datetime.DateTime = DateTime(Date(Day(1),January,Year(2131,BC)),Time(Hour(8),Minute(53),Second(23),Millisecond(900)))
+
+val dateTime3 = DateTime(date3, time)
+// dateTime3: wen.datetime.DateTime = DateTime(Date(Day(2),March,Year(1,BC)),Time(Hour(8),Minute(53),Second(23),Millisecond(900)))
+
+dateTime1.show
+// res2: String = 1975-07-25T08:53:23
+
+dateTime2.show
+// res3: String = -2130-01-01T08:53:23
+
+dateTime3.show
+// res4: String = 0000-03-02T08:53:23
+
+val zoneTime1 = ZoneTime(Time(Hour(8), Minute(15), Second(2), Millisecond(33)),
+                         Offset.UTC)
+// zoneTime1: wen.datetime.ZoneTime = ZoneTime(Time(Hour(8),Minute(15),Second(2),Millisecond(33)),Offset(UTCPlus,Hour(0),Minute(0)))
+
+val zoneTime2 = ZoneTime(Time(Hour(10), Minute(31), Second(23), Millisecond(606)),
+                         Offset(Offset.UTCMinus, Hour(1), Minute(0)))
+// zoneTime2: wen.datetime.ZoneTime = ZoneTime(Time(Hour(10),Minute(31),Second(23),Millisecond(606)),Offset(UTCMinus,Hour(1),Minute(0)))
+
+val zoneTime3 = ZoneTime(Time(Hour(7), Minute(53), Second(23), Millisecond(900)),
+                         Offset(Offset.UTCPlus, Hour(0), Minute(30)))
+// zoneTime3: wen.datetime.ZoneTime = ZoneTime(Time(Hour(7),Minute(53),Second(23),Millisecond(900)),Offset(UTCPlus,Hour(0),Minute(30)))
+
+zoneTime1.show
+// res5: String = 08:15:02Z
+
+zoneTime2.show
+// res6: String = 10:31:23-01:00
+
+zoneTime3.show
+// res7: String = 07:53:23+00:30
+
+val zoneTime1 = ZoneTime(time, Offset.UTC)
+// zoneTime1: wen.datetime.ZoneTime = ZoneTime(Time(Hour(8),Minute(53),Second(23),Millisecond(900)),Offset(UTCPlus,Hour(0),Minute(0)))
+
+val zoneTime2 = ZoneTime(time, Offset(Offset.UTCMinus, Hour(1), Minute(0)))
+// zoneTime2: wen.datetime.ZoneTime = ZoneTime(Time(Hour(8),Minute(53),Second(23),Millisecond(900)),Offset(UTCMinus,Hour(1),Minute(0)))
+
+val zoneTime3 = ZoneTime(time, Offset(Offset.UTCPlus, Hour(2), Minute(45)))
+// zoneTime3: wen.datetime.ZoneTime = ZoneTime(Time(Hour(8),Minute(53),Second(23),Millisecond(900)),Offset(UTCPlus,Hour(2),Minute(45)))
+
+val zoneDateTime1 = ZoneDateTime(date1, zoneTime1)
+// zoneDateTime1: wen.datetime.ZoneDateTime = ZoneDateTime(Date(Day(25),July,Year(1975,AD)),ZoneTime(Time(Hour(8),Minute(53),Second(23),Millisecond(900)),Offset(UTCPlus,Hour(0),Minute(0))))
+
+val zoneDateTime2 = ZoneDateTime(date2, zoneTime2)
+// zoneDateTime2: wen.datetime.ZoneDateTime = ZoneDateTime(Date(Day(1),January,Year(2131,BC)),ZoneTime(Time(Hour(8),Minute(53),Second(23),Millisecond(900)),Offset(UTCMinus,Hour(1),Minute(0))))
+
+val zoneDateTime3 = ZoneDateTime(date3, zoneTime3)
+// zoneDateTime3: wen.datetime.ZoneDateTime = ZoneDateTime(Date(Day(2),March,Year(1,BC)),ZoneTime(Time(Hour(8),Minute(53),Second(23),Millisecond(900)),Offset(UTCPlus,Hour(2),Minute(45))))
+
+zoneDateTime1.show
+// res9: String = 1975-07-25T08:53:23Z
+
+zoneDateTime2.show
+// res10: String = -2130-01-01T08:53:23-01:00
+
+zoneDateTime3.show
+// res11: String = 0000-03-02T08:53:23+02:45
 ```
