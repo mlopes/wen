@@ -39,7 +39,7 @@ class DateInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqu
       val date1 = Date.unsafe(Day(25), July, Year(1975, AD))
       val date2 = Date.unsafe(Day(1), January, Year(2131, BC))
 
-      date1.show should ===("25 July 1975 AD")
+      date1.show should ===("25 July 1975")
       date2.show should ===("1 January 2131 BC")
     }
   }
