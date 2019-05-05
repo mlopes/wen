@@ -263,10 +263,10 @@ import cats.implicits._ // for cats syntax
 import wen.implicits._ // for wen's instances
 
 refinedYear.show
-// res0: String = AD 2019
+// res0: String = 2019
 
 yearWithDefaultEpoch.show
-// res1: String = AD 2011
+// res1: String = 2011
 
 refinedYear <= refinedYear
 // res2: Boolean = true
@@ -772,7 +772,7 @@ import cats.implicits._ // for cats syntax
 import wen.implicits._ // for wen's instances
 
  unsafeDate.show
-// res0: String = 31 August 2019 AD
+// res0: String = 31 August 2019
 
 val unsafeDate1 = Date.unsafe(Day(31), August, Year(2018, AD))
 // unsafeDate1: wen.datetime.Date = Date(Day(31),August,Year(2018,AD))
@@ -838,7 +838,7 @@ import cats.implicits._ // for cats syntax
 import wen.implicits._ // for wen's instances
 
 dateTime1.show
-// res0: String = 12 August 2016 AD 07:05:00.0
+// res0: String = 12 August 2016 07:05:00.0
 
 dateTime1 > dateTime2
 // res1: Boolean = true
@@ -909,13 +909,13 @@ import cats.implicits._ // for cats syntax
 import wen.implicits._ // for wen's instances
 
 zoneDateTime1.show
-// res0: String = 12 August 2016 AD 07:05:00.0 +00:00
+// res0: String = 12 August 2016 07:05:00.0 +00:00
 
 scala> zoneDateTime2.show
-// res1: String = 12 August 2016 AD 07:05:00.0 -01:00
+// res1: String = 12 August 2016 07:05:00.0 -01:00
 
 scala> zoneDateTime3.show
-// res2: String = 12 August 2016 AD 08:05:00.0 -01:00
+// res2: String = 12 August 2016 08:05:00.0 -01:00
 
 zoneDateTime1 > zoneDateTime2
 // res3: Boolean = true
