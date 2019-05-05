@@ -60,12 +60,12 @@ ThisBuild / publishTo := {
 ThisBuild / publishMavenStyle := true
 
 releaseProcess := Seq[ReleaseStep](
-  releaseStepTask(ensureVersionUpdateOnReadme), // Makes sure that the README is up to date
   checkSnapshotDependencies,              // : ReleaseStep
   inquireVersions,                        // : ReleaseStep
   runClean,                               // : ReleaseStep
   runTest,                                // : ReleaseStep
   setReleaseVersion,                      // : ReleaseStep
+  releaseStepTask(ensureVersionUpdateOnReadme), // Makes sure that the README is up to date
   commitReleaseVersion,                   // : ReleaseStep, performs the initial git checks
   releaseStepTask(ensureReleaseNotesExists in ThisBuild), // Aborts the release if release notes are missing
   tagRelease,                             // : ReleaseStep
