@@ -6,7 +6,9 @@ import wen.datetime.Offset.{OffsetType, UTCMinus, UTCPlus}
 import wen.datetime.{Offset, Time, ZoneTime}
 import wen.types.{Hour, Minute, Second}
 
-object TimeInstances {
+object TimeInstances extends TimeInstances
+
+trait TimeInstances {
   implicit val isoTimeShowInstance: Show[Time] = new Show[Time] {
     override def show(t: Time): String =
       t match {

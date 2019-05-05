@@ -5,7 +5,9 @@ import cats.Show
 import wen.datetime.Date
 import wen.types.{Month, _}
 
-object DateInstances {
+object DateInstances extends DateInstances
+
+trait DateInstances {
   implicit val isoDateShowInstance: Show[Date] = new Show[Date] {
     override def show(t: Date): String =
       t match {

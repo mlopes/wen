@@ -3,7 +3,6 @@ package wen.instances.iso
 import cats.implicits._
 import org.scalactic.TypeCheckedTripleEquals
 import org.scalatest.{Matchers, WordSpec}
-import wen.instances.iso.DateTimeInstances._
 import wen.datetime._
 import wen.types._
 import eu.timepit.refined.auto._

@@ -1,7 +1,6 @@
 package wen.instances.iso
 
 import cats.implicits._
-import wen.instances.iso.DateInstances._
 import org.scalactic.TypeCheckedTripleEquals
 import org.scalatest.{Matchers, WordSpec}
 import wen.datetime.Date
