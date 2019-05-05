@@ -21,7 +21,7 @@ trait YearInstances {
   implicit val yearShowInstances: Show[Year] = new Show[Year] {
     override def show(t: Year): String = t match {
       case Year(y, BC) => s"${y.value} BC"
-      case Year(y, AD) => s"AD ${y.value}"
+      case Year(y, AD) => s"${y.value}"
     }
   }
 }

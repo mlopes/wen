@@ -34,9 +34,9 @@ class MinuteInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleE
       val minute2 = Minute(39).get
       val minute3 = Minute(4).get
 
-      minute1.show should ===("08")
+      minute1.show should ===("8")
       minute2.show should ===("39")
-      minute3.show should !==("4")
+      minute3.show should !==("04")
     }
   }
 }

@@ -35,7 +35,7 @@ class YearInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqu
 
     "provide show" in {
       val numericYear: NumericYear = 2019
-      Year(numericYear, AD).show should ===("AD 2019")
+      Year(numericYear, AD).show should ===("2019")
       Year(numericYear, BC).show should ===("2019 BC")
     }
   }

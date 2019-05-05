@@ -3,11 +3,8 @@ package wen.instances.datetime
 import cats.implicits._
 import cats.{Order, Show}
 import wen.datetime.Offset.{OffsetType, UTCMinus, UTCPlus}
-import wen.datetime.{Time, ZoneTime}
-import wen.instances.HourInstances._
-import wen.instances.MinuteInstances._
-import wen.instances.MillisecondInstances._
-import wen.instances.SecondInstances._
+import wen.datetime.{Offset, Time, ZoneTime}
+import wen.types.{Hour, Millisecond, Minute, Second}
 
 object TimeInstances extends TimeInstances
 
@@ -45,7 +42,11 @@ trait TimeInstances {
 
   implicit val timeShowInstance: Show[Time] = new Show[Time] {
     override def show(t: Time): String =
-      s"${t.hour.show}:${t.minute.show}:${t.second.show}.${t.millisecond.show}"
+      t match {
+        case Time(Hour(h), Minute(m), Second(s), Millisecond(ms)) =>
+          f"${h.value}%02d:${m.value}%02d:${s.value}%02d.${ms.value}"
+      }
+
   }
 
   implicit val zoneTimeShowInstance: Show[ZoneTime] = new Show[ZoneTime] {
@@ -55,9 +56,12 @@ trait TimeInstances {
         case UTCMinus => "-"
       }
 
-      val timeStr = s"${t.time.hour.show}:${t.time.minute.show}:${t.time.second.show}.${t.time.millisecond.show}"
-      val offsetStr = s"${offsetSymbol(t.offset.offsetType)}${t.offset.hour.show}:${t.offset.minute.show}"
-      s"$timeStr $offsetStr"
+      t match {
+        case ZoneTime(Time(Hour(h), Minute(m), Second(s), Millisecond(ms)), Offset(ot, Hour(oh), Minute(om))) =>
+          val timeStr = f"${h.value}%02d:${m.value}%02d:${s.value}%02d.${ms.value}"
+          val offsetStr = f"${offsetSymbol(ot)}${oh.value}%02d:${om.value}%02d"
+          s"$timeStr $offsetStr"
+      }
     }
   }
 }

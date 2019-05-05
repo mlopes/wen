@@ -12,6 +12,6 @@ trait HourInstances {
   }
 
   implicit val hourShowInstance: Show[Hour] = new Show[Hour] {
-    override def show(t: Hour): String = f"${t.hour.value}%02d"
+    override def show(t: Hour): String = s"${t.hour.value}"
   }
 }
