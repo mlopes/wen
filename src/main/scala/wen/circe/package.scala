@@ -24,11 +24,11 @@ package object circe {
     override def apply(a: DateTime): Json = Json.fromString(a.show)
   }
 
-  implicit val dateZoneTimeEncoder: Encoder[ZoneTime] = new Encoder[ZoneTime] {
+  implicit val zoneTimeEncoder: Encoder[ZoneTime] = new Encoder[ZoneTime] {
     override def apply(a: ZoneTime): Json = Json.fromString(a.show)
   }
 
-  implicit val dateZoneDateTimeEncoder: Encoder[ZoneDateTime] = new Encoder[ZoneDateTime] {
+  implicit val zoneDateTimeEncoder: Encoder[ZoneDateTime] = new Encoder[ZoneDateTime] {
     override def apply(a: ZoneDateTime): Json = Json.fromString(a.show)
   }
 
@@ -91,7 +91,7 @@ package object circe {
   }
 
   implicit val monthDecoder: Decoder[Month] = Decoder.decodeString.emap { str =>
-    Either.catchNonFatal(Month(str).get).leftMap(t => s"Unable to parse Month ${str} with ${t}")
+    Either.catchNonFatal(Month.fromString(str).get).leftMap(t => s"Unable to parse Month ${str} with ${t}")
   }
 
   implicit val yearDecoder: Decoder[Year] = Decoder.decodeInt.emap { int =>
@@ -99,10 +99,10 @@ package object circe {
   }
 
   implicit val epochDecoder: Decoder[Epoch] = Decoder.decodeString.emap { str =>
-    Either.catchNonFatal(Epoch(str).get).leftMap(t => s"Unable to parse Epoch ${str} with ${t}")
+    Either.catchNonFatal(Epoch.fromString(str).get).leftMap(t => s"Unable to parse Epoch ${str} with ${t}")
   }
 
   implicit val weekdayDecoder: Decoder[WeekDay] = Decoder.decodeString.emap { str =>
-    Either.catchNonFatal(WeekDay(str).get).leftMap(t => s"Unable to parse WeekDay ${str} with ${t}")
+    Either.catchNonFatal(WeekDay.fromString(str).get).leftMap(t => s"Unable to parse WeekDay ${str} with ${t}")
   }
 }

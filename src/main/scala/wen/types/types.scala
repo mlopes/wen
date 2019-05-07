@@ -55,7 +55,7 @@ final object Month {
   def apply(numericMonth: NumericMonth): Month =
     Month(numericMonth.value).get
 
-  def apply: String => Option[Month] = {
+  def fromString: String => Option[Month] = {
     case "January" => Some(January)
     case "February" => Some(February)
     case "March" => Some(March)
@@ -82,7 +82,7 @@ final case object Friday extends WeekDay
 final case object Saturday extends WeekDay
 
 final object WeekDay {
-  def apply: String => Option[WeekDay] = {
+  def fromString: String => Option[WeekDay] = {
     case "Sunday" => Some(Sunday)
     case "Monday" => Some(Monday)
     case "Tuesday" => Some(Tuesday)
@@ -99,7 +99,7 @@ final case object AD extends Epoch
 final case object BC extends Epoch
 
 final object Epoch {
-  def apply: String => Option[Epoch] = {
+  def fromString: String => Option[Epoch] = {
     case "AD" => Some(AD)
     case "BC" => Some(BC)
     case _ => None
