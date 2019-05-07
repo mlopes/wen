@@ -6,6 +6,8 @@ object Dependencies {
   val scalaCheckVersion = "1.14.0"
   val refinedVersion = "0.9.5"
   val catsVersion = "1.6.0"
+  val circeVersion = "0.10.0"
+
 
   lazy val scalaTest = Seq(
     "org.scalatest" %% "scalatest" % scalaTestVersion % Test
@@ -19,5 +21,6 @@ object Dependencies {
   lazy val wenDependencies = Seq(
     "eu.timepit" %% "refined" % refinedVersion
     ,"org.typelevel" %% "cats-core" % catsVersion
+    ,"io.circe" %% "circe-core" % circeVersion % "Optional"
   )
 }
