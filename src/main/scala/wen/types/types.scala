@@ -54,6 +54,22 @@ final object Month {
 
   def apply(numericMonth: NumericMonth): Month =
     Month(numericMonth.value).get
+
+  def apply: String => Option[Month] = {
+    case "January" => Some(January)
+    case "February" => Some(February)
+    case "March" => Some(March)
+    case "April" => Some(April)
+    case "May" => Some(May)
+    case "June" => Some(June)
+    case "July" => Some(July)
+    case "August" => Some(August)
+    case "September" => Some(September)
+    case "October" => Some(October)
+    case "November" => Some(November)
+    case "December" => Some(December)
+    case _ => None
+  }
 }
 
 sealed trait WeekDay
@@ -65,9 +81,30 @@ final case object Thursday extends WeekDay
 final case object Friday extends WeekDay
 final case object Saturday extends WeekDay
 
+final object WeekDay {
+  def apply: String => Option[WeekDay] = {
+    case "Sunday" => Some(Sunday)
+    case "Monday" => Some(Monday)
+    case "Tuesday" => Some(Tuesday)
+    case "Wednesday" => Some(Wednesday)
+    case "Thursday" => Some(Thursday)
+    case "Friday" => Some(Friday)
+    case "Saturday" => Some(Saturday)
+    case _ => None
+  }
+}
+
 sealed trait Epoch
 final case object AD extends Epoch
 final case object BC extends Epoch
+
+final object Epoch {
+  def apply: String => Option[Epoch] = {
+    case "AD" => Some(AD)
+    case "BC" => Some(BC)
+    case _ => None
+  }
+}
 
 final case class Year(year: NumericYear, epoch: Epoch)
 
