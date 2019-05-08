@@ -3,7 +3,7 @@ package wen.test
 import java.time.{Month => _, Year => _, _}
 
 import org.scalacheck.{Arbitrary, Gen}
-import wen.datetime.{Date, DateTime, Time}
+import wen.datetime.{Date, DateTime, Offset, Time, ZoneDateTime, ZoneTime}
 import wen.types._
 
 object Arbitraries {
@@ -90,10 +90,8 @@ object Arbitraries {
 
   implicit val dateArb: Arbitrary[Date] = Arbitrary {
     for {
-      d <- dayArb.arbitrary
-      m <- monthArb.arbitrary
-      y <- yearArb.arbitrary
-    } yield Date(d, m, y).get
+      d <- localDateArb.arbitrary
+    } yield Date(d)
   }
 
   implicit val dateTimeArb: Arbitrary[DateTime] = Arbitrary {
@@ -101,6 +99,28 @@ object Arbitraries {
       d <- dateArb.arbitrary
       t <- timeArb.arbitrary
     } yield DateTime(d, t)
+  }
+
+  implicit val zoneTimeArb: Arbitrary[ZoneTime] = Arbitrary {
+    for {
+      t <- timeArb.arbitrary
+      o <-  offsetArb.arbitrary
+    } yield ZoneTime(t, o)
+
+  }
+
+  implicit val zoneDateTimeArb: Arbitrary[ZoneDateTime] = Arbitrary {
+    for {
+      odt <- offsetDateTimeArb.arbitrary
+    } yield ZoneDateTime(odt)
+  }
+
+  implicit val offsetArb: Arbitrary[Offset] = Arbitrary {
+    for {
+      t <- Gen.oneOf(Offset.UTCMinus, Offset.UTCPlus)
+      h <- Gen.choose(0, 17).map(Hour(_))
+      m <- minuteArb.arbitrary
+    } yield Offset(t, h.get, m)
   }
 
   implicit val localDateArb: Arbitrary[LocalDate] = Arbitrary {
