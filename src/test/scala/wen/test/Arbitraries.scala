@@ -1,9 +1,9 @@
 package wen.test
 
-import java.time.{Year => _, _}
+import java.time.{Month => _, Year => _, _}
 
 import org.scalacheck.{Arbitrary, Gen}
-import wen.datetime.Time
+import wen.datetime.{Date, DateTime, Offset, Time, ZoneDateTime, ZoneTime}
 import wen.types._
 
 object Arbitraries {
@@ -16,6 +16,25 @@ object Arbitraries {
 
   implicit  val optionDayArb: Arbitrary[Option[Day]] = Arbitrary {
     Gen.choose(Day.min, Day.max).map(Day(_))
+  }
+
+  implicit val dayArb: Arbitrary[Day] = Arbitrary {
+    optionDayArb.arbitrary.map(_.get)
+  }
+
+  implicit val monthArb: Arbitrary[Month] = Arbitrary {
+    Gen.oneOf(January, February, March, April, May, June, July, August, September, October, November, December)
+  }
+
+  implicit val yearArb: Arbitrary[Year] = Arbitrary {
+    for {
+      y <- Gen.posNum[Int]
+      e <- Gen.oneOf[Epoch](BC, AD)
+    } yield Year(y, e).get
+  }
+
+  implicit val weekDayArb: Arbitrary[WeekDay] = Arbitrary {
+    Gen.oneOf(Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
   }
 
   implicit val optionHourArb: Arbitrary[Option[Hour]] = Arbitrary {
@@ -46,23 +65,62 @@ object Arbitraries {
     Gen.choose(Millisecond.min, Millisecond.max).map(Millisecond(_))
   }
 
+  implicit val millisecondArb: Arbitrary[Millisecond] = Arbitrary {
+    optionMillisecondArb.arbitrary.map(_.get)
+  }
+
   implicit val epochArb: Arbitrary[Epoch] = Arbitrary {
     Gen.oneOf(BC, AD)
   }
 
   implicit val timeArb: Arbitrary[Time] = Arbitrary {
     for {
-      h <- optionHourArb.arbitrary
-      m <- optionMinuteArb.arbitrary
-      s <- optionSecondArb.arbitrary
-      ms <- optionMillisecondArb.arbitrary
-    } yield Time(h.get, m.get, s.get, ms.get)
+      h <- hourArb.arbitrary
+      m <- minuteArb.arbitrary
+      s <- secondArb.arbitrary
+      ms <- millisecondArb.arbitrary
+    } yield Time(h, m, s, ms)
   }
 
   implicit val localTimeArb: Arbitrary[LocalTime] = Arbitrary {
     val rangeStart = LocalTime.MIN.toNanoOfDay
     val rangeEnd = LocalTime.MAX.toNanoOfDay
     Gen.choose(rangeStart, rangeEnd).map(i => LocalTime.ofNanoOfDay(i))
+  }
+
+  implicit val dateArb: Arbitrary[Date] = Arbitrary {
+    for {
+      d <- localDateArb.arbitrary
+    } yield Date(d)
+  }
+
+  implicit val dateTimeArb: Arbitrary[DateTime] = Arbitrary {
+    for {
+      d <- dateArb.arbitrary
+      t <- timeArb.arbitrary
+    } yield DateTime(d, t)
+  }
+
+  implicit val zoneTimeArb: Arbitrary[ZoneTime] = Arbitrary {
+    for {
+      t <- timeArb.arbitrary
+      o <-  offsetArb.arbitrary
+    } yield ZoneTime(t, o)
+
+  }
+
+  implicit val zoneDateTimeArb: Arbitrary[ZoneDateTime] = Arbitrary {
+    for {
+      odt <- offsetDateTimeArb.arbitrary
+    } yield ZoneDateTime(odt)
+  }
+
+  implicit val offsetArb: Arbitrary[Offset] = Arbitrary {
+    for {
+      t <- Gen.oneOf(Offset.UTCMinus, Offset.UTCPlus)
+      h <- Gen.choose(0, 17).map(Hour(_))
+      m <- minuteArb.arbitrary
+    } yield Offset(t, h.get, m)
   }
 
   implicit val localDateArb: Arbitrary[LocalDate] = Arbitrary {

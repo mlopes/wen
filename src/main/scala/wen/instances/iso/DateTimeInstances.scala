@@ -4,7 +4,7 @@ import cats.implicits._
 import cats.Show
 import wen.datetime.{DateTime, ZoneDateTime}
 
-object DateTimeInstances extends DateInstances
+object DateTimeInstances extends DateTimeInstances
 
 trait DateTimeInstances {
   implicit val isoDateTimeShowInstance: Show[DateTime] = new Show[DateTime] {

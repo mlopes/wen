@@ -42,7 +42,8 @@ Date and time types and instances
       - [NumericSecond](#numericsecond)
       - [NumericMillisecond](#numericmillisecond)
   - [Refinement Helpers](#refinement-helpers)
-  - [ISO instances](#iso-instances)
+  - [ISO-8601 instances](#iso-8601-instances)
+  - [Circe Instances](#circe-instances)
 
 ## Getting Started
 
@@ -1004,9 +1005,9 @@ def time(hour: Int, minute: Int, second: Int): Either[String, Time] =
   } yield new Time(Hour(h), Minute(m), Second(s), Millisecond(ms))
 ```
 
-## ISO instances
+## ISO-8601 instances
 
-ISO instances are made available under the `wen.instances.iso` namespace.
+ISO-8601 instances are made available under the `wen.instances.iso` namespace.
 
 | ISO Instances |
 | ------------- |
@@ -1119,3 +1120,8 @@ zoneDateTime2.show
 zoneDateTime3.show
 // res11: String = 0000-03-02T08:53:23+02:45
 ```
+
+## Circe Instances
+
+Circe ISO-8601 encoders and decoders are provided for Date, Time, DateTime, ZoneTime and ZoneDateTime.
+Circe encoders and decoders are also provided for Day, WeekDay, Month, Year, Epoch, Hour, Minute, Second, and Millisecond.

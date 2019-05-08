@@ -99,5 +99,20 @@ class MonthSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with
         case _ => fail
       }
     }
+
+    "create a month from a string" in {
+      Month.fromString("January").get should ===(January)
+      Month.fromString("February").get should ===(February)
+      Month.fromString("March").get should ===(March)
+      Month.fromString( "April").get should ===(April)
+      Month.fromString( "May").get should ===(May)
+      Month.fromString( "June").get should ===(June)
+      Month.fromString( "July").get should ===(July)
+      Month.fromString( "August").get should ===(August)
+      Month.fromString( "September").get should ===(September)
+      Month.fromString( "October").get should ===(October)
+      Month.fromString( "November").get should ===(November)
+      Month.fromString( "December").get should ===(December)
+    }
   }
 }

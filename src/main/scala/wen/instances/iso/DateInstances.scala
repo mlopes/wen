@@ -11,6 +11,8 @@ trait DateInstances {
   implicit val isoDateShowInstance: Show[Date] = new Show[Date] {
     override def show(t: Date): String =
       t match {
+        case Date(Day(d), m: Month, Year(y, AD)) if (y.value.toString.length > 4) =>
+          f"+${y.value}-${m.asInt}%02d-${d.value}%02d"
         case Date(Day(d), m: Month, Year(y, AD)) =>
           f"${y.value}%04d-${m.asInt}%02d-${d.value}%02d"
         case Date(Day(d), m: Month, Year(y, BC)) if ((y.value * -1) + 1) === 0 =>
