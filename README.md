@@ -77,8 +77,8 @@ Wen provides types to represent date/time components, as well as types for full 
 
 | Constructors |
 | ------------ |
-| Day(day: Int): Option[Day] |
 | Day(day: [NumericDay](#NumericDay)): Day |
+| Day.fromInt(day: Int): Option[Day] |
 
 | Instances |
 | --------- |
@@ -93,10 +93,10 @@ import wen.types._
 import eu.timepit.refined.{W, refineMV}
 import eu.timepit.refined.numeric.Interval
 
-val day = Day(31)
+val day = Day.fromInt(31)
 // day: Option[wen.types.Day] = Some(Day(31))
 
-val notDay = Day(32)
+val notDay = Day.fromInt(32)
 // notDay: Option[wen.types.Day] = None
 
 // You need to use refineV when refining non-literal values
@@ -147,8 +147,9 @@ refinedDay =!= autoRefinedDay
 | October |
 | November |
 | December |
-| Month(month: Int): Option[Month] |
 | Month(numericMonth: [NumericMonth](#NumericMonth)): Month |
+| Month.fromInt(month: Int): Option[Month] |
+| Month.fromString(month: String): Option[Month] |
 
 | Instances |
 | --------- |
@@ -174,11 +175,17 @@ import eu.timepit.refined.numeric.Interval
 val month: Month = December
 // month: wen.types.Month = December
 
-val monthFromInt = Month(7)
+val monthFromInt = Month.fromInt(7)
 // monthFromInt: Option[wen.types.Month] = Some(July)
 
-val notMonth = Month(24)
+val monthFromString = Month.fromString("July")
+// monthFromString: Option[wen.types.Month] = Some(July)
+
+val notMonth = Month.fromInt(24)
 // notMonth: Option[wen.types.Month] = None
+
+val notMonthFromString = Month.fromString("Grune")
+// notMonthFromString: Option[wen.types.Month] = None
 
 // You need to use refineV when refining non-literal values
 val refinedMonth = Month(refineMV[Interval.Closed[W.`1`.T, W.`12`.T]](4))
@@ -217,8 +224,10 @@ refinedMonth === autoRefinedMonth
 
 | Constructors |
 | ------------ |
-| Year(year: Int, epoch: [Epoch](#Epoch)): Option[Year] |
+| Year(year: [NumericYear](#NumericYear)): Year |
 | Year(year: [NumericYear](#NumericYear), epoch: [Epoch](#Epoch)): Year |
+| Year.fromInt(year: Int): Option[Year] |
+| Year.fromIntWithEpoch(year: Int, epoch: [Epoch](#Epoch)): Option[Year] |
 
 | Instances |
 | --------- |
@@ -233,13 +242,16 @@ import wen.types._
 import eu.timepit.refined.{W, refineMV}
 import eu.timepit.refined.numeric.{Interval, Positive}
 
-val adYear = Year(2019, AD)
+val adYear = Year.fromIntWithEpoch(2019, AD)
 // adYear: Option[wen.types.Year] = Some(Year(2019,AD))
 
-val bcYear = Year(19, BC)
+val yearWithDefaultEpoch1 = Year.fromInt(2012)
+// yearWithDefaultEpoch1: Option[wen.types.Year] = Some(Year(2012,AD))
+
+val bcYear = Year.fromIntWithEpoch(19, BC)
 // bcYear: Option[wen.types.Year] = Some(Year(19,BC))
 
-val notYear = Year(-21, AD)
+val notYear = Year.fromIntWithEpoch(-21, AD)
 // notYear: Option[wen.types.Year] = None
 
 // You need to use refineV when refining non-literal values
@@ -248,9 +260,6 @@ val refinedYear = Year(refineMV[Positive](2019), AD)
 
 val yearWithDefaultEpoch = Year(refineMV[Positive](2011))
 // yearWithDefaultEpoch: wen.types.Year = Year(2011,AD)
-
-val yearWithDefaultEpoch1 = Year(2012)
-// yearWithDefaultEpoch1: Option[wen.types.Year] = Some(Year(2012,AD))
 
 import eu.timepit.refined.auto._
 
@@ -283,12 +292,21 @@ refinedYear ===  autoRefinedYear
 | ------------ |
 | BC |
 | AD |
+| Epoch.fromString(epoch: String) |
 
 | Instances |
 | --------- |
 | Order[Epoch] |
 | Eq[Epoch] |
 | Show[Epoch] |
+
+```scala
+val epochFromString = Epoch.fromString("AD")
+// epochFromString: Option[wen.types.Epoch] = Some(AD)
+
+val notEpochFromString = Epoch.fromString("ACDC")
+// notEpochFromString: Option[wen.types.Epoch] = None
+```
 
 #### WeekDay
 
@@ -301,6 +319,7 @@ refinedYear ===  autoRefinedYear
 | Thursday |
 | Friday |
 | Saturday |
+| WeekDay.fromString(weekDay: String): Option[WeekDay] |
 
 | Instances |
 | --------- |
@@ -324,6 +343,12 @@ val oneDay: WeekDay  = Tuesday
 val otherDay: WeekDay  = Friday
 // otherDay: wen.types.WeekDay = Friday
 
+val yetAnotherDay: WeekDay  = WeekDay.fromString("Saturday")
+// yetAnotherDay: Option[wen.types.WeekDay] = Some(Saturday)
+
+val notAnotherDay: WeekDay  = WeekDay.fromString("Caturday")
+// notAnotherDay: Option[wen.types.WeekDay] = None
+
 otherDay < oneDay
 // res0: Boolean = false
 
@@ -342,8 +367,8 @@ otherDay.show
 
 | Constructors |
 | ------------ |
-| Hour(hour: Int): Option[Hour] |
 | Hour(hour: [NumericHour](#NumericHour)): Hour |
+| Hour.fromInt(hour: Int): Option[Hour] |
 
 | Instances |
 | --------- |
@@ -358,10 +383,10 @@ import wen.types._
 import eu.timepit.refined.{W, refineMV}
 import eu.timepit.refined.numeric.{Interval, Positive}
 
-val hour = Hour(23)
+val hour = Hour.fromInt(23)
 // hour: Option[wen.types.Hour] = Some(Hour(23))
 
-val notHour = Hour(25)
+val notHour = Hour.fromInt(25)
 // notHour: Option[wen.types.Hour] = None
 
 // You need to use refineV when refining non-literal values
@@ -394,8 +419,8 @@ autoRefinedHour === autoRefinedHour
 
 | Constructors |
 | ------------ |
-| Minute(minute: Int): Option[Minute] |
 | Minute(minute: [NumericMinute](#NumericMinute)): Minute |
+| Minute.fromInt(minute: Int): Option[Minute] |
 
 | Instances |
 | --------- |
@@ -410,10 +435,10 @@ import wen.types._
 import eu.timepit.refined.{W, refineMV}
 import eu.timepit.refined.numeric.{Interval, Positive}
 
-val minute = Minute(0)
+val minute = Minute.fromInt(0)
 // minute: Option[wen.types.Minute] = Some(Minute(0))
 
-val notMinute = Minute(-12)
+val notMinute = Minute.fromInt(-12)
 // notMinute: Option[wen.types.Minute] = None
 
 // You need to use refineV when refining non-literal values
@@ -446,8 +471,8 @@ autoRefinedMinute =!= refinedMinute
 
 | Constructors |
 | ------------ |
-| Second(second: Int): Option[Second] |
 | Second(second: [NumericSecond](#NumericSecond)): Second |
+| Second.fromInt(second: Int): Option[Second] |
 
 | Instances |
 | --------- |
@@ -462,10 +487,10 @@ import wen.types._
 import eu.timepit.refined.{W, refineMV}
 import eu.timepit.refined.numeric.{Interval, Positive}
 
-val second = Second(42)
+val second = Second.fromInt(42)
 // second: Option[wen.types.Second] = Some(Second(42))
 
-val notSecond = Second(591)
+val notSecond = Second.fromInt(591)
 // notSecond: Option[wen.types.Second] = None
 
 // You need to use refineV when refining non-literal values
@@ -498,8 +523,8 @@ refinedSecond === autoRefinedSecond
 
 | Constructors |
 | ------------ |
-| Millisecond(millisecond: Int): Option[Millisecond] |
 | Millisecond(millisecond: [NumericMillisecond](#NumericMillisecond)): Millisecond |
+| Millisecond.fromInt(millisecond: Int): Option[Millisecond] |
 
 | Instances |
 | --------- |
@@ -514,10 +539,10 @@ import wen.types._
 import eu.timepit.refined.{W, refineMV}
 import eu.timepit.refined.numeric.{Interval, Positive}
 
-val millisecond = Millisecond(456)
+val millisecond = Millisecond.fromInt(456)
 // millisecond: Option[wen.types.Millisecond] = Some(Millisecond(456))
 
-val notMillisecond = Millisecond(-1)
+val notMillisecond = Millisecond.fromInt(-1)
 // notMillisecond: Option[wen.types.Millisecond] = None
 
 // You need to use refineV when refining non-literal values
@@ -618,10 +643,10 @@ import wen.types._
 import wen.datetime._
 
 val optionTime = for {
-  hour <- Hour(12)
-  minute <- Minute(15)
-  second <- Second(59)
-  millisecond <- Millisecond(908)
+  hour <- Hour.fromInt(12)
+  minute <- Minute.fromInt(15)
+  second <- Second.fromInt(59)
+  millisecond <- Millisecond.fromInt(908)
 } yield Time(hour, minute, second, millisecond)
 // optionTime: Option[wen.datetime.Time] = Some(Time(Hour(12),Minute(15),Second(59),Millisecond(908)))
 ```
@@ -727,8 +752,8 @@ zoneTime1 === zoneTime4
 
 | Constructors |
 | ------------ |
-| Date(day: [Day](#Day), month: [Month](#Month), year: [Year](#Year)): Option[Date] |
 | Date(localDate: LocalDate): Date |
+| Date.safe(day: [Day](#Day), month: [Month](#Month), year: [Year](#Year)): Option[Date] |
 | Date.unsafe(day: [Day](#Day), month: [Month](#Month), year: [Year](#Year)): Date |
 
 | Instances |
@@ -737,7 +762,7 @@ zoneTime1 === zoneTime4
 | Eq[Date] |
 | Show[Date] |
 
-The default constructor `Date(day: Day, month: Month, year: Year): Option[Date]` only allows the creation of valid dates, and will return `None` for invalid dates. The unsafe constructor `Date.unsafe(day: Day, month: Month, year: Year): Date` allows for creating invalid date combinations such as _30 February 2019_.
+The constructor `Date.safe(day: Day, month: Month, year: Year): Option[Date]` only allows the creation of valid dates, and will return `None` for invalid dates. The unsafe constructor `Date.unsafe(day: Day, month: Month, year: Year): Date` allows for creating invalid date combinations such as _30 February 2019_.
 
 Dates created from `java.time.LocalDate are unsafe, as `java.time.LocalDate` allow for invalid dates in the BC epoch. See [issue #19](https://github.com/mlopes/wen/issues/19) for details of why. For all AD, and non leap year BC dates, date creation should yield valid dates only. This is a problem with `java.time.LocalDate`, if you wish to avoid this you'll need to use one of the other safe constructors.
 
@@ -748,10 +773,10 @@ import wen.types._
 import eu.timepit.refined.auto._
 import wen.datetime._
 
-val date = Date(Day(12), Month(8), Year(2016, AD)) 
+val date = Date.safe(Day(12), Month(8), Year(2016, AD)) 
 // date: Option[wen.datetime.Date] = Some(Date(Day(12),August,Year(2016,AD)))
 
-val notDate = Date(Day(31), September, Year(2000, AD))
+val notDate = Date.safe((31), September, Year(2000, AD))
 // notDate: Option[wen.datetime.Date] = None
 
 val unsafeDate = Date.unsafe(Day(31), August, Year(2019, AD))
@@ -791,7 +816,7 @@ unsafeDate === unsafeDate1
 | Constructors |
 | ------------ |
 | DateTime(date: [Date](#Date), time: [Time](#Time)): DateTime |
-| DateTime(localDateTime: LocalDateTime) |
+| DateTime(localDateTime: LocalDateTime): DateTime |
 
 | Instances |
 | --------- |

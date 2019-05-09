@@ -37,23 +37,23 @@ final case object November extends Month
 final case object December extends Month
 
 final object Month {
-  def apply(month: Int): Option[Month] =
-      if (month == 1) Some(January)
-      else if (month == 2) Some(February)
-      else if (month == 3) Some(March)
-      else if (month == 4) Some(April)
-      else if (month == 5) Some(May)
-      else if (month == 6) Some(June)
-      else if (month == 7) Some(July)
-      else if (month == 8) Some(August)
-      else if (month == 9) Some(September)
-      else if (month == 10) Some(October)
-      else if (month == 11) Some(November)
-      else if (month == 12) Some(December)
-      else None
+  def apply(numericMonth: NumericMonth): Month = fromInt(numericMonth.value).get
 
-  def apply(numericMonth: NumericMonth): Month =
-    Month(numericMonth.value).get
+  def fromInt: Int => Option[Month] = {
+    case 1 => Some(January)
+    case 2 => Some(February)
+    case 3 => Some(March)
+    case 4 => Some(April)
+    case 5 => Some(May)
+    case 6 => Some(June)
+    case 7 => Some(July)
+    case 8 => Some(August)
+    case 9 => Some(September)
+    case 10 => Some(October)
+    case 11 => Some(November)
+    case 12 => Some(December)
+    case _ => None
+  }
 
   def fromString: String => Option[Month] = {
     case "January" => Some(January)
@@ -109,9 +109,11 @@ final object Epoch {
 final case class Year(year: NumericYear, epoch: Epoch)
 
 final object Year {
-  def apply(year: Int, epoch: Epoch): Option[Year] =
+  def apply(year: NumericYear): Year = new Year(year, AD)
+
+  def fromIntWithEpoch(year: Int, epoch: Epoch): Option[Year] =
     /* We're running unsafe here because we're using the if as a
-       safe-guard to guarantee that we can always refine the value
+      safe-guard to guarantee that we can always refine the value
        The reason for this, is to make the refinement transparent for
        users of the library.
     */
@@ -120,9 +122,8 @@ final object Year {
     else
       None
 
-  def apply(year: NumericYear): Year = new Year(year, AD)
+  def fromInt(year: Int): Option[Year] = Year.fromIntWithEpoch(year, AD)
 
-  def apply(year: Int): Option[Year] = Year(year, AD)
 }
 
 final case class Day(day: NumericDay)
@@ -131,7 +132,7 @@ final object Day {
   private[wen] val min: Int = 1
   private[wen] val max: Int = 31
 
-  def apply(day: Int): Option[Day] =
+  def fromInt(day: Int): Option[Day] =
   // See comment on Year for the reasoning behind running unsafeFrom
     if (day >= min && day <= max)
       Some(new Day(refineV[Interval.Closed[W.`1`.T, W.`31`.T]].unsafeFrom(day)))
@@ -145,7 +146,7 @@ final object Hour {
   private[wen] val min: Int = 0
   private[wen] val max: Int = 23
 
-  def apply(hour: Int): Option[Hour] =
+  def fromInt(hour: Int): Option[Hour] =
     // See comment on Year for the reasoning behind running unsafeFrom
     if (hour >= min && hour <= max)
       Some(new Hour(refineV[Interval.Closed[W.`0`.T, W.`23`.T]].unsafeFrom(hour)))
@@ -159,7 +160,7 @@ final object Minute {
   private[wen] val min: Int = 0
   private[wen] val max: Int = 59
 
-  def apply(minute: Int): Option[Minute] =
+  def fromInt(minute: Int): Option[Minute] =
     // See comment on Year for the reasoning behind running unsafeFrom
     if (minute >= min && minute <= max)
       Some(new Minute(refineV[Interval.Closed[W.`0`.T, W.`59`.T]].unsafeFrom(minute)))
@@ -173,7 +174,7 @@ final object Second {
   private[wen] val min: Int = 0
   private[wen] val max: Int = 59
 
-  def apply(second: Int): Option[Second] =
+  def fromInt(second: Int): Option[Second] =
     // See comment on Year for the reasoning behind running unsafeFrom
     if (second >= min && second <= max)
       Some(new Second(refineV[Interval.Closed[W.`0`.T, W.`59`.T]].unsafeFrom(second)))
@@ -187,7 +188,7 @@ final object Millisecond {
   private[wen] val min: Int = 0
   private[wen] val max: Int = 999
 
-  def apply(millisecond: Int): Option[Millisecond] =
+  def fromInt(millisecond: Int): Option[Millisecond] =
     // See comment on Year for the reasoning behind running unsafeFrom
     if(millisecond >= min && millisecond <= max)
       Some(new Millisecond(refineV[Interval.Closed[W.`0`.T, W.`999`.T]].unsafeFrom(millisecond)))

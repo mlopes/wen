@@ -25,7 +25,7 @@ class MillisecondSpec extends WordSpec with Matchers with TypeCheckedTripleEqual
       refineMillisecond(millisecondAsInt) match {
         case Right(m: NumericMillisecond) =>
           Millisecond(m) shouldBe a[Millisecond]
-          Millisecond(m) should ===(Millisecond(millisecondAsInt).get)
+          Millisecond(m) should ===(Millisecond.fromInt(millisecondAsInt).get)
         case _ => fail
       }
     }

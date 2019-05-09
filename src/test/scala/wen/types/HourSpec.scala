@@ -24,7 +24,7 @@ class HourSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with 
       refineHour(hourAsInt) match {
         case Right(h: NumericHour) =>
           Hour(h) shouldBe a[Hour]
-          Hour(h) should ===(Hour(hourAsInt).get)
+          Hour(h) should ===(Hour.fromInt(hourAsInt).get)
         case _ => fail
       }
     }

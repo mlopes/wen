@@ -25,7 +25,7 @@ class MinuteSpec extends WordSpec with Matchers with TypeCheckedTripleEquals wit
       refineMinute(minuteAsInt) match {
         case Right(m: NumericMinute) =>
           Minute(m) shouldBe a[Minute]
-          Minute(m) should ===(Minute(minuteAsInt).get)
+          Minute(m) should ===(Minute.fromInt(minuteAsInt).get)
         case _ => fail
       }
     }

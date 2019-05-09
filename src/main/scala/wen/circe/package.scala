@@ -71,23 +71,23 @@ package object circe {
   }
 
   implicit val hourDecoder: Decoder[Hour] = Decoder.decodeInt.emap { int =>
-    Either.catchNonFatal(Hour(int).get).leftMap(t => s"Unable to parse Hour ${int} with ${t}")
+    Either.catchNonFatal(Hour.fromInt(int).get).leftMap(t => s"Unable to parse Hour ${int} with ${t}")
   }
 
   implicit val minuteDecoder: Decoder[Minute] = Decoder.decodeInt.emap { int =>
-    Either.catchNonFatal(Minute(int).get).leftMap(t => s"Unable to parse Minute ${int} with ${t}")
+    Either.catchNonFatal(Minute.fromInt(int).get).leftMap(t => s"Unable to parse Minute ${int} with ${t}")
   }
 
   implicit val secondDecoder: Decoder[Second] = Decoder.decodeInt.emap { int =>
-    Either.catchNonFatal(Second(int).get).leftMap(t => s"Unable to parse Second ${int} with ${t}")
+    Either.catchNonFatal(Second.fromInt(int).get).leftMap(t => s"Unable to parse Second ${int} with ${t}")
   }
 
   implicit val millisecondDecoder: Decoder[Millisecond] = Decoder.decodeInt.emap { int =>
-    Either.catchNonFatal(Millisecond(int).get).leftMap(t => s"Unable to parse Millisecond ${int} with ${t}")
+    Either.catchNonFatal(Millisecond.fromInt(int).get).leftMap(t => s"Unable to parse Millisecond ${int} with ${t}")
   }
 
   implicit val dayDecoder: Decoder[Day] = Decoder.decodeInt.emap { int =>
-    Either.catchNonFatal(Day(int).get).leftMap(t => s"Unable to parse Day ${int} with ${t}")
+    Either.catchNonFatal(Day.fromInt(int).get).leftMap(t => s"Unable to parse Day ${int} with ${t}")
   }
 
   implicit val monthDecoder: Decoder[Month] = Decoder.decodeString.emap { str =>
@@ -95,7 +95,7 @@ package object circe {
   }
 
   implicit val yearDecoder: Decoder[Year] = Decoder.decodeInt.emap { int =>
-    Either.catchNonFatal(Year(int).get).leftMap(t => s"Unable to parse Year ${int} with ${t}")
+    Either.catchNonFatal(Year.fromInt(int).get).leftMap(t => s"Unable to parse Year ${int} with ${t}")
   }
 
   implicit val epochDecoder: Decoder[Epoch] = Decoder.decodeString.emap { str =>

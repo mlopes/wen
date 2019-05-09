@@ -11,11 +11,11 @@ object Arbitraries {
     for {
       y <- Gen.posNum[Int]
       e <- Gen.oneOf(BC, AD)
-    } yield Year(y, e)
+    } yield Year.fromIntWithEpoch(y, e)
   }
 
   implicit  val optionDayArb: Arbitrary[Option[Day]] = Arbitrary {
-    Gen.choose(Day.min, Day.max).map(Day(_))
+    Gen.choose(Day.min, Day.max).map(Day.fromInt(_))
   }
 
   implicit val dayArb: Arbitrary[Day] = Arbitrary {
@@ -30,7 +30,7 @@ object Arbitraries {
     for {
       y <- Gen.posNum[Int]
       e <- Gen.oneOf[Epoch](BC, AD)
-    } yield Year(y, e).get
+    } yield Year.fromIntWithEpoch(y, e).get
   }
 
   implicit val weekDayArb: Arbitrary[WeekDay] = Arbitrary {
@@ -38,7 +38,7 @@ object Arbitraries {
   }
 
   implicit val optionHourArb: Arbitrary[Option[Hour]] = Arbitrary {
-    Gen.choose(Hour.min, Hour.max).map(Hour(_))
+    Gen.choose(Hour.min, Hour.max).map(Hour.fromInt(_))
   }
 
   implicit val hourArb: Arbitrary[Hour] = Arbitrary {
@@ -46,7 +46,7 @@ object Arbitraries {
   }
 
   implicit val optionMinuteArb: Arbitrary[Option[Minute]] = Arbitrary {
-    Gen.choose(Minute.min, Minute.max).map(Minute(_))
+    Gen.choose(Minute.min, Minute.max).map(Minute.fromInt(_))
   }
 
   implicit val minuteArb: Arbitrary[Minute] = Arbitrary {
@@ -54,7 +54,7 @@ object Arbitraries {
   }
 
   implicit val optionSecondArb: Arbitrary[Option[Second]] = Arbitrary {
-    Gen.choose(Second.min, Second.max).map(Second(_))
+    Gen.choose(Second.min, Second.max).map(Second.fromInt(_))
   }
 
   implicit val secondArb: Arbitrary[Second] = Arbitrary {
@@ -62,7 +62,7 @@ object Arbitraries {
   }
 
   implicit val optionMillisecondArb: Arbitrary[Option[Millisecond]] = Arbitrary {
-    Gen.choose(Millisecond.min, Millisecond.max).map(Millisecond(_))
+    Gen.choose(Millisecond.min, Millisecond.max).map(Millisecond.fromInt(_))
   }
 
   implicit val millisecondArb: Arbitrary[Millisecond] = Arbitrary {
@@ -118,7 +118,7 @@ object Arbitraries {
   implicit val offsetArb: Arbitrary[Offset] = Arbitrary {
     for {
       t <- Gen.oneOf(Offset.UTCMinus, Offset.UTCPlus)
-      h <- Gen.choose(0, 17).map(Hour(_))
+      h <- Gen.choose(0, 17).map(Hour.fromInt(_))
       m <- minuteArb.arbitrary
     } yield Offset(t, h.get, m)
   }

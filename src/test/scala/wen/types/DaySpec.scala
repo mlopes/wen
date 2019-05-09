@@ -25,7 +25,7 @@ class DaySpec extends WordSpec with Matchers with TypeCheckedTripleEquals with S
       refineDay(dayAsInt) match {
         case Right(day: NumericDay) =>
           Day(day) shouldBe a[Day]
-          Day(day) should ===(Day(dayAsInt).get)
+          Day(day) should ===(Day.fromInt(dayAsInt).get)
         case _ => fail
       }
     }
