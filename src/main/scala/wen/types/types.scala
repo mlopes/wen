@@ -131,7 +131,7 @@ final object Day {
   private[wen] val min: Int = 1
   private[wen] val max: Int = 31
 
-  def apply(day: Int): Option[Day] =
+  def fromInt(day: Int): Option[Day] =
   // See comment on Year for the reasoning behind running unsafeFrom
     if (day >= min && day <= max)
       Some(new Day(refineV[Interval.Closed[W.`1`.T, W.`31`.T]].unsafeFrom(day)))

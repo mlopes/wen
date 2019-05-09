@@ -15,7 +15,7 @@ object Arbitraries {
   }
 
   implicit  val optionDayArb: Arbitrary[Option[Day]] = Arbitrary {
-    Gen.choose(Day.min, Day.max).map(Day(_))
+    Gen.choose(Day.min, Day.max).map(Day.fromInt(_))
   }
 
   implicit val dayArb: Arbitrary[Day] = Arbitrary {

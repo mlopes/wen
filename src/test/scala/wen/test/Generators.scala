@@ -13,7 +13,7 @@ object Generators {
     } yield Year.fromInt(y, e)
 
   val failedDayGen: Gen[Option[Day]] =
-    (Arbitrary.arbitrary[Int] suchThat (x => x < Day.min || x > Day.max)).map(Day(_))
+    (Arbitrary.arbitrary[Int] suchThat (x => x < Day.min || x > Day.max)).map(Day.fromInt(_))
 
   val failedHourGen: Gen[Option[Hour]] =
     (Arbitrary.arbitrary[Int] suchThat (x => x < Hour.min || x > Hour.max)).map(Hour(_))

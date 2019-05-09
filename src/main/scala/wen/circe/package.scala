@@ -87,7 +87,7 @@ package object circe {
   }
 
   implicit val dayDecoder: Decoder[Day] = Decoder.decodeInt.emap { int =>
-    Either.catchNonFatal(Day(int).get).leftMap(t => s"Unable to parse Day ${int} with ${t}")
+    Either.catchNonFatal(Day.fromInt(int).get).leftMap(t => s"Unable to parse Day ${int} with ${t}")
   }
 
   implicit val monthDecoder: Decoder[Month] = Decoder.decodeString.emap { str =>

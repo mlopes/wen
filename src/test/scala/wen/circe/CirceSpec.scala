@@ -147,7 +147,7 @@ class CirceSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with
 
     "decode Day" in forAll(dayAsIntGen) { dayAsInt: Int =>
       val json: Json = json"""${dayAsInt}"""
-      json.as[Day].toOption should ===(Day(dayAsInt))
+      json.as[Day].toOption should ===(Day.fromInt(dayAsInt))
     }
 
     "fail to decode invalid Day" in forAll(invalidDayAsIntGen) { invalidDayAsInt: Int =>

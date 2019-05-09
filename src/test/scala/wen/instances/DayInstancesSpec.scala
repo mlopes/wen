@@ -11,18 +11,18 @@ class DayInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqua
 
   "Day Instances" should {
     "provide order" in {
-      val day1 = Day(24).get
-      val day2 = Day(8).get
-      val day3 = Day(31).get
+      val day1 = Day.fromInt(24).get
+      val day2 = Day.fromInt(8).get
+      val day3 = Day.fromInt(31).get
       (day1 compare day1) should ===(0)
       (day1 compare day2) > 0 should ===(true)
       (day2 compare day3) < 0 should ===(true)
     }
 
     "provide eq" in {
-      val day1 = Day(10).get
-      val day2 = Day(26).get
-      val day3 = Day(30).get
+      val day1 = Day.fromInt(10).get
+      val day2 = Day.fromInt(26).get
+      val day3 = Day.fromInt(30).get
 
       Eq[Day].eqv(day1, day1) should ===(true)
       Eq[Day].neqv(day1, day2) should ===(true)
@@ -30,8 +30,8 @@ class DayInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqua
     }
 
     "provide show" in {
-      val day1 = Day(8).get
-      val day2 = Day(18).get
+      val day1 = Day.fromInt(8).get
+      val day2 = Day.fromInt(18).get
 
       day1.show should ===("8")
       day2.show should ===("18")
