@@ -11,7 +11,7 @@ object Arbitraries {
     for {
       y <- Gen.posNum[Int]
       e <- Gen.oneOf(BC, AD)
-    } yield Year(y, e)
+    } yield Year.fromInt(y, e)
   }
 
   implicit  val optionDayArb: Arbitrary[Option[Day]] = Arbitrary {
@@ -30,7 +30,7 @@ object Arbitraries {
     for {
       y <- Gen.posNum[Int]
       e <- Gen.oneOf[Epoch](BC, AD)
-    } yield Year(y, e).get
+    } yield Year.fromInt(y, e).get
   }
 
   implicit val weekDayArb: Arbitrary[WeekDay] = Arbitrary {

@@ -10,7 +10,7 @@ object Generators {
     for {
       y <- Gen.negNum[Int]
       e <- Gen.oneOf(BC, AD)
-    } yield Year(y, e)
+    } yield Year.fromInt(y, e)
 
   val failedDayGen: Gen[Option[Day]] =
     (Arbitrary.arbitrary[Int] suchThat (x => x < Day.min || x > Day.max)).map(Day(_))

@@ -109,9 +109,13 @@ final object Epoch {
 final case class Year(year: NumericYear, epoch: Epoch)
 
 final object Year {
-  def apply(year: Int, epoch: Epoch): Option[Year] =
+  def apply(year: NumericYear): Year = new Year(year, AD)
+
+  def apply(year: Int): Option[Year] = Year.fromInt(year, AD)
+
+  def fromInt(year: Int, epoch: Epoch): Option[Year] =
     /* We're running unsafe here because we're using the if as a
-       safe-guard to guarantee that we can always refine the value
+      safe-guard to guarantee that we can always refine the value
        The reason for this, is to make the refinement transparent for
        users of the library.
     */
@@ -119,10 +123,6 @@ final object Year {
       Some(new Year(refineV[Positive].unsafeFrom(year), epoch))
     else
       None
-
-  def apply(year: NumericYear): Year = new Year(year, AD)
-
-  def apply(year: Int): Option[Year] = Year(year, AD)
 }
 
 final case class Day(day: NumericDay)
