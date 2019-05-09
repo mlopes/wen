@@ -13,10 +13,10 @@ import wen.test.Generators._
 class DateSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with ScalaCheckDrivenPropertyChecks {
   "Date" should {
     "be created for a valid date" in {
-      val date1 = Date(Day(31), January, Year(2012, AD))
-      val date2 = Date(Day(29), February, Year(2012, AD))
-      val date3 = Date(Day(28), February, Year(2015, AD))
-      val date4 = Date(Day(30), September, Year(2018, AD))
+      val date1 = Date.safe(Day(31), January, Year(2012, AD))
+      val date2 = Date.safe(Day(29), February, Year(2012, AD))
+      val date3 = Date.safe(Day(28), February, Year(2015, AD))
+      val date4 = Date.safe(Day(30), September, Year(2018, AD))
 
       date1 should ===(Some(Date.unsafe(Day(31), January, Year(2012, AD))))
       date2 should ===(Some(Date.unsafe(Day(29), February, Year(2012, AD))))
@@ -25,11 +25,11 @@ class DateSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with 
     }
 
     "fail to be created for an invalid date" in {
-      val date1 = Date(Day(29), February, Year(2015, AD))
-      val date2 = Date(Day(31), April, Year(2019, AD))
-      val date3 = Date(Day(31), June, Year(2019, AD))
-      val date4 = Date(Day(31), September, Year(2019, AD))
-      val date5 = Date(Day(31), November, Year(2019, AD))
+      val date1 = Date.safe(Day(29), February, Year(2015, AD))
+      val date2 = Date.safe(Day(31), April, Year(2019, AD))
+      val date3 = Date.safe(Day(31), June, Year(2019, AD))
+      val date4 = Date.safe(Day(31), September, Year(2019, AD))
+      val date5 = Date.safe(Day(31), November, Year(2019, AD))
 
       date1 should ===(None)
       date2 should ===(None)

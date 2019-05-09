@@ -8,7 +8,7 @@ import wen.refine.{refineDay, refineMonth, refineYear}
 final case class Date private (day: Day, month: Month, year: Year)
 
 final object Date {
-  def apply(day: Day, month: Month, year: Year): Option[Date] = {
+  def safe(day: Day, month: Month, year: Year): Option[Date] = {
     def isLeapYear(y: Year): Boolean =
       (y.year.value % 4 == 0 && y.year.value % 100 != 0) || y.year.value % 400 == 0
 
