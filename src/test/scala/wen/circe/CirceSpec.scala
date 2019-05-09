@@ -117,7 +117,7 @@ class CirceSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with
 
     "decode Minute" in forAll(minuteAsIntGen) { minuteAsInt: Int =>
       val json: Json = json"""${minuteAsInt}"""
-      json.as[Minute].toOption should ===(Minute(minuteAsInt))
+      json.as[Minute].toOption should ===(Minute.fromInt(minuteAsInt))
     }
 
     "fail to decode invalid Minute" in forAll(invalidMinuteAsIntGen) { invalidMinuteAsInt: Int =>
@@ -127,7 +127,7 @@ class CirceSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with
 
     "decode Second" in forAll(secondAsIntGen) { secondAsInt: Int =>
       val json: Json = json"""${secondAsInt}"""
-      json.as[Second].toOption should ===(Second(secondAsInt))
+      json.as[Second].toOption should ===(Second.fromInt(secondAsInt))
     }
 
     "fail to decode invalid Second" in forAll(invalidSecondAsIntGen) { invalidSecondAsInt: Int =>
@@ -137,7 +137,7 @@ class CirceSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with
 
     "decode Millisecond" in forAll(millisecondAsIntGen) { millisecondAsInt: Int =>
       val json: Json = json"""${millisecondAsInt}"""
-      json.as[Millisecond].toOption should ===(Millisecond(millisecondAsInt))
+      json.as[Millisecond].toOption should ===(Millisecond.fromInt(millisecondAsInt))
     }
 
     "fail to decode invalid Millisecond" in forAll(invalidMillisecondAsIntGen) { invalidMillisecondAsInt: Int =>
@@ -169,7 +169,7 @@ class CirceSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with
 
     "decode Year" in forAll(yearAsIntGen) { yearAsInt: Int =>
       val json: Json = json"""${yearAsInt}"""
-      json.as[Year].toOption should ===(Year(yearAsInt))
+      json.as[Year].toOption should ===(Year.fromInt(yearAsInt))
     }
 
     "fail to decode invalid Year" in forAll(invalidYearAsIntGen) { invalidYearAsInt: Int =>

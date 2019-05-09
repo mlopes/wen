@@ -11,7 +11,7 @@ object Arbitraries {
     for {
       y <- Gen.posNum[Int]
       e <- Gen.oneOf(BC, AD)
-    } yield Year.fromInt(y, e)
+    } yield Year.fromIntWithEpoch(y, e)
   }
 
   implicit  val optionDayArb: Arbitrary[Option[Day]] = Arbitrary {
@@ -30,7 +30,7 @@ object Arbitraries {
     for {
       y <- Gen.posNum[Int]
       e <- Gen.oneOf[Epoch](BC, AD)
-    } yield Year.fromInt(y, e).get
+    } yield Year.fromIntWithEpoch(y, e).get
   }
 
   implicit val weekDayArb: Arbitrary[WeekDay] = Arbitrary {
@@ -46,7 +46,7 @@ object Arbitraries {
   }
 
   implicit val optionMinuteArb: Arbitrary[Option[Minute]] = Arbitrary {
-    Gen.choose(Minute.min, Minute.max).map(Minute(_))
+    Gen.choose(Minute.min, Minute.max).map(Minute.fromInt(_))
   }
 
   implicit val minuteArb: Arbitrary[Minute] = Arbitrary {
@@ -54,7 +54,7 @@ object Arbitraries {
   }
 
   implicit val optionSecondArb: Arbitrary[Option[Second]] = Arbitrary {
-    Gen.choose(Second.min, Second.max).map(Second(_))
+    Gen.choose(Second.min, Second.max).map(Second.fromInt(_))
   }
 
   implicit val secondArb: Arbitrary[Second] = Arbitrary {
@@ -62,7 +62,7 @@ object Arbitraries {
   }
 
   implicit val optionMillisecondArb: Arbitrary[Option[Millisecond]] = Arbitrary {
-    Gen.choose(Millisecond.min, Millisecond.max).map(Millisecond(_))
+    Gen.choose(Millisecond.min, Millisecond.max).map(Millisecond.fromInt(_))
   }
 
   implicit val millisecondArb: Arbitrary[Millisecond] = Arbitrary {

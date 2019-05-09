@@ -24,7 +24,7 @@ class SecondSpec extends WordSpec with Matchers with TypeCheckedTripleEquals wit
       refineSecond(secondAsInt) match {
         case Right(s: NumericSecond) =>
           Second(s) shouldBe a[Second]
-          Second(s) should ===(Second(secondAsInt).get)
+          Second(s) should ===(Second.fromInt(secondAsInt).get)
         case _ => fail
       }
     }

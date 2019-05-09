@@ -10,7 +10,7 @@ object Generators {
     for {
       y <- Gen.negNum[Int]
       e <- Gen.oneOf(BC, AD)
-    } yield Year.fromInt(y, e)
+    } yield Year.fromIntWithEpoch(y, e)
 
   val failedDayGen: Gen[Option[Day]] =
     (Arbitrary.arbitrary[Int] suchThat (x => x < Day.min || x > Day.max)).map(Day.fromInt(_))
@@ -19,13 +19,13 @@ object Generators {
     (Arbitrary.arbitrary[Int] suchThat (x => x < Hour.min || x > Hour.max)).map(Hour.fromInt(_))
 
   val failedMinuteGen: Gen[Option[Minute]] =
-    (Arbitrary.arbitrary[Int] suchThat (x => x < Minute.min || x > Minute.max)).map(Minute(_))
+    (Arbitrary.arbitrary[Int] suchThat (x => x < Minute.min || x > Minute.max)).map(Minute.fromInt(_))
 
   val failedSecondGen: Gen[Option[Second]] =
-    (Arbitrary.arbitrary[Int] suchThat (x => x < Second.min || x > Second.max)).map(Second(_))
+    (Arbitrary.arbitrary[Int] suchThat (x => x < Second.min || x > Second.max)).map(Second.fromInt(_))
 
   val failedMillisecondGen: Gen[Option[Millisecond]] =
-    (Arbitrary.arbitrary[Int] suchThat (x => x < Millisecond.min || x > Millisecond.max)).map(Millisecond(_))
+    (Arbitrary.arbitrary[Int] suchThat (x => x < Millisecond.min || x > Millisecond.max)).map(Millisecond.fromInt(_))
 
   val yearAsIntGen: Gen[Int] =
     Gen.posNum[Int]
@@ -73,6 +73,6 @@ object Generators {
     Arbitrary.arbitrary[Int] suchThat (x => x < Millisecond.min || x > Millisecond.max)
 
   val optionYearWithDefaultEpochGen: Gen[Option[Year]] =
-    Gen.posNum[Int].map(Year(_))
+    Gen.posNum[Int].map(Year.fromInt(_))
 
 }

@@ -25,7 +25,7 @@ class YearSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with 
     }
 
     "fail to be created with a zero" in forAll { epoch: Epoch =>
-      Year.fromInt(0, epoch) should ===(None)
+      Year.fromIntWithEpoch(0, epoch) should ===(None)
     }
 
     "be created from a numeric year" in forAll(yearAsIntGen) { yearAsInt: Int =>
@@ -33,7 +33,7 @@ class YearSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with 
         refineYear(yearAsInt) match {
           case Right(y: NumericYear) =>
             Year(y, epoch) shouldBe a[Year]
-            Year(y, epoch) should ===(Year.fromInt(yearAsInt, epoch).get)
+            Year(y, epoch) should ===(Year.fromIntWithEpoch(yearAsInt, epoch).get)
           case _ => fail
         }
       }
@@ -43,7 +43,7 @@ class YearSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with 
       refineYear(yearAsInt) match {
         case Right(y: NumericYear) =>
           Year(y) shouldBe a[Year]
-          Year(y) should ===(Year.fromInt(yearAsInt, AD).get)
+          Year(y) should ===(Year.fromIntWithEpoch(yearAsInt, AD).get)
         case _ => fail
       }
     }

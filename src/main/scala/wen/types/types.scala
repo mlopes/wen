@@ -111,9 +111,7 @@ final case class Year(year: NumericYear, epoch: Epoch)
 final object Year {
   def apply(year: NumericYear): Year = new Year(year, AD)
 
-  def apply(year: Int): Option[Year] = Year.fromInt(year, AD)
-
-  def fromInt(year: Int, epoch: Epoch): Option[Year] =
+  def fromIntWithEpoch(year: Int, epoch: Epoch): Option[Year] =
     /* We're running unsafe here because we're using the if as a
       safe-guard to guarantee that we can always refine the value
        The reason for this, is to make the refinement transparent for
@@ -123,6 +121,9 @@ final object Year {
       Some(new Year(refineV[Positive].unsafeFrom(year), epoch))
     else
       None
+
+  def fromInt(year: Int): Option[Year] = Year.fromIntWithEpoch(year, AD)
+
 }
 
 final case class Day(day: NumericDay)
@@ -159,7 +160,7 @@ final object Minute {
   private[wen] val min: Int = 0
   private[wen] val max: Int = 59
 
-  def apply(minute: Int): Option[Minute] =
+  def fromInt(minute: Int): Option[Minute] =
     // See comment on Year for the reasoning behind running unsafeFrom
     if (minute >= min && minute <= max)
       Some(new Minute(refineV[Interval.Closed[W.`0`.T, W.`59`.T]].unsafeFrom(minute)))
@@ -173,7 +174,7 @@ final object Second {
   private[wen] val min: Int = 0
   private[wen] val max: Int = 59
 
-  def apply(second: Int): Option[Second] =
+  def fromInt(second: Int): Option[Second] =
     // See comment on Year for the reasoning behind running unsafeFrom
     if (second >= min && second <= max)
       Some(new Second(refineV[Interval.Closed[W.`0`.T, W.`59`.T]].unsafeFrom(second)))
@@ -187,7 +188,7 @@ final object Millisecond {
   private[wen] val min: Int = 0
   private[wen] val max: Int = 999
 
-  def apply(millisecond: Int): Option[Millisecond] =
+  def fromInt(millisecond: Int): Option[Millisecond] =
     // See comment on Year for the reasoning behind running unsafeFrom
     if(millisecond >= min && millisecond <= max)
       Some(new Millisecond(refineV[Interval.Closed[W.`0`.T, W.`999`.T]].unsafeFrom(millisecond)))
