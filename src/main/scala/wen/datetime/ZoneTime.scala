@@ -29,7 +29,7 @@ final object Offset {
     // Zone offset doesn't allow for more than -18 to +18 hours, we can
     // safely run get on Hour, and Minute of course, as we're guaranteeing
     // it doesn't go over 59
-    Offset(getSignal(s), Hour(getHour(s)).get, Minute(getMinute(s)).get)
+    Offset(getSignal(s), Hour.fromInt(getHour(s)).get, Minute(getMinute(s)).get)
   }
 
   sealed trait OffsetType

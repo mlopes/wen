@@ -71,7 +71,7 @@ package object circe {
   }
 
   implicit val hourDecoder: Decoder[Hour] = Decoder.decodeInt.emap { int =>
-    Either.catchNonFatal(Hour(int).get).leftMap(t => s"Unable to parse Hour ${int} with ${t}")
+    Either.catchNonFatal(Hour.fromInt(int).get).leftMap(t => s"Unable to parse Hour ${int} with ${t}")
   }
 
   implicit val minuteDecoder: Decoder[Minute] = Decoder.decodeInt.emap { int =>

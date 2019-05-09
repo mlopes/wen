@@ -16,7 +16,7 @@ object Generators {
     (Arbitrary.arbitrary[Int] suchThat (x => x < Day.min || x > Day.max)).map(Day.fromInt(_))
 
   val failedHourGen: Gen[Option[Hour]] =
-    (Arbitrary.arbitrary[Int] suchThat (x => x < Hour.min || x > Hour.max)).map(Hour(_))
+    (Arbitrary.arbitrary[Int] suchThat (x => x < Hour.min || x > Hour.max)).map(Hour.fromInt(_))
 
   val failedMinuteGen: Gen[Option[Minute]] =
     (Arbitrary.arbitrary[Int] suchThat (x => x < Minute.min || x > Minute.max)).map(Minute(_))

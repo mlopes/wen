@@ -107,7 +107,7 @@ class CirceSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with
   "Circe Decoders" should {
     "decode Hour" in forAll(hourAsIntGen) { hourAsInt: Int =>
       val json: Json = json"""${hourAsInt}"""
-      json.as[Hour].toOption should ===(Hour(hourAsInt))
+      json.as[Hour].toOption should ===(Hour.fromInt(hourAsInt))
     }
 
     "fail to decode invalid Hour" in forAll(invalidHourAsIntGen) { invalidHourAsInt: Int =>

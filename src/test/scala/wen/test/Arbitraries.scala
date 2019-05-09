@@ -38,7 +38,7 @@ object Arbitraries {
   }
 
   implicit val optionHourArb: Arbitrary[Option[Hour]] = Arbitrary {
-    Gen.choose(Hour.min, Hour.max).map(Hour(_))
+    Gen.choose(Hour.min, Hour.max).map(Hour.fromInt(_))
   }
 
   implicit val hourArb: Arbitrary[Hour] = Arbitrary {
@@ -118,7 +118,7 @@ object Arbitraries {
   implicit val offsetArb: Arbitrary[Offset] = Arbitrary {
     for {
       t <- Gen.oneOf(Offset.UTCMinus, Offset.UTCPlus)
-      h <- Gen.choose(0, 17).map(Hour(_))
+      h <- Gen.choose(0, 17).map(Hour.fromInt(_))
       m <- minuteArb.arbitrary
     } yield Offset(t, h.get, m)
   }

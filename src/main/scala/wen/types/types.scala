@@ -145,7 +145,7 @@ final object Hour {
   private[wen] val min: Int = 0
   private[wen] val max: Int = 23
 
-  def apply(hour: Int): Option[Hour] =
+  def fromInt(hour: Int): Option[Hour] =
     // See comment on Year for the reasoning behind running unsafeFrom
     if (hour >= min && hour <= max)
       Some(new Hour(refineV[Interval.Closed[W.`0`.T, W.`23`.T]].unsafeFrom(hour)))
