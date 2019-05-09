@@ -37,23 +37,23 @@ final case object November extends Month
 final case object December extends Month
 
 final object Month {
-  def apply(month: Int): Option[Month] =
-      if (month == 1) Some(January)
-      else if (month == 2) Some(February)
-      else if (month == 3) Some(March)
-      else if (month == 4) Some(April)
-      else if (month == 5) Some(May)
-      else if (month == 6) Some(June)
-      else if (month == 7) Some(July)
-      else if (month == 8) Some(August)
-      else if (month == 9) Some(September)
-      else if (month == 10) Some(October)
-      else if (month == 11) Some(November)
-      else if (month == 12) Some(December)
-      else None
+  def apply(numericMonth: NumericMonth): Month = fromInt(numericMonth.value).get
 
-  def apply(numericMonth: NumericMonth): Month =
-    Month(numericMonth.value).get
+  def fromInt: Int => Option[Month] = {
+    case 1 => Some(January)
+    case 2 => Some(February)
+    case 3 => Some(March)
+    case 4 => Some(April)
+    case 5 => Some(May)
+    case 6 => Some(June)
+    case 7 => Some(July)
+    case 8 => Some(August)
+    case 9 => Some(September)
+    case 10 => Some(October)
+    case 11 => Some(November)
+    case 12 => Some(December)
+    case _ => None
+  }
 
   def fromString: String => Option[Month] = {
     case "January" => Some(January)
