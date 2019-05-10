@@ -1,5 +1,6 @@
 package wen.circe
 
+import cats.Eq
 import io.circe.{DecodingFailure, Json}
 import org.scalatest.{Matchers, WordSpec}
 import wen.types._
@@ -241,11 +242,13 @@ class CirceSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with
 
     "decode ZoneTime in ISO format" in forAll { zoneTime: ZoneTime =>
       import wen.instances.iso.isoZoneTimeShowInstance
+      import wen.instances.datetime.TimeInstances.zoneTimeOrderInstance
 
       val json: Json = json"""${zoneTime.show}"""
       val time = Time(zoneTime.time.hour, zoneTime.time.minute, zoneTime.time.second)
 
-      json.as[ZoneTime].toOption should ===(Some(ZoneTime(time, zoneTime.offset)))
+      Eq[ZoneTime].eqv(json.as[ZoneTime].toOption.get,
+                       ZoneTime(time, zoneTime.offset)) should ===(true)
     }
 
     "fail to decode invalid ZoneTime" in forAll { arbitraryString: String =>
@@ -255,6 +258,7 @@ class CirceSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with
 
     "decode ZoneDateTime in ISO format" in forAll { zoneDateTime: ZoneDateTime =>
       import wen.instances.iso.isoZoneDateTimeShowInstance
+      import wen.instances.datetime.DateTimeInstances.zoneDateTimeOrderInstance
 
       val json: Json = json"""${zoneDateTime.show}"""
 
@@ -262,7 +266,8 @@ class CirceSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with
       val time = Time(zoneDateTime.zoneTime.time.hour, zoneDateTime.zoneTime.time.minute, zoneDateTime.zoneTime.time.second)
       val zoneTime = ZoneTime(time, zoneDateTime.zoneTime.offset)
 
-      json.as[ZoneDateTime].toOption should ===(Some(ZoneDateTime(date, zoneTime)))
+      Eq[ZoneDateTime].eqv(json.as[ZoneDateTime].toOption.get,
+                                ZoneDateTime(date, zoneTime)) should ===(true)
     }
 
     "fail to decode invalid ZoneDateTime" in forAll { arbitraryString: String =>
