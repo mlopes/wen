@@ -702,6 +702,77 @@ val optionTime = for {
 UTC: Offset = Offset([UTCPlus](#OffsetType), Hour(0), Minute(0))
 ```
 
+Because instances of cats's `Eq`, `Order` and `Show` are available, we can also do the following:
+
+```scala
+import wen.datetime._
+import wen.implicits._
+import cats.implicits._
+import wen.types.
+
+val offset1 = Offset.UTC
+// offset1: wen.datetime.Offset = Offset(UTCPlus,Hour(0),Minute(0))
+
+val offset2 = Offset(Offset.UTCMinus, Hour.fromInt(5).get, Minute.fromInt(45).get)
+// offset2: wen.datetime.Offset = Offset(UTCMinus,Hour(5),Minute(45))
+
+val offset3 = Offset(Offset.UTCPlus, Hour.fromInt(12).get, Minute.fromInt(20).get)
+// offset3: wen.datetime.Offset = Offset(UTCPlus,Hour(12),Minute(20))
+
+
+offset1 > offset2
+// res0: Boolean = true
+
+offset3 > offset2
+// res1: Boolean = true
+
+offset2 > offset3
+// res2: Boolean = false
+
+offset1 === offset2
+// res3: Boolean = false
+
+offset1 =!= offset3
+// res4: Boolean = true
+
+offset1.show
+// res5: String = 00:00
+
+offset2.show
+// res6: String = -05:45
+
+offset3.show
+// res7: String = +12:20
+```
+
+A Show instance in ISO format is also available:
+
+```scala
+import wen.types._
+import cats.implicits._
+import wen.datetime._
+import wen.instances.iso.isoOffsetShowInstance
+
+val offset1 = Offset.UTC
+// offset1: wen.datetime.Offset = Offset(UTCPlus,Hour(0),Minute(0))
+
+val offset2 = Offset(Offset.UTCMinus, Hour.fromInt(5).get, Minute.fromInt(45).get)
+// offset2: wen.datetime.Offset = Offset(UTCMinus,Hour(5),Minute(45))
+
+val offset3 = Offset(Offset.UTCPlus, Hour.fromInt(12).get, Minute.fromInt(20).get)
+// offset3: wen.datetime.Offset = Offset(UTCPlus,Hour(12),Minute(20))
+
+offset1.show
+// res0: String = Z
+
+offset2.show
+// res1: String = -05:45
+
+offset3.show
+// res2: String = +12:20
+```
+
+
 ##### OffsetType
  
 | Constructors |
@@ -1173,5 +1244,5 @@ zoneDateTime3.show
 
 ## Circe Instances
 
-Circe ISO-8601 encoders and decoders are provided for Date, Time, DateTime, ZoneTime and ZoneDateTime.
+Circe ISO-8601 encoders and decoders are provided for Date, Time, DateTime, ZoneTime, Offset, and ZoneDateTime.
 Circe encoders and decoders are also provided for Day, WeekDay, Month, Year, Epoch, Hour, Minute, Second, and Millisecond.
