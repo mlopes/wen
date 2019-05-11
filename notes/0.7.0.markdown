@@ -1,0 +1,4 @@
+0.7.0
+=====
+
+- Add non-implicit `Order` instance for `WeekDay` starting on `Monday`
