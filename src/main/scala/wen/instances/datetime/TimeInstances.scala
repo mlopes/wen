@@ -75,14 +75,11 @@ trait TimeInstances {
   }
 
   implicit val offsetShowInstance: Show[Offset] = new Show[Offset] {
-    override def show(t: Offset): String = {
-      import eu.timepit.refined.auto._
-
+    override def show(t: Offset): String =
       t match {
         case Offset(_, Hour(h), Minute(m)) if (h.value === 0 && m.value === 0) => "00:00"
         case Offset(t, Hour(h), Minute(m)) => f"${offsetSymbol(t)}${h.value}%02d:${m.value}%02d"
       }
-    }
   }
 
   private lazy val offsetSymbol: OffsetType => String = {
