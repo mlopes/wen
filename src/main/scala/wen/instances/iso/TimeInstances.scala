@@ -17,18 +17,25 @@ trait TimeInstances {
   }
 
   implicit val isoZoneTimeShowInstance: Show[ZoneTime] = new Show[ZoneTime] {
-    override def show(t: ZoneTime): String = {
-      lazy val offsetSymbol: OffsetType => String = {
-        case UTCPlus => "+"
-        case UTCMinus => "-"
-      }
-
+    override def show(t: ZoneTime): String =
       t match {
         case ZoneTime(t, Offset(_, Hour(oh), Minute(om))) if (oh.value === 0 && om.value === 0) =>
           s"${t.show}Z"
         case ZoneTime(t, Offset(ot, Hour(oh), Minute(om))) =>
           f"${t.show}${offsetSymbol(ot)}${oh.value}%02d:${om.value}%02d"
       }
-    }
+  }
+
+  implicit val isoOffsetShowInstance: Show[Offset] = new Show[Offset] {
+    override def show(t: Offset): String =
+      t match {
+        case Offset(_, Hour(h), Minute(m)) if (h.value === 0 && m.value === 0) => "Z"
+        case Offset(t, Hour(h), Minute(m)) => f"${offsetSymbol(t)}${h.value}%02d:${m.value}%02d"
+      }
+  }
+
+  private lazy val offsetSymbol: OffsetType => String = {
+    case UTCPlus => "+"
+    case UTCMinus => "-"
   }
 }

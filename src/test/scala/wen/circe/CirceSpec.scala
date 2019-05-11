@@ -103,6 +103,13 @@ class CirceSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with
       sut.asJson should ===(expected)
     }
 
+    "encode Offset in ISO format" in forAll { sut: Offset =>
+      import wen.instances.iso.isoOffsetShowInstance
+
+      val expected: Json = json"""${sut.show}"""
+      sut.asJson should ===(expected)
+    }
+
   }
 
   "Circe Decoders" should {
@@ -273,6 +280,27 @@ class CirceSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with
     "fail to decode invalid ZoneDateTime" in forAll { arbitraryString: String =>
       val json: Json = json"""${arbitraryString}"""
       json.as[ZoneDateTime] shouldBe a[Left[DecodingFailure, _]]
+    }
+
+    "decode Offset in ISO format" in {
+      val json1: Json = json""""Z""""
+      val json2: Json = json""""+10:55""""
+      val json3: Json = json""""-08:30""""
+
+      json1.as[Offset].toOption.get should ===(Offset.UTC)
+      json2.as[Offset].toOption.get should ===(Offset(Offset.UTCPlus, Hour.fromInt(10).get, Minute.fromInt(55).get))
+      json3.as[Offset].toOption.get should ===(Offset(Offset.UTCMinus, Hour.fromInt(8).get, Minute.fromInt(30).get))
+    }
+
+    "fail to decode invalid Offset" in forAll { arbitraryString: String =>
+      val json: Json = json"""${arbitraryString}"""
+      json.as[Offset] shouldBe a[Left[DecodingFailure, _]]
+
+      val json2: Json = json""""+10:65""""
+      json2.as[Offset] shouldBe a[Left[DecodingFailure, _]]
+
+      val json3: Json = json""""+25:15""""
+      json3.as[Offset] shouldBe a[Left[DecodingFailure, _]]
     }
   }
 }
