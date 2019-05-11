@@ -12,7 +12,7 @@ import org.scalatest.{Matchers, WordSpec}
 
 class TimeInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEquals {
   "Time Instances" should {
-    "provide order for time" in {
+    "provide order for Time" in {
       val time1 = Time(Hour(8), Minute(53), Second(23), Millisecond(900))
       val time2 = Time(Hour(12), Minute(34), Second(12), Millisecond(800))
       val time3 = Time(Hour(23), Minute(59), Second(50), Millisecond(100))
@@ -22,7 +22,7 @@ class TimeInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqu
       (time1 compare time1) == 0 should ===(true)
     }
 
-    "provide eq for time" in {
+    "provide eq for Time" in {
       val time1 = Time(Hour(8), Minute(53), Second(23), Millisecond(900))
       val time2 = Time(Hour(12), Minute(34), Second(12), Millisecond(800))
 
@@ -30,12 +30,12 @@ class TimeInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqu
       Eq[Time].neqv(time1, time2) should ===(true)
     }
 
-    "provide show for time" in {
+    "provide show for Time" in {
       val time = Time(Hour(8), Minute(53), Second(23), Millisecond(900))
       time.show should ===("08:53:23.900")
     }
 
-    "provide order for zone time" in {
+    "provide order for ZoneTime" in {
       val time1 = ZoneTime(Time(Hour(8), Minute(53), Second(23), Millisecond(900)),
                            Offset.UTC)
       val time2 = ZoneTime(Time(Hour(9), Minute(53), Second(23), Millisecond(900)),
@@ -59,7 +59,7 @@ class TimeInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqu
 
     }
 
-    "provide eq for zone time" in {
+    "provide eq for ZoneTime" in {
 
       val time1 = ZoneTime(Time(Hour(8), Minute(53), Second(23), Millisecond(900)),
                            Offset.UTC)
@@ -72,7 +72,7 @@ class TimeInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqu
       Eq[ZoneTime].neqv(time1, time3) should ===(true)
     }
 
-    "provide show for zone time" in {
+    "provide show for ZoneTime" in {
       val time1 = ZoneTime(Time(Hour(8), Minute(15), Second(2), Millisecond(33)),
                            Offset.UTC)
       val time2 = ZoneTime(Time(Hour(10), Minute(31), Second(23), Millisecond(606)),
@@ -83,6 +83,34 @@ class TimeInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqu
       time1.show should ===("08:15:02.33 +00:00")
       time2.show should ===("10:31:23.606 -01:00")
       time3.show should ===("07:53:23.900 +00:30")
+    }
+
+    "provide order for Offset" in {
+      val offset1 = Offset(UTCPlus, Hour(0), Minute(0))
+      val offset2 = Offset(UTCMinus, Hour(0), Minute(0))
+      val offset3 = Offset(UTCPlus, Hour(2), Minute(10))
+      val offset4 = Offset(UTCMinus, Hour(2), Minute(10))
+      val offset5 = Offset(UTCPlus, Hour(10), Minute(2))
+      val offset6 = Offset(UTCMinus, Hour(10), Minute(2))
+
+      (offset1 compare offset2) should ===(0)
+      ((offset3 compare offset4) > 0)  should ===(true)
+      ((offset3 compare offset5) < 0)  should ===(true)
+      ((offset4 compare offset6) > 0)  should ===(true)
+    }
+
+    "provide show for Offset" in {
+      val offset1 = Offset.UTC
+      val offset2 = Offset(UTCPlus, Hour(0), Minute(0))
+      val offset3 = Offset(UTCMinus, Hour(0), Minute(0))
+      val offset4 = Offset(UTCPlus, Hour(2), Minute(10))
+      val offset5 = Offset(UTCMinus, Hour(10), Minute(2))
+
+      offset1.show should ===("00:00")
+      offset2.show should ===("00:00")
+      offset3.show should ===("00:00")
+      offset4.show should ===("+02:10")
+      offset5.show should ===("-10:02")
     }
   }
 }
