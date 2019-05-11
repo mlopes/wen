@@ -8,6 +8,7 @@ import wen.instances.MonthInstances.monthShowInstance
 import wen.instances.WeekDayInstances.weekdayShowInstance
 import wen.instances.EpochInstances.epochShowInstance
 import io.circe.{Decoder, Encoder, Json}
+import wen.datetime.Offset.{UTCMinus, UTCPlus}
 import wen.datetime._
 import wen.types._
 
@@ -49,6 +50,8 @@ package object circe {
   implicit val epochEncoder: Encoder[Epoch] = Encoder.encodeString.contramap(_.show)
 
   implicit val weekDayEncoder: Encoder[WeekDay] = Encoder.encodeString.contramap(_.show)
+
+  implicit val offsetEncoder: Encoder[Offset] = Encoder.encodeString.contramap(_.show)
 
   implicit val timeDecoder: Decoder[Time] = Decoder.decodeString.emap { str =>
     Either.catchNonFatal(Time(LocalTime.parse(str))).leftMap(t => s"Unable to parse Time ${str} with ${t}")
@@ -104,5 +107,20 @@ package object circe {
 
   implicit val weekdayDecoder: Decoder[WeekDay] = Decoder.decodeString.emap { str =>
     Either.catchNonFatal(WeekDay.fromString(str).get).leftMap(t => s"Unable to parse WeekDay ${str} with ${t}")
+  }
+
+  implicit val offsetDecoder: Decoder[Offset] = Decoder.decodeString.emap { str =>
+    Either.catchNonFatal(getOffsetFromString(str)).leftMap(t => s"Unable to parse Offset ${str} with ${t}")
+  }
+
+  private def getOffsetFromString(str: String): Offset = {
+    val rx = raw"^([+-])(\d\d):(\d\d)$$".r
+    str match {
+      case "Z" => Offset.UTC
+      case rx(s, h, m) if (s === "+") =>
+        Offset(UTCPlus, Hour.fromInt(h.toInt).get, Minute.fromInt(m.toInt).get)
+      case rx(s, h, m) if (s === "-") =>
+        Offset(UTCMinus, Hour.fromInt(h.toInt).get, Minute.fromInt(m.toInt).get)
+    }
   }
 }

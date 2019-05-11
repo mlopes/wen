@@ -96,6 +96,7 @@ class TimeInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqu
       (offset1 compare offset2) should ===(0)
       ((offset3 compare offset4) > 0)  should ===(true)
       ((offset3 compare offset5) < 0)  should ===(true)
+      ((offset4 compare offset5) < 0)  should ===(true)
       ((offset4 compare offset6) > 0)  should ===(true)
     }
 
