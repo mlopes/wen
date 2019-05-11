@@ -3,8 +3,9 @@ package wen.types
 import wen.types.NumericTypes._
 import eu.timepit.refined._
 import eu.timepit.refined.api.Refined
-import eu.timepit.refined.numeric.{Interval, Positive}
+import eu.timepit.refined.numeric.Positive
 import eu.timepit.refined.types.{time => refinedTimeTypes}
+import wen.refine._
 
 sealed trait Month {
   def asInt: Int =
@@ -118,7 +119,7 @@ final object Year {
        users of the library.
     */
     if (year > 0)
-      Some(new Year(refineV[Positive].unsafeFrom(year), epoch))
+      Some(new Year(refineV[NumericYearConstraint].unsafeFrom(year), epoch))
     else
       None
 
@@ -135,7 +136,7 @@ final object Day {
   def fromInt(day: Int): Option[Day] =
   // See comment on Year for the reasoning behind running unsafeFrom
     if (day >= min && day <= max)
-      Some(new Day(refineV[Interval.Closed[W.`1`.T, W.`31`.T]].unsafeFrom(day)))
+      Some(new Day(refineV[NumericDayConstraint].unsafeFrom(day)))
     else
       None
 }
@@ -149,7 +150,7 @@ final object Hour {
   def fromInt(hour: Int): Option[Hour] =
     // See comment on Year for the reasoning behind running unsafeFrom
     if (hour >= min && hour <= max)
-      Some(new Hour(refineV[Interval.Closed[W.`0`.T, W.`23`.T]].unsafeFrom(hour)))
+      Some(new Hour(refineV[NumericHourConstraint].unsafeFrom(hour)))
     else
       None
 }
@@ -163,7 +164,7 @@ final object Minute {
   def fromInt(minute: Int): Option[Minute] =
     // See comment on Year for the reasoning behind running unsafeFrom
     if (minute >= min && minute <= max)
-      Some(new Minute(refineV[Interval.Closed[W.`0`.T, W.`59`.T]].unsafeFrom(minute)))
+      Some(new Minute(refineV[NumericMinuteConstraint].unsafeFrom(minute)))
     else
       None
 }
@@ -177,7 +178,7 @@ final object Second {
   def fromInt(second: Int): Option[Second] =
     // See comment on Year for the reasoning behind running unsafeFrom
     if (second >= min && second <= max)
-      Some(new Second(refineV[Interval.Closed[W.`0`.T, W.`59`.T]].unsafeFrom(second)))
+      Some(new Second(refineV[NumericSecondConstraint].unsafeFrom(second)))
     else
       None
 }
@@ -191,7 +192,7 @@ final object Millisecond {
   def fromInt(millisecond: Int): Option[Millisecond] =
     // See comment on Year for the reasoning behind running unsafeFrom
     if(millisecond >= min && millisecond <= max)
-      Some(new Millisecond(refineV[Interval.Closed[W.`0`.T, W.`999`.T]].unsafeFrom(millisecond)))
+      Some(new Millisecond(refineV[NumericMillisecondConstraint].unsafeFrom(millisecond)))
     else
       None
 }
