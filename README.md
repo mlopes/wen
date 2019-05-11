@@ -337,16 +337,16 @@ Because instances of cats's `Eq`, `Order` and `Show` are available, we can do th
 import cats.implicits._ // for cats syntax
 import wen.implicits._ // for wen's instances
 
-val oneDay: WeekDay  = Tuesday
+val oneDay: WeekDay = Tuesday
 // oneDay: wen.types.WeekDay = Tuesday
 
-val otherDay: WeekDay  = Friday
+val otherDay: WeekDay = Friday
 // otherDay: wen.types.WeekDay = Friday
 
-val yetAnotherDay: WeekDay  = WeekDay.fromString("Saturday")
+val yetAnotherDay: WeekDay = WeekDay.fromString("Saturday")
 // yetAnotherDay: Option[wen.types.WeekDay] = Some(Saturday)
 
-val notAnotherDay: WeekDay  = WeekDay.fromString("Caturday")
+val notAnotherDay: WeekDay = WeekDay.fromString("Caturday")
 // notAnotherDay: Option[wen.types.WeekDay] = None
 
 otherDay < oneDay
@@ -361,6 +361,31 @@ otherDay.show
 // Note that we have to specify the type WeekDay so that Scala doesn't infer the type as Saturday
 (Saturday: WeekDay).show
 // res3: String = Saturday
+```
+
+There's also an `Order[WeekDay]`  instance starting on `Monday`, but it requires the user
+to explicitly import it and make it implicit. Note that if you import the default `Order`
+instance for weekday, it will conflict with this one and the compiler won't be able to infer
+which one to use.
+
+**Usage**
+
+```scala
+import cats.implicits._
+
+implicit val orderInstance = wen.instances.WeekDayInstances.mondayFirstWeekDayOrderInstance
+orderInstance: cats.Order[wen.types.WeekDay] = wen.instances.WeekDayInstances$$anon$1@7da2d02d
+
+import wen.types._
+
+val oneDay: WeekDay = Sunday
+// oneDay: wen.types.WeekDay = Sunday
+
+val otherDay: WeekDay = Monday
+// otherDay: wen.types.WeekDay = Monday
+
+otherDay < oneDay
+// res0: Boolean = true
 ```
 
 #### Hour
