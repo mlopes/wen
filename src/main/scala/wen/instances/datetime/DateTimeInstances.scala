@@ -10,7 +10,7 @@ object DateTimeInstances extends DateTimeInstances
 
 trait DateTimeInstances {
 
-  implicit var dateTimeOrderInstance: Order[DateTime] = new Order[DateTime] {
+  implicit val dateTimeOrderInstance: Order[DateTime] = new Order[DateTime] {
     override def compare(x: DateTime, y: DateTime): Int =
       (x, y) match {
         case (DateTime(date1, time1), DateTime(date2, time2)) if date1 === date2 => time1 compare time2
@@ -18,7 +18,7 @@ trait DateTimeInstances {
       }
   }
 
-  implicit var zoneDateTimeOrderInstance: Order[ZoneDateTime] = new Order[ZoneDateTime] {
+  implicit val zoneDateTimeOrderInstance: Order[ZoneDateTime] = new Order[ZoneDateTime] {
     override def compare(x: ZoneDateTime, y: ZoneDateTime): Int =
       (x, y) match {
         case (ZoneDateTime(date1, zoneTime1), ZoneDateTime(date2, zoneTime2)) if date1 === date2 =>
@@ -27,11 +27,11 @@ trait DateTimeInstances {
       }
   }
 
-  implicit var dateTimeShowInstance: Show[DateTime] = new Show[DateTime] {
+  implicit val dateTimeShowInstance: Show[DateTime] = new Show[DateTime] {
     override def show(t: DateTime): String = s"${t.date.show} ${t.time.show}"
   }
 
-  implicit var zoneDateTimeShowInstance: Show[ZoneDateTime] = new Show[ZoneDateTime] {
+  implicit val zoneDateTimeShowInstance: Show[ZoneDateTime] = new Show[ZoneDateTime] {
     override def show(t: ZoneDateTime): String = s"${t.date.show} ${t.zoneTime.show}"
   }
 }
