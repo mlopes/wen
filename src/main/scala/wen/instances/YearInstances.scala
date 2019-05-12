@@ -11,10 +11,9 @@ trait YearInstances {
 
   implicit val yearOrderInstance: Order[Year] = new Order[Year] {
     override def compare(x: Year, y: Year): Int =
-      if(x.epoch == y.epoch) {
-        Order[Int].compare(x.year.value, y.year.value)
-      } else {
-        x.epoch compare y.epoch
+      (x, y) match {
+        case (Year(y1, e1), Year(y2, e2)) if e1 === e2 => Order[Int].compare(y1.value, y2.value)
+        case (Year(_, e1), Year(_, e2)) => e1 compare e2
       }
   }
 
