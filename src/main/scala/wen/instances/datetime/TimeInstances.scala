@@ -28,12 +28,11 @@ trait TimeInstances {
         case UTCMinus => {a: Int => { b: Int => a - b }}
         case UTCPlus => {a: Int => { b: Int => a + b }}
       }
-      lazy val zoneTimeToInt: ZoneTime => Int = { t: ZoneTime =>
-        val op = offsetOperation(t.offset.offsetType)
-        val minutes = op(t.time.hour.hour.value * 60 + t.time.minute.minute.value)(
-                         t.offset.hour.hour.value * 60 + t.offset.minute.minute.value)
-        val seconds = minutes * 60 + t.time.second.second.value
-        seconds * 1000 + t.time.millisecond.millisecond.value
+      lazy val zoneTimeToInt: ZoneTime => Int = {
+        case ZoneTime(Time(Hour(h), Minute(m), Second(s), Millisecond(ms)), Offset(ot, Hour(oh), Minute(om))) =>
+          val minutes = offsetOperation(ot)(h.value * 60 + m.value)(oh.value * 60 + om.value)
+          val seconds = minutes * 60 + s.value
+          seconds * 1000 + ms.value
       }
 
       Order[Int].compare(zoneTimeToInt(x), zoneTimeToInt(y))
@@ -44,7 +43,7 @@ trait TimeInstances {
     override def compare(x: Offset, y: Offset): Int = {
       (x, y) match {
         case (Offset(_, Hour(h1), Minute(m1)), Offset(_, Hour(h2), Minute(m2)))
-          if (h1.value === 0 && m1.value === 0 && h2.value === 0 && m2.value === 0) => 0
+          if h1.value === 0 && m1.value === 0 && h2.value === 0 && m2.value === 0 => 0
         case (Offset(UTCPlus, _, _), Offset(UTCMinus, _, _)) => 1
         case (Offset(UTCMinus, _, _), Offset(UTCPlus, _, _)) => -1
         case (Offset(UTCPlus, h1, m1), Offset(UTCPlus, h2, m2)) =>
@@ -77,7 +76,7 @@ trait TimeInstances {
   implicit val offsetShowInstance: Show[Offset] = new Show[Offset] {
     override def show(t: Offset): String =
       t match {
-        case Offset(_, Hour(h), Minute(m)) if (h.value === 0 && m.value === 0) => "00:00"
+        case Offset(_, Hour(h), Minute(m)) if h.value === 0 && m.value === 0 => "00:00"
         case Offset(t, Hour(h), Minute(m)) => f"${offsetSymbol(t)}${h.value}%02d:${m.value}%02d"
       }
   }
