@@ -9,8 +9,10 @@ final case class Date private (day: Day, month: Month, year: Year)
 
 final object Date {
   def safe(day: Day, month: Month, year: Year): Option[Date] = {
-    def isLeapYear(y: Year): Boolean =
-      (y.year.value % 4 == 0 && y.year.value % 100 != 0) || y.year.value % 400 == 0
+    def isLeapYear: Year => Boolean = {
+      case Year(year, _) =>
+        (year.value % 4 == 0 && year.value % 100 != 0) || year.value % 400 == 0
+    }
 
     month match {
       case February
