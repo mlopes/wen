@@ -12,19 +12,18 @@ trait DateTimeInstances {
 
   implicit var dateTimeOrderInstance: Order[DateTime] = new Order[DateTime] {
     override def compare(x: DateTime, y: DateTime): Int =
-      if (x.date === y.date) {
-        x.time compare y.time
-      } else {
-        x.date compare y.date
+      (x, y) match {
+        case (DateTime(date1, time1), DateTime(date2, time2)) if date1 === date2 => time1 compare time2
+        case (DateTime(date1, _), DateTime(date2, _)) => date1 compare date2
       }
   }
 
   implicit var zoneDateTimeOrderInstance: Order[ZoneDateTime] = new Order[ZoneDateTime] {
     override def compare(x: ZoneDateTime, y: ZoneDateTime): Int =
-      if(x.date === y.date) {
-        x.zoneTime compare y.zoneTime
-      } else {
-        x.date compare y.date
+      (x, y) match {
+        case (ZoneDateTime(date1, zoneTime1), ZoneDateTime(date2, zoneTime2)) if date1 === date2 =>
+          zoneTime1 compare zoneTime2
+        case (ZoneDateTime(date1, _), ZoneDateTime(date2, _)) => date1 compare date2
       }
   }
 
