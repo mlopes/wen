@@ -36,53 +36,41 @@ class TimeInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqu
     }
 
     "provide order for ZoneTime" in {
-      val time1 = ZoneTime(Time(Hour(8), Minute(53), Second(23), Millisecond(900)),
-                           Offset.UTC)
-      val time2 = ZoneTime(Time(Hour(9), Minute(53), Second(23), Millisecond(900)),
-                           Offset(UTCMinus, Hour(1), Minute(0)))
-      val time3 = ZoneTime(Time(Hour(7), Minute(53), Second(23), Millisecond(900)),
-                           Offset(UTCPlus, Hour(1), Minute(0)))
-      val time4 = ZoneTime(Time(Hour(10), Minute(53), Second(23), Millisecond(900)),
-                           Offset(UTCMinus, Hour(3), Minute(0)))
-      val time5 = ZoneTime(Time(Hour(7), Minute(53), Second(23), Millisecond(900)),
-                           Offset.UTC)
-      val time6 = ZoneTime(Time(Hour(8), Minute(50), Second(23), Millisecond(900)),
-                           Offset(UTCPlus, Hour(0), Minute(15)))
+      val zoneTime1 = ZoneTime(Time(Hour(8), Minute(53), Second(23), Millisecond(900)), Offset.UTC)
+      val zoneTime2 = ZoneTime(Time(Hour(9), Minute(53), Second(23), Millisecond(900)), Offset(UTCMinus, Hour(1), Minute(0)))
+      val zoneTime3 = ZoneTime(Time(Hour(7), Minute(53), Second(23), Millisecond(900)), Offset(UTCPlus, Hour(1), Minute(0)))
+      val zoneTime4 = ZoneTime(Time(Hour(10), Minute(53), Second(23), Millisecond(900)), Offset(UTCMinus, Hour(3), Minute(0)))
+      val zoneTime5 = ZoneTime(Time(Hour(7), Minute(53), Second(23), Millisecond(900)), Offset.UTC)
+      val zoneTime6 = ZoneTime(Time(Hour(8), Minute(50), Second(23), Millisecond(900)), Offset(UTCPlus, Hour(0), Minute(15)))
 
-      (time1 compare time2) should ===(0)
-      (time1 compare time3) should ===(0)
-      (time2 compare time3) should ===(0)
-      (time2 compare time4) > 0 should ===(true)
-      (time1 compare time4) > 0 should ===(true)
-      (time5 compare time1) < 0 should ===(true)
-      (time6 compare time1) > 0 should ===(true)
+      (zoneTime1 compare zoneTime2) should ===(0)
+      (zoneTime1 compare zoneTime3) should ===(0)
+      (zoneTime2 compare zoneTime3) should ===(0)
+      (zoneTime2 compare zoneTime4) > 0 should ===(true)
+      (zoneTime1 compare zoneTime4) > 0 should ===(true)
+      (zoneTime5 compare zoneTime1) < 0 should ===(true)
+      (zoneTime6 compare zoneTime1) > 0 should ===(true)
 
     }
 
     "provide eq for ZoneTime" in {
 
-      val time1 = ZoneTime(Time(Hour(8), Minute(53), Second(23), Millisecond(900)),
-                           Offset.UTC)
-      val time2 = ZoneTime(Time(Hour(9), Minute(53), Second(23), Millisecond(900)),
-                           Offset(UTCMinus, Hour(1), Minute(0)))
-      val time3 = ZoneTime(Time(Hour(7), Minute(53), Second(23), Millisecond(900)),
-                           Offset.UTC)
+      val zoneTime1 = ZoneTime(Time(Hour(8), Minute(53), Second(23), Millisecond(900)), Offset.UTC)
+      val zoneTime2 = ZoneTime(Time(Hour(9), Minute(53), Second(23), Millisecond(900)), Offset(UTCMinus, Hour(1), Minute(0)))
+      val zoneTime3 = ZoneTime(Time(Hour(7), Minute(53), Second(23), Millisecond(900)), Offset.UTC)
 
-      Eq[ZoneTime].eqv(time1, time2) should ===(true)
-      Eq[ZoneTime].neqv(time1, time3) should ===(true)
+      Eq[ZoneTime].eqv(zoneTime1, zoneTime2) should ===(true)
+      Eq[ZoneTime].neqv(zoneTime1, zoneTime3) should ===(true)
     }
 
     "provide show for ZoneTime" in {
-      val time1 = ZoneTime(Time(Hour(8), Minute(15), Second(2), Millisecond(33)),
-                           Offset.UTC)
-      val time2 = ZoneTime(Time(Hour(10), Minute(31), Second(23), Millisecond(606)),
-                           Offset(UTCMinus, Hour(1), Minute(0)))
-      val time3 = ZoneTime(Time(Hour(7), Minute(53), Second(23), Millisecond(900)),
-                           Offset(UTCPlus, Hour(0), Minute(30)))
+      val zoneTime1 = ZoneTime(Time(Hour(8), Minute(15), Second(2), Millisecond(33)), Offset.UTC)
+      val zoneTime2 = ZoneTime(Time(Hour(10), Minute(31), Second(23), Millisecond(606)), Offset(UTCMinus, Hour(1), Minute(0)))
+      val zoneTime3 = ZoneTime(Time(Hour(7), Minute(53), Second(23), Millisecond(900)), Offset(UTCPlus, Hour(0), Minute(30)))
 
-      time1.show should ===("08:15:02.33 +00:00")
-      time2.show should ===("10:31:23.606 -01:00")
-      time3.show should ===("07:53:23.900 +00:30")
+      zoneTime1.show should ===("08:15:02.33 +00:00")
+      zoneTime2.show should ===("10:31:23.606 -01:00")
+      zoneTime3.show should ===("07:53:23.900 +00:30")
     }
 
     "provide order for Offset" in {
@@ -114,4 +102,8 @@ class TimeInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqu
       offset5.show should ===("-10:02")
     }
   }
+}
+
+object TimeInstancesSpec {
+
 }
