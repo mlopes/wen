@@ -103,7 +103,3 @@ class TimeInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqu
     }
   }
 }
-
-object TimeInstancesSpec {
-
-}
