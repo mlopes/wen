@@ -738,7 +738,7 @@ offset1 =!= offset3
 // res4: Boolean = true
 
 offset1.show
-// res5: String = 00:00
+// res5: String = +00:00
 
 offset2.show
 // res6: String = -05:45
