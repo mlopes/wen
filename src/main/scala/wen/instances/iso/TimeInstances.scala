@@ -2,7 +2,7 @@ package wen.instances.iso
 
 import cats.implicits._
 import cats.Show
-import wen.datetime.Offset.{OffsetType, UTCMinus, UTCPlus}
+import wen.datetime.Offset.OffsetType
 import wen.datetime.{Offset, Time, ZoneTime}
 import wen.types.{Hour, Minute, Second}
 
@@ -22,7 +22,7 @@ trait TimeInstances {
         case ZoneTime(t, Offset(_, Hour(oh), Minute(om))) if (oh.value === 0 && om.value === 0) =>
           s"${t.show}Z"
         case ZoneTime(t, Offset(ot, Hour(oh), Minute(om))) =>
-          f"${t.show}${offsetSymbol(ot)}${oh.value}%02d:${om.value}%02d"
+          f"${t.show}${OffsetType.symbol(ot)}${oh.value}%02d:${om.value}%02d"
       }
   }
 
@@ -30,12 +30,7 @@ trait TimeInstances {
     override def show(t: Offset): String =
       t match {
         case Offset(_, Hour(h), Minute(m)) if (h.value === 0 && m.value === 0) => "Z"
-        case Offset(t, Hour(h), Minute(m)) => f"${offsetSymbol(t)}${h.value}%02d:${m.value}%02d"
+        case Offset(t, Hour(h), Minute(m)) => f"${OffsetType.symbol(t)}${h.value}%02d:${m.value}%02d"
       }
-  }
-
-  private lazy val offsetSymbol: OffsetType => String = {
-    case UTCPlus => "+"
-    case UTCMinus => "-"
   }
 }

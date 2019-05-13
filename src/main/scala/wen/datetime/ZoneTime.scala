@@ -37,4 +37,11 @@ final object Offset {
   final case object UTCPlus extends OffsetType
 
   val UTC: Offset = Offset(UTCPlus, Hour(0), Minute(0))
+
+  object OffsetType {
+    private[wen] lazy val symbol: OffsetType => String = {
+      case UTCPlus => "+"
+      case UTCMinus => "-"
+    }
+  }
 }
