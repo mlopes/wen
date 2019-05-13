@@ -1,5 +1,6 @@
 package wen.types
 
+import cats.implicits._
 import org.scalactic.TypeCheckedTripleEquals
 import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 import org.scalatest.{Matchers, WordSpec}
@@ -101,18 +102,18 @@ class MonthSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with
     }
 
     "create a month from a string" in {
-      Month.fromString("January").get should ===(January)
-      Month.fromString("February").get should ===(February)
-      Month.fromString("March").get should ===(March)
-      Month.fromString( "April").get should ===(April)
-      Month.fromString( "May").get should ===(May)
-      Month.fromString( "June").get should ===(June)
-      Month.fromString( "July").get should ===(July)
-      Month.fromString( "August").get should ===(August)
-      Month.fromString( "September").get should ===(September)
-      Month.fromString( "October").get should ===(October)
-      Month.fromString( "November").get should ===(November)
-      Month.fromString( "December").get should ===(December)
+      Month.fromString("January") should ===(January.some)
+      Month.fromString("February") should ===(February.some)
+      Month.fromString("March") should ===(March.some)
+      Month.fromString( "April") should ===(April.some)
+      Month.fromString( "May") should ===(May.some)
+      Month.fromString( "June") should ===(June.some)
+      Month.fromString( "July") should ===(July.some)
+      Month.fromString( "August") should ===(August.some)
+      Month.fromString( "September") should ===(September.some)
+      Month.fromString( "October") should ===(October.some)
+      Month.fromString( "November") should ===(November.some)
+      Month.fromString( "December") should ===(December.some)
     }
   }
 }

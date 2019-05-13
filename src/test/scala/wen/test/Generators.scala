@@ -1,7 +1,9 @@
 package wen.test
 
 import org.scalacheck.{Arbitrary, Gen}
-import wen.types.{AD, BC, Day, December, Hour, January, Millisecond, Minute, Second, Year}
+import wen.types._
+import eu.timepit.refined.refineV
+import wen.refine.NumericYearConstraint
 
 object Generators {
   lazy val negativeLeapYears: List[Int] = (-2 to -100000 by -2).toList.filter(x => (x % 4 == 0 && x % 100 != 0) || x % 400 == 0)
@@ -72,7 +74,7 @@ object Generators {
   val invalidMillisecondAsIntGen: Gen[Int] =
     Arbitrary.arbitrary[Int] suchThat (x => x < Millisecond.min || x > Millisecond.max)
 
-  val optionYearWithDefaultEpochGen: Gen[Option[Year]] =
-    Gen.posNum[Int].map(Year.fromInt(_))
+  val yearWithDefaultEpochGen: Gen[Year] =
+    Gen.posNum[Int].map(i => Year(refineV[NumericYearConstraint].unsafeFrom(i)))
 
 }
