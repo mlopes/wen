@@ -1,5 +1,5 @@
 0.5.0
 =====
 
-- Add Circe ISO instances for Date, Time, DateTime, ZoneTime, and ZoneDateTime
-- Add Circe instances for Hour, Minute, Second, Millisecond, Day, WeekDay, Month, Year, and Epoch
+  - Add Circe ISO instances for Date, Time, DateTime, ZoneTime, and ZoneDateTime
+  - Add Circe instances for Hour, Minute, Second, Millisecond, Day, WeekDay, Month, Year, and Epoch
