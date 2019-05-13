@@ -1,7 +1,7 @@
-- [ ] Create a new branch
-- [ ] Write tests
-- [ ] Write the code to make tests pass
-- [ ] Update README.md with documentation and code examples
+  - [ ] Create a new branch
+  - [ ] Write tests
+  - [ ] Write the code to make tests pass
+  - [ ] Update README.md with documentation and code examples
 
 
 <!--
