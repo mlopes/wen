@@ -107,9 +107,9 @@ class TimeInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqu
       val offset4 = Offset(UTCPlus, Hour(2), Minute(10))
       val offset5 = Offset(UTCMinus, Hour(10), Minute(2))
 
-      offset1.show should ===("00:00")
-      offset2.show should ===("00:00")
-      offset3.show should ===("00:00")
+      offset1.show should ===("+00:00")
+      offset2.show should ===("+00:00")
+      offset3.show should ===("+00:00")
       offset4.show should ===("+02:10")
       offset5.show should ===("-10:02")
     }
