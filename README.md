@@ -1,7 +1,7 @@
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b6dc3789e00d4f19a3e8a4a02bf4ac61)](https://app.codacy.com/app/marco.paulo.lopes/wen?utm_source=github.com&utm_medium=referral&utm_content=mlopes/wen&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://travis-ci.org/mlopes/wen.svg?branch=master)](https://travis-ci.org/mlopes/wen) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-![Maven Central](https://img.shields.io/maven-central/v/dev.mlopes/wen_2.12.svg?label=version)
 [![Coverage Status](https://coveralls.io/repos/github/mlopes/wen/badge.svg?branch=master)](https://coveralls.io/github/mlopes/wen?branch=master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b6dc3789e00d4f19a3e8a4a02bf4ac61)](https://app.codacy.com/app/marco.paulo.lopes/wen?utm_source=github.com&utm_medium=referral&utm_content=mlopes/wen&utm_campaign=Badge_Grade_Dashboard)
+![Maven Central](https://img.shields.io/maven-central/v/dev.mlopes/wen_2.12.svg?label=version)
 
 # wen
 
