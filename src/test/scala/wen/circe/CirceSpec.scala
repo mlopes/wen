@@ -12,6 +12,7 @@ import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 import wen.datetime._
 import wen.test.Arbitraries._
 import wen.test.Generators._
+import eu.timepit.refined.refineMV
 
 class CirceSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with ScalaCheckDrivenPropertyChecks {
 
@@ -115,7 +116,7 @@ class CirceSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with
   "Circe Decoders" should {
     "decode Hour" in forAll(hourAsIntGen) { hourAsInt: Int =>
       val json: Json = json"""${hourAsInt}"""
-      json.as[Hour].toOption should ===(Hour.fromInt(hourAsInt))
+      json.as[Hour] should ===(Hour.fromInt(hourAsInt).toRight[DecodingFailure](DecodingFailure("failed to decode", List.empty)))
     }
 
     "fail to decode invalid Hour" in forAll(invalidHourAsIntGen) { invalidHourAsInt: Int =>
@@ -254,8 +255,8 @@ class CirceSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with
       val json: Json = json"""${zoneTime.show}"""
       val time = Time(zoneTime.time.hour, zoneTime.time.minute, zoneTime.time.second)
 
-      Eq[ZoneTime].eqv(json.as[ZoneTime].toOption.get,
-                       ZoneTime(time, zoneTime.offset)) should ===(true)
+      Eq[Option[ZoneTime]].eqv(json.as[ZoneTime].toOption,
+                               ZoneTime(time, zoneTime.offset).some) should ===(true)
     }
 
     "fail to decode invalid ZoneTime" in forAll { arbitraryString: String =>
@@ -273,8 +274,8 @@ class CirceSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with
       val time = Time(zoneDateTime.zoneTime.time.hour, zoneDateTime.zoneTime.time.minute, zoneDateTime.zoneTime.time.second)
       val zoneTime = ZoneTime(time, zoneDateTime.zoneTime.offset)
 
-      Eq[ZoneDateTime].eqv(json.as[ZoneDateTime].toOption.get,
-                                ZoneDateTime(date, zoneTime)) should ===(true)
+      Eq[Option[ZoneDateTime]].eqv(json.as[ZoneDateTime].toOption,
+                                   ZoneDateTime(date, zoneTime).some) should ===(true)
     }
 
     "fail to decode invalid ZoneDateTime" in forAll { arbitraryString: String =>
@@ -287,9 +288,9 @@ class CirceSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with
       val json2: Json = json""""+10:55""""
       val json3: Json = json""""-08:30""""
 
-      json1.as[Offset].toOption.get should ===(Offset.UTC)
-      json2.as[Offset].toOption.get should ===(Offset(Offset.UTCPlus, Hour.fromInt(10).get, Minute.fromInt(55).get))
-      json3.as[Offset].toOption.get should ===(Offset(Offset.UTCMinus, Hour.fromInt(8).get, Minute.fromInt(30).get))
+      json1.as[Offset] should ===(Offset.UTC.asRight)
+      json2.as[Offset] should ===(Offset(Offset.UTCPlus, Hour(refineMV(10)), Minute(refineMV(55))).asRight)
+      json3.as[Offset] should ===(Offset(Offset.UTCMinus, Hour(refineMV(8)), Minute(refineMV(30))).asRight)
     }
 
     "fail to decode invalid Offset" in forAll { arbitraryString: String =>
