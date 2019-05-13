@@ -38,6 +38,8 @@ final case object November extends Month
 final case object December extends Month
 
 final object Month {
+  // We run an unsafe get operation here, because we have a refined int that can
+  // only be converted to valid Month
   def apply(numericMonth: NumericMonth): Month = fromInt(numericMonth.value).get
 
   def fromInt: Int => Option[Month] = {
