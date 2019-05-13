@@ -3,7 +3,8 @@ package wen.datetime
 import java.time.LocalDate
 
 import wen.types._
-import wen.refine.{refineDay, refineMonth, refineYear}
+import wen.refine._
+import eu.timepit.refined._
 
 final case class Date private (day: Day, month: Month, year: Year)
 
@@ -27,20 +28,17 @@ final object Date {
   }
 
   def apply(localDate: LocalDate): Date = {
-    val eitherDate: Either[String, Date] = for {
-      day <- refineDay(localDate.getDayOfMonth)
-      month <- refineMonth(localDate.getMonthValue)
-      year <-
-        if (localDate.getYear > 0)
-          refineYear(localDate.getYear).map[Year](Year(_))
-        else
-          refineYear(Math.abs(localDate.getYear - 1)).map[Year](Year(_, BC))
-    } yield Date.unsafe(Day(day),Month(month), year)
-
-    // We run an unsafe operation here, because unless there's a bug in java.time.LocalDate
-    // we'll always have a Right, and we don't want the user to have to deal with an Option
-    // that is never a None.
-    eitherDate.toOption.get
+    // We run unsafe operations here, because unless there's a bug in java.time.LocalDate
+    // we'll always have a valid day, month and year, and we don't want the user to have to
+    // deal with an Option that is never a None, as it breaks semantics.
+    val day = refineV[NumericDayConstraint].unsafeFrom(localDate.getDayOfMonth)
+    val month = refineV[NumericMonthConstraint].unsafeFrom(localDate.getMonthValue)
+    val year =
+      if (localDate.getYear > 0)
+        Year(refineV[NumericYearConstraint].unsafeFrom(localDate.getYear))
+      else
+        Year(refineV[NumericYearConstraint].unsafeFrom(Math.abs(localDate.getYear - 1)), BC)
+    Date.unsafe(Day(day),Month(month), year)
   }
 
   def unsafe(day: Day, month: Month, year: Year): Date = new Date(day, month, year)
