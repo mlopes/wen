@@ -6,23 +6,24 @@ import wen.instances.HourInstances._
 import wen.types.Hour
 import org.scalactic.TypeCheckedTripleEquals
 import org.scalatest.{Matchers, WordSpec}
+import eu.timepit.refined.refineMV
 
 class HourInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEquals {
 
   "Hour Instances" should {
     "provide order" in {
-      val hour1 = Hour.fromInt(12).get
-      val hour2 = Hour.fromInt(8).get
-      val hour3 = Hour.fromInt(23).get
+      val hour1 = Hour(refineMV(12))
+      val hour2 = Hour(refineMV(8))
+      val hour3 = Hour(refineMV(23))
       (hour1 compare hour1) should ===(0)
       (hour1 compare hour2) > 0 should ===(true)
       (hour2 compare hour3) < 0 should ===(true)
     }
 
     "provide eq" in {
-      val hour1 = Hour.fromInt(10).get
-      val hour2 = Hour.fromInt(6).get
-      val hour3 = Hour.fromInt(21).get
+      val hour1 = Hour(refineMV(10))
+      val hour2 = Hour(refineMV(6))
+      val hour3 = Hour(refineMV(21))
 
       Eq[Hour].eqv(hour1, hour1) should ===(true)
       Eq[Hour].neqv(hour1, hour2) should ===(true)
@@ -30,9 +31,9 @@ class HourInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEqu
     }
 
     "provide show" in {
-      val hour1 = Hour.fromInt(5).get
-      val hour2 = Hour.fromInt(19).get
-      val hour3 = Hour.fromInt(4).get
+      val hour1 = Hour(refineMV(5))
+      val hour2 = Hour(refineMV(19))
+      val hour3 = Hour(refineMV(4))
 
       hour1.show should ===("5")
       hour2.show should ===("19")
