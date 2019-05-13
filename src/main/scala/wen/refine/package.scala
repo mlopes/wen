@@ -27,7 +27,6 @@ package object refine {
   def refineDay(day: Int): Either[String, NumericDay] =
     refineV[NumericDayConstraint](day)
 
-
   private[wen] type NumericHourConstraint = Interval.Closed[W.`0`.T, W.`23`.T]
   private[wen] type NumericMinuteConstraint = Interval.Closed[W.`0`.T, W.`59`.T]
   private[wen] type NumericSecondConstraint = Interval.Closed[W.`0`.T, W.`59`.T]
