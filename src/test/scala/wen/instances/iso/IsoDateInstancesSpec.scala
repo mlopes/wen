@@ -4,7 +4,7 @@ import cats.implicits._
 import org.scalactic.TypeCheckedTripleEquals
 import org.scalatest.{Matchers, WordSpec}
 import wen.datetime.Date
-import wen.types.{AD, BC, Day, January, July, March, November, Year}
+import wen.types._
 import eu.timepit.refined.auto._
 
 class IsoDateInstancesSpec extends WordSpec with Matchers with TypeCheckedTripleEquals {
