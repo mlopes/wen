@@ -16,8 +16,8 @@ class YearSpec extends WordSpec with Matchers with TypeCheckedTripleEquals with 
       year should !==(None)
     }
 
-    "be created with AD as default EPOCH" in forAll(optionYearWithDefaultEpochGen) { optionYearWithDefaultEpoch: Option[Year] =>
-      optionYearWithDefaultEpoch.get.epoch should ===(AD)
+    "be created with AD as default EPOCH" in forAll(yearWithDefaultEpochGen) { yearWithDefaultEpoch: Year =>
+      yearWithDefaultEpoch.epoch should ===(AD)
     }
 
     "fail to be created with a negative number" in forAll(failedYearGen) { failedYear: Option[Year] =>

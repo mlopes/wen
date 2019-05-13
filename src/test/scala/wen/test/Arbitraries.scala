@@ -5,6 +5,7 @@ import java.time.{Month => _, Year => _, _}
 import org.scalacheck.{Arbitrary, Gen}
 import wen.datetime.{Date, DateTime, Offset, Time, ZoneDateTime, ZoneTime}
 import wen.types._
+import eu.timepit.refined._
 
 object Arbitraries {
   implicit  val optionYearArb: Arbitrary[Option[Year]] = Arbitrary {
@@ -30,7 +31,7 @@ object Arbitraries {
     for {
       y <- Gen.posNum[Int]
       e <- Gen.oneOf[Epoch](BC, AD)
-    } yield Year.fromIntWithEpoch(y, e).get
+    } yield Year(refineV.unsafeFrom(y), e)
   }
 
   implicit val weekDayArb: Arbitrary[WeekDay] = Arbitrary {

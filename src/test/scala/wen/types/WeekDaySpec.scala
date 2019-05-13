@@ -1,5 +1,6 @@
 package wen.types
 
+import cats.implicits._
 import org.scalactic.TypeCheckedTripleEquals
 import org.scalatest.{Matchers, WordSpec}
 
@@ -8,13 +9,13 @@ class WeekDaySpec extends WordSpec with Matchers with TypeCheckedTripleEquals {
   "WeekDay" should {
 
     "be created from String" in {
-      WeekDay.fromString("Sunday").get should ===(Sunday)
-      WeekDay.fromString("Monday").get should ===(Monday)
-      WeekDay.fromString("Tuesday").get should ===(Tuesday)
-      WeekDay.fromString("Wednesday").get should ===(Wednesday)
-      WeekDay.fromString("Thursday").get should ===(Thursday)
-      WeekDay.fromString("Friday").get should ===(Friday)
-      WeekDay.fromString("Saturday").get should ===(Saturday)
+      WeekDay.fromString("Sunday") should ===(Sunday.some)
+      WeekDay.fromString("Monday") should ===(Monday.some)
+      WeekDay.fromString("Tuesday") should ===(Tuesday.some)
+      WeekDay.fromString("Wednesday") should ===(Wednesday.some)
+      WeekDay.fromString("Thursday") should ===(Thursday.some)
+      WeekDay.fromString("Friday") should ===(Friday.some)
+      WeekDay.fromString("Saturday") should ===(Saturday.some)
     }
   }
 }
