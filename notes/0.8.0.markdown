@@ -1,6 +1,6 @@
 0.8.0
 =====
 
-  - Add Order and Show instance for Offset
-  - Add ISO Show instance for Offset
-  - Add Circe encoder and decoder for Offset
+- Add Order and Show instance for Offset
+- Add ISO Show instance for Offset
+- Add Circe encoder and decoder for Offset

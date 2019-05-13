@@ -4,4 +4,4 @@
 **Version 0.6.0 severely breaks backwards compatibility with previous versions
 by making dramatic changes to the library's API**
 
-  - Change all constructors that return `Option` to named constructos
+- Change all constructors that return `Option` to named constructos
