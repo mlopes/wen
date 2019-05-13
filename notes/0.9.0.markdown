@@ -1,0 +1,5 @@
+0.9.0
+=====
+
+- Refactor most of the codebase
+- Fix show instance for Offset to output a + before the 00:00
