@@ -1,7 +1,6 @@
 package wen.types
 
 import wen.types.NumericTypes._
-import eu.timepit.refined._
 import eu.timepit.refined.api.Refined
 import eu.timepit.refined.numeric.Positive
 import eu.timepit.refined.types.{time => refinedTimeTypes}
@@ -117,15 +116,10 @@ final object Year {
   def apply(year: NumericYear): Year = new Year(year, AD)
 
   def fromIntWithEpoch(year: Int, epoch: Epoch): Option[Year] =
-    /* We're running unsafe here because we're using the if as a
-      safe-guard to guarantee that we can always refine the value
-       The reason for this, is to make the refinement transparent for
-       users of the library.
-    */
-    if (year > 0)
-      Some(new Year(refineV[NumericYearConstraint].unsafeFrom(year), epoch))
-    else
-      None
+    refineYear(year) match {
+      case Right(y) => Some(Year(y, epoch))
+      case Left(_) => None
+    }
 
   def fromInt(year: Int): Option[Year] = Year.fromIntWithEpoch(year, AD)
 
@@ -138,11 +132,10 @@ final object Day {
   private[wen] val max: Int = 31
 
   def fromInt(day: Int): Option[Day] =
-  // See comment on Year for the reasoning behind running unsafeFrom
-    if (day >= min && day <= max)
-      Some(new Day(refineV[NumericDayConstraint].unsafeFrom(day)))
-    else
-      None
+    refineDay(day) match {
+      case Right(d) => Some(Day(d))
+      case Left(_) => None
+    }
 }
 
 final case class Hour(hour: NumericHour)
@@ -152,11 +145,10 @@ final object Hour {
   private[wen] val max: Int = 23
 
   def fromInt(hour: Int): Option[Hour] =
-    // See comment on Year for the reasoning behind running unsafeFrom
-    if (hour >= min && hour <= max)
-      Some(new Hour(refineV[NumericHourConstraint].unsafeFrom(hour)))
-    else
-      None
+    refineHour(hour) match {
+      case Right(h) => Some(Hour(h))
+      case Left(_) => None
+    }
 }
 
 final case class Minute(minute: NumericMinute)
@@ -166,11 +158,10 @@ final object Minute {
   private[wen] val max: Int = 59
 
   def fromInt(minute: Int): Option[Minute] =
-    // See comment on Year for the reasoning behind running unsafeFrom
-    if (minute >= min && minute <= max)
-      Some(new Minute(refineV[NumericMinuteConstraint].unsafeFrom(minute)))
-    else
-      None
+    refineMinute(minute) match {
+      case Right(m) => Some(Minute(m))
+      case Left(_) => None
+    }
 }
 
 final case class Second(second: NumericSecond)
@@ -180,11 +171,10 @@ final object Second {
   private[wen] val max: Int = 59
 
   def fromInt(second: Int): Option[Second] =
-    // See comment on Year for the reasoning behind running unsafeFrom
-    if (second >= min && second <= max)
-      Some(new Second(refineV[NumericSecondConstraint].unsafeFrom(second)))
-    else
-      None
+    refineSecond(second) match {
+      case Right(s) => Some(Second(s))
+      case Left(_) => None
+    }
 }
 
 final case class Millisecond(millisecond: NumericMillisecond)
@@ -194,11 +184,10 @@ final object Millisecond {
   private[wen] val max: Int = 999
 
   def fromInt(millisecond: Int): Option[Millisecond] =
-    // See comment on Year for the reasoning behind running unsafeFrom
-    if(millisecond >= min && millisecond <= max)
-      Some(new Millisecond(refineV[NumericMillisecondConstraint].unsafeFrom(millisecond)))
-    else
-      None
+    refineMillisecond(millisecond) match {
+      case Right(m) => Some(Millisecond(m))
+      case Left(_) => None
+    }
 }
 
 final object NumericTypes {
