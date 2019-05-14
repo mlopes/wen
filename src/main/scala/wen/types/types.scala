@@ -38,25 +38,27 @@ final case object November extends Month
 final case object December extends Month
 
 final object Month {
-  // We run an unsafe get operation here, because we have a refined int that can
-  // only be converted to valid Month
-  def apply(numericMonth: NumericMonth): Month = fromInt(numericMonth.value).get
+  def apply(numericMonth: NumericMonth): Month =
+    numericMonth match {
+      case Refined(1)=> January
+      case Refined(2)=> February
+      case Refined(3)=> March
+      case Refined(4)=> April
+      case Refined(5)=> May
+      case Refined(6)=> June
+      case Refined(7)=> July
+      case Refined(8)=> August
+      case Refined(9)=> September
+      case Refined(10)=> October
+      case Refined(11)=> November
+      case Refined(12)=> December
+    }
 
-  def fromInt: Int => Option[Month] = {
-    case 1 => Some(January)
-    case 2 => Some(February)
-    case 3 => Some(March)
-    case 4 => Some(April)
-    case 5 => Some(May)
-    case 6 => Some(June)
-    case 7 => Some(July)
-    case 8 => Some(August)
-    case 9 => Some(September)
-    case 10 => Some(October)
-    case 11 => Some(November)
-    case 12 => Some(December)
-    case _ => None
-  }
+  def fromInt(i: Int): Option[Month] =
+    refineMonth(i) match {
+      case Right(numericMonth) => Some(Month(numericMonth))
+      case Left(_) => None
+    }
 
   def fromString: String => Option[Month] = {
     case "January" => Some(January)
