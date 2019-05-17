@@ -5,17 +5,24 @@ ThisBuild / version          := "0.1.0-SNAPSHOT"
 ThisBuild / organization     := "dev.mlopes"
 ThisBuild / organizationName := "mlopes"
 
-lazy val wen = project
+lazy val wenRoot = project
   .in(file("."))
-  .settings(moduleName := "wen", name := "Wen")
+  .aggregate(wen)
+  .settings(name := "Wen Root")
   .settings(
     scalacOptions := appScalacOptions,
     compile in Compile := (compile in Compile).dependsOn(dependencyUpdates).value,
-    libraryDependencies ++= scalaTest,
-    libraryDependencies ++= wenDependencies,
     coverageMinimum := 100,
     coverageFailOnMinimum := true,
     publishTo := sonatypePublishTo.value
+  )
+
+lazy val wen = project
+  .in(file("wen/core"))
+  .settings(moduleName := "wen", name := "Wen")
+  .settings(
+    libraryDependencies ++= scalaTest,
+    libraryDependencies ++= wenDependencies
   )
 
 lazy val appScalacOptions = Seq(
