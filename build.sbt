@@ -5,11 +5,17 @@ ThisBuild / version          := "0.1.0-SNAPSHOT"
 ThisBuild / organization     := "dev.mlopes"
 ThisBuild / organizationName := "mlopes"
 
-lazy val wenRoot = project
+lazy val wen = project
   .in(file("."))
-  .aggregate(wen)
+  .aggregate(core, cats, circe)
   .settings(name := "Wen Root")
+
+lazy val core = project
+  .in(file("modules/core"))
+  .settings(moduleName := "wen", name := "Wen")
   .settings(
+    libraryDependencies ++= scalaTest,
+    libraryDependencies ++= wenDependencies,
     scalacOptions := appScalacOptions,
     compile in Compile := (compile in Compile).dependsOn(dependencyUpdates).value,
     coverageMinimum := 100,
@@ -17,12 +23,32 @@ lazy val wenRoot = project
     publishTo := sonatypePublishTo.value
   )
 
-lazy val wen = project
-  .in(file("wen/core"))
-  .settings(moduleName := "wen", name := "Wen")
+lazy val cats = project
+  .in(file("modules/cats"))
+  .dependsOn(core)
+  .settings(moduleName := "wen-cats", name := "Wen Cats")
   .settings(
     libraryDependencies ++= scalaTest,
-    libraryDependencies ++= wenDependencies
+    libraryDependencies ++= wenDependencies,
+    scalacOptions := appScalacOptions,
+    compile in Compile := (compile in Compile).dependsOn(dependencyUpdates).value,
+    coverageMinimum := 100,
+    coverageFailOnMinimum := true,
+    publishTo := sonatypePublishTo.value
+  )
+
+lazy val circe = project
+  .in(file("modules/circe"))
+  .dependsOn(core, cats)
+  .settings(moduleName := "wen-circe", name := "Wen Circe")
+  .settings(
+    libraryDependencies ++= scalaTest,
+    libraryDependencies ++= wenDependencies,
+    scalacOptions := appScalacOptions,
+    compile in Compile := (compile in Compile).dependsOn(dependencyUpdates).value,
+    coverageMinimum := 100,
+    coverageFailOnMinimum := true,
+    publishTo := sonatypePublishTo.value
   )
 
 lazy val appScalacOptions = Seq(
