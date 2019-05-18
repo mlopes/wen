@@ -14,8 +14,8 @@ lazy val core = project
   .in(file("modules/core"))
   .settings(moduleName := "wen", name := "Wen")
   .settings(
-    libraryDependencies ++= scalaTest,
-    libraryDependencies ++= wenDependencies,
+    libraryDependencies ++= refinedDependencies,
+    libraryDependencies ++= testDependencies ++ catsDependencies.map(_ % Test),
     scalacOptions := appScalacOptions,
     compile in Compile := (compile in Compile).dependsOn(dependencyUpdates).value,
     coverageMinimum := 100,
@@ -28,8 +28,8 @@ lazy val cats = project
   .dependsOn(core)
   .settings(moduleName := "wen-cats", name := "Wen Cats")
   .settings(
-    libraryDependencies ++= scalaTest,
-    libraryDependencies ++= wenDependencies,
+    libraryDependencies ++= catsDependencies,
+    libraryDependencies ++= testDependencies,
     scalacOptions := appScalacOptions,
     compile in Compile := (compile in Compile).dependsOn(dependencyUpdates).value,
     coverageMinimum := 100,
@@ -42,8 +42,8 @@ lazy val circe = project
   .dependsOn(core, cats)
   .settings(moduleName := "wen-circe", name := "Wen Circe")
   .settings(
-    libraryDependencies ++= scalaTest,
-    libraryDependencies ++= wenDependencies,
+    libraryDependencies ++= circeDependencies,
+    libraryDependencies ++= testDependencies ++ circeExtraDependencies.map(_ % Test),
     scalacOptions := appScalacOptions,
     compile in Compile := (compile in Compile).dependsOn(dependencyUpdates).value,
     coverageMinimum := 100,
