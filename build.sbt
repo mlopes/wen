@@ -39,7 +39,7 @@ lazy val cats = project
 
 lazy val circe = project
   .in(file("modules/circe"))
-  .dependsOn(core, cats)
+  .dependsOn(core % "compile->compile;test->test", cats)
   .settings(moduleName := "wen-circe", name := "Wen Circe")
   .settings(
     libraryDependencies ++= circeDependencies,
