@@ -9,22 +9,28 @@ object Dependencies {
   val circeVersion = "0.11.1"
 
 
-  lazy val scalaTest = Seq(
-    "org.scalatest" %% "scalatest" % scalaTestVersion % Test
-   ,"org.scalactic" %% "scalactic" % scalaTestVersion % Test
-   ,"org.scalacheck" %% "scalacheck" % scalaCheckVersion % Test
-   ,"eu.timepit" %% "refined-scalacheck" % refinedVersion % Test
-   ,"eu.timepit" %% "refined" % refinedVersion
-   ,"org.typelevel" %% "cats-core" % catsVersion
-   ,"io.circe" %% "circe-core" % circeVersion
-   ,"io.circe" %% "circe-literal" % circeVersion
-   ,"io.circe" %% "circe-generic" % circeVersion
-   ,"org.typelevel" %% "jawn-parser" % "0.14.2"
+  lazy val testDependencies = Seq(
+    "org.scalatest" %% "scalatest" % scalaTestVersion
+   ,"org.scalactic" %% "scalactic" % scalaTestVersion
+   ,"org.scalacheck" %% "scalacheck" % scalaCheckVersion
+   ,"eu.timepit" %% "refined-scalacheck" % refinedVersion
+  ).map(_ % Test)
+
+  lazy val catsDependencies = Seq(
+    "org.typelevel" %% "cats-core" % catsVersion
   )
 
-  lazy val wenDependencies = Seq(
+  lazy val refinedDependencies = Seq(
     "eu.timepit" %% "refined" % refinedVersion
-   ,"org.typelevel" %% "cats-core" % catsVersion
-   ,"io.circe" %% "circe-core" % circeVersion % Optional
+  )
+
+  lazy val circeDependencies = Seq(
+    "io.circe" %% "circe-core" % circeVersion % Optional
+  )
+
+  lazy val circeExtraDependencies = Seq (
+    "io.circe" %% "circe-literal" % circeVersion
+   ,"io.circe" %% "circe-generic" % circeVersion
+   ,"org.typelevel" %% "jawn-parser" % "0.14.2"
   )
 }

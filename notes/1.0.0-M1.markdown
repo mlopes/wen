@@ -1,0 +1,5 @@
+1.0.0-M1
+========
+
+- Split project in 3, now there's wen, wen-cats, and wen-circe
+

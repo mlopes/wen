@@ -53,7 +53,9 @@ Wen is available for Scala 2.12. You can add wen to your sbt project by adding t
 your `build.sbt`:
 
 ```scala
-libraryDependencies += "dev.mlopes" %% "wen" % "0.9.0"
+libraryDependencies += "dev.mlopes" %% "wen" % "1.0.0-M1"
+libraryDependencies += "dev.mlopes" %% "wen-cats" % "1.0.0-M1" // For cats instances
+libraryDependencies += "dev.mlopes" %% "wen-circe" % "1.0.0-M1" // For circe encoders and decoders
 ```
 
 ## What is Wen?

@@ -1,22 +1,54 @@
 import Dependencies._
 
 ThisBuild / scalaVersion     := "2.12.8"
-ThisBuild / version          := "0.1.0-SNAPSHOT"
 ThisBuild / organization     := "dev.mlopes"
 ThisBuild / organizationName := "mlopes"
 
 lazy val wen = project
   .in(file("."))
-  .settings(moduleName := "wen", name := "Wen")
+  .aggregate(core, cats, circe)
+  .settings(name := "Wen Root")
   .settings(
-    scalacOptions := appScalacOptions,
-    compile in Compile := (compile in Compile).dependsOn(dependencyUpdates).value,
-    libraryDependencies ++= scalaTest,
-    libraryDependencies ++= wenDependencies,
-    coverageMinimum := 100,
-    coverageFailOnMinimum := true,
-    publishTo := sonatypePublishTo.value
+    publish := {},
+    publishArtifact := false
   )
+
+lazy val core = project
+  .in(file("modules/core"))
+  .settings(moduleName := "wen", name := "Wen", description := "Idiomatic Date and Time types")
+  .settings(
+    libraryDependencies ++= refinedDependencies,
+    libraryDependencies ++= testDependencies ++ catsDependencies.map(_ % Test),
+    defaultConfig
+  )
+
+lazy val cats = project
+  .in(file("modules/cats"))
+  .dependsOn(core)
+  .settings(moduleName := "wen-cats", name := "Wen Cats", description := "Cats instances for Wen")
+  .settings(
+    libraryDependencies ++= catsDependencies,
+    libraryDependencies ++= testDependencies,
+    defaultConfig
+  )
+
+lazy val circe = project
+  .in(file("modules/circe"))
+  .dependsOn(core % "compile->compile;test->test", cats)
+  .settings(moduleName := "wen-circe", name := "Wen Circe", description := "Circe encoders and decoders for Wen types")
+  .settings(
+    libraryDependencies ++= circeDependencies,
+    libraryDependencies ++= testDependencies ++ circeExtraDependencies.map(_ % Test),
+    defaultConfig
+  )
+
+lazy val defaultConfig = Seq(
+  scalacOptions := appScalacOptions,
+  compile in Compile := (compile in Compile).dependsOn(dependencyUpdates).value,
+  coverageMinimum := 100,
+  coverageFailOnMinimum := true,
+  publishTo := sonatypePublishTo.value
+)
 
 lazy val appScalacOptions = Seq(
   "-deprecation",                      // Emit warning and location for usages of deprecated APIs.
