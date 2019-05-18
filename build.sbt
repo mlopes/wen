@@ -1,7 +1,6 @@
 import Dependencies._
 
 ThisBuild / scalaVersion     := "2.12.8"
-ThisBuild / version          := "0.1.0-SNAPSHOT"
 ThisBuild / organization     := "dev.mlopes"
 ThisBuild / organizationName := "mlopes"
 
@@ -16,11 +15,7 @@ lazy val core = project
   .settings(
     libraryDependencies ++= refinedDependencies,
     libraryDependencies ++= testDependencies ++ catsDependencies.map(_ % Test),
-    scalacOptions := appScalacOptions,
-    compile in Compile := (compile in Compile).dependsOn(dependencyUpdates).value,
-    coverageMinimum := 100,
-    coverageFailOnMinimum := true,
-    publishTo := sonatypePublishTo.value
+    defaultConfig
   )
 
 lazy val cats = project
@@ -30,11 +25,7 @@ lazy val cats = project
   .settings(
     libraryDependencies ++= catsDependencies,
     libraryDependencies ++= testDependencies,
-    scalacOptions := appScalacOptions,
-    compile in Compile := (compile in Compile).dependsOn(dependencyUpdates).value,
-    coverageMinimum := 100,
-    coverageFailOnMinimum := true,
-    publishTo := sonatypePublishTo.value
+    defaultConfig
   )
 
 lazy val circe = project
@@ -44,12 +35,16 @@ lazy val circe = project
   .settings(
     libraryDependencies ++= circeDependencies,
     libraryDependencies ++= testDependencies ++ circeExtraDependencies.map(_ % Test),
-    scalacOptions := appScalacOptions,
-    compile in Compile := (compile in Compile).dependsOn(dependencyUpdates).value,
-    coverageMinimum := 100,
-    coverageFailOnMinimum := true,
-    publishTo := sonatypePublishTo.value
+    defaultConfig
   )
+
+lazy val defaultConfig = Seq(
+  scalacOptions := appScalacOptions,
+  compile in Compile := (compile in Compile).dependsOn(dependencyUpdates).value,
+  coverageMinimum := 100,
+  coverageFailOnMinimum := true,
+  publishTo := sonatypePublishTo.value
+)
 
 lazy val appScalacOptions = Seq(
   "-deprecation",                      // Emit warning and location for usages of deprecated APIs.
