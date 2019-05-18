@@ -2,4 +2,4 @@ language: scala
 scala:
     - 2.12.8
 
-script: "sbt clean coverage test coverageReport coveralls"
+script: "sbt clean coverage test coverageReport && sbt coverageAggregate && sbt coveralls"
