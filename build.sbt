@@ -6,7 +6,7 @@ ThisBuild / organizationName := "mlopes"
 
 lazy val wen = project
   .in(file("."))
-  .aggregate(core, cats, circe)
+  .aggregate(core, cats, circe, avro4s)
   .settings(name := "Wen Root")
   .settings(
     publish := {},
@@ -39,6 +39,16 @@ lazy val circe = project
   .settings(
     libraryDependencies ++= circeDependencies,
     libraryDependencies ++= testDependencies ++ circeExtraDependencies.map(_ % Test),
+    defaultConfig
+  )
+
+lazy val avro4s = project
+  .in(file("modules/avro4s"))
+  .dependsOn(core % "compile->compile;test->test", cats)
+  .settings(moduleName := "wen-avro4s", name := "Wen Avro4s", description := "Avro4s instances for Wen")
+  .settings(
+    libraryDependencies ++= avro4sDependencies,
+    libraryDependencies ++= testDependencies,
     defaultConfig
   )
 

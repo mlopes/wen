@@ -7,6 +7,7 @@ object Dependencies {
   val refinedVersion = "0.9.5"
   val catsVersion = "1.6.0"
   val circeVersion = "0.11.1"
+  val avro4sVersion = "2.0.4"
 
 
   lazy val testDependencies = Seq(
@@ -18,6 +19,10 @@ object Dependencies {
 
   lazy val catsDependencies = Seq(
     "org.typelevel" %% "cats-core" % catsVersion
+  )
+
+  lazy val avro4sDependencies = Seq(
+    "com.sksamuel.avro4s" %% "avro4s-core" % avro4sVersion
   )
 
   lazy val refinedDependencies = Seq(

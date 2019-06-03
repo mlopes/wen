@@ -77,4 +77,7 @@ object Generators {
   val yearWithDefaultEpochGen: Gen[Year] =
     Gen.posNum[Int].map(i => Year(refineV[NumericYearConstraint].unsafeFrom(i)))
 
+  val epochLong: Gen[Long] =
+    Gen.choose(0, Long.MaxValue)
+
 }
