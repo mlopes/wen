@@ -80,4 +80,7 @@ object Generators {
   val epochLong: Gen[Long] =
     Gen.choose(0, Long.MaxValue)
 
+  val timeOfDayInMilliseconds: Gen[Int] =
+    Gen.choose(0, 84239999)
+
 }
