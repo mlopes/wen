@@ -1,5 +1,5 @@
-addSbtPlugin("net.vonbuchholtz" % "sbt-dependency-check" % "0.2.10")
-addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.4.0")
+addSbtPlugin("net.vonbuchholtz" % "sbt-dependency-check" % "1.1.0")
+addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.4.2")
 addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.11")
 addSbtPlugin("io.crashbox" % "sbt-gpg" % "0.2.0")
 addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "2.5")
