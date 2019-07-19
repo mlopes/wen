@@ -1,5 +1,6 @@
 language: scala
 scala:
+    - 2.13.0
     - 2.12.8
 
 script: "sbt clean coverage test coverageReport && sbt coverageAggregate && sbt coveralls"
