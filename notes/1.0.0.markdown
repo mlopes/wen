@@ -1,0 +1,5 @@
+1.0.0-M1
+========
+
+- Add build for Scala 2.13
+
