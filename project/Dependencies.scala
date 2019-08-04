@@ -2,11 +2,11 @@ import sbt._
 
 object Dependencies {
 
-  val scalaTestVersion = "3.0.7"
+  val scalaTestVersion = "3.0.8"
   val scalaCheckVersion = "1.14.0"
-  val refinedVersion = "0.9.5"
-  val catsVersion = "1.6.0"
-  val circeVersion = "0.11.1"
+  val refinedVersion = "0.9.8"
+  val catsVersion = "2.0.0-M4"
+  val circeVersion = "0.12.0-M4"
 
 
   lazy val testDependencies = Seq(
